@@ -1,6 +1,6 @@
-// reel-90 v11: sin retrato del joven después de los 10s, motion graphics de
-// relleno en los huecos sin card (clave por contenido hablado), subtítulos con
-// aire (gap 20 / lh 1.12 / cap 3). Total 90.00.
+// reel-90 v12 (feedback pro): palabras clave resaltadas con pop, placa MG en
+// kartel "Paso N" (número gigante + regla + flash + whoosh), zoom digital a las
+// zonas de pantalla (b-roll), SFX (whoosh/pop/click) y sticker CTA "GUÍA". 90.00.
 import fs from "fs";
 const TOTAL = 90.0;
 const tr = JSON.parse(fs.readFileSync("../edit-base/transcript.json", "utf8"));
@@ -123,6 +123,9 @@ closePhrase();
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const isSerif = (w) => SERIF.includes(w.toLowerCase().replace(/[.,!?]/g, ""));
+// palabras clave del discurso -> resaltadas en color con pop propio
+const HLRE = /^(guion|guiones|guión|guia|guía|clientes|potenciales|automatización|automatizaciones|administrador|anuncios|filtrar|nutrirlos|whatsapp|gratis)$/i;
+const isHL = (w) => HLRE.test(w.replace(/[.,!?¿¡]/g, ""));
 
 // ---- emisión de frases (animación: pop por línea + salida) ----
 let clips = "", tweens = "", mgClips = "", mgN = 0;
@@ -141,13 +144,22 @@ phrases.forEach((ph, i) => {
     const totch = b.reduce((a, w) => a + w.text.length, 0);
     const hero = !b._spec && b.length <= 2 && totch <= 11;
     const fs = hero
-      ? Math.min(250, Math.floor(1000 / (maxch * 0.62)))
-      : Math.min(104, Math.floor(940 / Math.max(totch * 0.62, maxch * 1.05)));
-    const inner = b.map((w) => isSerif(w.text) ? `<em>${esc(w.text)}</em>` : `<span>${esc(w.text)}</span>`).join(" ");
+      ? Math.min(250, Math.floor(1000 / (maxch * 0.85)))
+      : Math.min(104, Math.floor(940 / Math.max(totch * 0.75, maxch * 0.9)));
+    const estW = Math.round(Math.max(totch * 0.76, maxch * 0.88) * fs); // Archivo Black ≈ .76em/char (.88 sin espacios)
+    if (estW > 1015) console.log(`WIDE ph${i} "${b._txt}" fs=${fs} est=${estW}`);
+    const inner = b.map((w) => {
+      const tag = isSerif(w.text) ? "em" : "span";
+      const cls = isHL(w.text) ? ' class="kw"' : "";
+      return `<${tag}${cls}>${esc(w.text)}</${tag}>`;
+    }).join(" ");
     if (hero) {
       tweens += `      tl.fromTo("#pl${i}_${j}", { opacity: 0, scale: 0.6, y: 14 }, { opacity: 1, scale: 1, y: 0, duration: .24, ease: "back.out(1.9)", immediateRender: false }, ${b._t0});\n`;
     } else {
       tweens += `      tl.fromTo("#pl${i}_${j}", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, ${b._t0});\n`;
+    }
+    if (inner.includes('class="kw"')) {
+      tweens += `      tl.fromTo("#pl${i}_${j} .kw", { scale: .8, opacity: .35 }, { scale: 1, opacity: 1, duration: .34, ease: "back.out(2.2)", stagger: .07, immediateRender: false }, ${+(b._t0 + 0.14).toFixed(2)});\n`;
     }
     return `        <div class="ln grot${hero ? " hero" : ""}" id="pl${i}_${j}" style="font-size:${fs}px">${inner}</div>\n`;
   }).join("");
@@ -168,8 +180,18 @@ windows.forEach((gr, j) => {
   off = Math.max(0, Math.min(off, Math.max(0, gr.len - span - 0.3)));
   winClips += `      <video id="wvid${j}" class="clip wvid ${gr.form}" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}"></video>\n`;
   tweens += `      tl.fromTo("#wvid${j}", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
-  tweens += `      tl.fromTo("#wvid${j}", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
+  const grade = gr.form === "land" ? " brightness(.92) saturate(.85)" : ""; // la luz de pantalla satura la cámara
+  tweens += `      tl.fromTo("#wvid${j}", { filter: "blur(14px)${grade}" }, { filter: "blur(0px)${grade}", duration: .2, ease: "power2.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
   tweens += `      tl.to("#wvid${j}", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, ${+(gr.end - 0.14).toFixed(2)});\n`;
+});
+// ---- zoom digital a las zonas mostradas en pantalla (b-roll) ----
+const PUNCHES = [16.4, 21.1, 31.9, 44.3, 57.0, 62.6, 64.4];
+PUNCHES.forEach((t) => {
+  const wi = windows.findIndex((w) => w.start + 0.45 < t && t < w.end - 1.35);
+  if (wi < 0) { console.log("punch skip " + t); return; }
+  tweens += `      tl.fromTo("#wvid${wi}", { scale: 1 }, { scale: 1.19, duration: .26, ease: "power2.out", immediateRender: false }, ${t});\n`;
+  tweens += `      tl.to("#wvid${wi}", { scale: 1, duration: .3, ease: "power2.inOut" }, ${+(t + 0.95).toFixed(2)});\n`;
+  console.log(`punch wvid${wi} @${t}`);
 });
 console.log("phrases=" + phrases.length + " beats=" + beats.length + " windows=" + windows.length);
 
@@ -181,9 +203,15 @@ pasoPhrases.slice(0, 3).forEach((ph, k) => {
   const t0 = +Math.max(0, ph[0]._t0 - 0.25).toFixed(2);
   const dur = +Math.min(2.0, ph[ph.length - 1]._t1 + 0.4 - t0).toFixed(2);
   pasoRanges.push({ s: t0, e: +(t0 + dur).toFixed(2) });
-  blackClips += `      <div id="blk${k}" class="clip blk" data-layout-allow-overlap data-start="${t0}" data-duration="${dur}"><div class="bgroup" data-layout-allow-overlap><div class="bword grot" data-layout-allow-overlap>Paso ${k + 1}</div></div></div>\n`;
+  blackClips += `      <div id="blk${k}" class="clip blk" data-layout-allow-overlap data-start="${t0}" data-duration="${dur}"><div class="bgroup" data-layout-allow-overlap><div class="bnum grot" data-layout-allow-overlap>0${k + 1}</div><div class="bword grot" data-layout-allow-overlap>Paso ${k + 1}</div><div class="brule"></div></div><div class="bflash"></div></div>\n`;
+  const exitT = +(t0 + dur - 0.13).toFixed(2);
+  tweens += `      tl.fromTo("#blk${k} .bflash", { opacity: .95 }, { opacity: 0, duration: .26, ease: "power2.out", immediateRender: false }, ${t0});\n`;
+  tweens += `      tl.fromTo("#blk${k} .bnum", { opacity: 0, scale: 1.28 }, { opacity: 1, scale: 1, duration: .7, ease: "power3.out", immediateRender: false }, ${+(t0 + 0.02).toFixed(2)});\n`;
   tweens += `      tl.fromTo("#blk${k} .bword", { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .22, ease: "back.out(1.6)", immediateRender: false }, ${+(t0 + 0.05).toFixed(2)});\n`;
-  tweens += `      tl.to("#blk${k} .bword", { opacity: 0, duration: .12, ease: "power2.in" }, ${+(t0 + dur - 0.13).toFixed(2)});\n`;
+  tweens += `      tl.fromTo("#blk${k} .brule", { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: .3, ease: "power3.out", immediateRender: false }, ${+(t0 + 0.3).toFixed(2)});\n`;
+  tweens += `      tl.to("#blk${k} .bword", { opacity: 0, duration: .12, ease: "power2.in" }, ${exitT});\n`;
+  tweens += `      tl.to("#blk${k} .bnum", { opacity: 0, duration: .12, ease: "power2.in" }, ${exitT});\n`;
+  tweens += `      tl.to("#blk${k} .brule", { opacity: 0, duration: .12, ease: "power2.in" }, ${exitT});\n`;
 });
 console.log("pasos=" + Math.min(3, pasoPhrases.length) + " ranges=" + pasoRanges.map((r) => `${r.s}-${r.e}`).join(" "));
 
@@ -247,6 +275,25 @@ mgs.forEach((m) => {
   console.log(`mg${n} ${m.pick.k} ${s}→${e}`);
 });
 
+// ---- CTA final: sticker gigante "GUÍA" (comentá acá abajo) ----
+const ctaT = 84.6;
+const ctaClip = `      <div id="cta" class="clip" data-start="${ctaT}" data-duration="${+(TOTAL - ctaT).toFixed(2)}"><div class="ctastick"><div class="ctabox"><div class="cta-kick grot">comentá la palabra</div><div class="cta-big grot">GUÍA</div><div class="cta-arrow grot">▼</div></div></div></div>\n`;
+tweens += mgFrom("#cta .ctabox", { opacity: 0, scale: .4, rotation: -18 }, { opacity: 1, scale: 1, rotation: -5, duration: .36, ease: "back.out(2.1)" }, 84.65);
+tweens += mgFrom("#cta .cta-arrow", { opacity: 0, y: -22 }, { opacity: 1, y: 0, duration: .3, ease: "back.out(2)" }, 85.05);
+
+// ---- SFX: whoosh (pasos + cambio cara<->pantalla), pop (cards/sticker), click (zooms) ----
+const SFX = [
+  [9.5, "whoosh-big", 2.5], [29.38, "whoosh-big", 2.5], [52.61, "whoosh-big", 2.5],
+  [12.2, "whoosh", 0.57], [66.82, "whoosh", 0.57],
+  [11.06, "pop", 0.72], [84.62, "pop", 0.72], [86.08, "pop", 0.72],
+  [16.4, "click", 0.37], [31.9, "click", 0.37], [44.3, "click", 0.37],
+];
+let sfxClips = "";
+SFX.forEach(([t, f, d], i) => {
+  sfxClips += `      <audio id="sfx${i}" src="assets/sfx/${f}.mp3" data-start="${t}" data-duration="${d}" data-volume="0.8"></audio>\n`;
+});
+console.log("sfx=" + SFX.length + " cta@" + ctaT);
+
 const html = `<!doctype html>
 <html lang="es" data-resolution="portrait">
   <head>
@@ -271,8 +318,16 @@ const html = `<!doctype html>
       .grot { font-family: "Archivo", sans-serif; font-weight: 900; letter-spacing: -2px; }
       .grot em, em { font-family: "Playfair", serif; font-style: italic; font-weight: 700; letter-spacing: -1px; }
       .bgroup { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: flex;
-        align-items: center; justify-content: center; }
-      .bword { color: #F6F3EC; font-size: 168px; letter-spacing: -4px; opacity: 0; will-change: transform, opacity; }
+        flex-direction: column; align-items: center; justify-content: center; gap: 30px; }
+      .bword { color: #F6F3EC; font-size: 168px; letter-spacing: -4px; opacity: 0; position: relative; z-index: 1;
+        will-change: transform, opacity; }
+      .bnum { position: absolute; left: 0; top: 50%; margin-top: -320px; width: 1080px; text-align: center;
+        font-size: 640px; line-height: 1; letter-spacing: -18px; color: transparent;
+        -webkit-text-stroke: 5px rgba(246,243,236,.15); opacity: 0; z-index: 0; will-change: transform, opacity; }
+      .brule { position: relative; z-index: 1; width: 220px; height: 12px; border-radius: 6px;
+        background: #D2401F; opacity: 0; transform-origin: center center; }
+      .bflash { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: #D2401F;
+        opacity: 0; z-index: 2; }
       .wvid { object-fit: cover; border-radius: 22px; box-shadow: 0 26px 64px rgba(20,18,12,.24); background: #000;
         will-change: transform, opacity, filter; }
       .wvid.land { left: 90px; top: 837px; width: 893px; height: 445px; }
@@ -298,12 +353,21 @@ const html = `<!doctype html>
       .mg-list b { width: 34px; height: 34px; border: 5px solid #F6F3EC; border-radius: 9px; flex: none; }
       .mg-list u { height: 20px; border-radius: 10px; background: #F6F3EC; flex: 1; text-decoration: none; }
       .mg-rule { height: 14px; width: 340px; border-radius: 7px; background: #F6F3EC; opacity: 0; transform-origin: left center; }
+      .kw { color: #D2401F; display: inline-block; will-change: transform; }
+      .grot .kw, .ln .kw { font-weight: 900; }
+      em.kw { color: #D2401F; }
+      .ctastick { position: absolute; left: 0; top: 1495px; width: 1080px; display: flex; justify-content: center; }
+      .ctabox { background: #D2401F; color: #F6F3EC; border-radius: 30px; padding: 26px 70px 30px; text-align: center;
+        box-shadow: 0 24px 60px rgba(20,18,12,.35); opacity: 0; will-change: transform, opacity; }
+      .cta-kick { font-size: 32px; letter-spacing: 9px; }
+      .cta-big { font-size: 148px; line-height: 1.0; letter-spacing: -5px; margin-top: 6px; }
+      .cta-arrow { font-size: 44px; margin-top: 4px; opacity: 0; will-change: transform, opacity; }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="${TOTAL}" data-width="1080" data-height="1920">
       <audio id="voice" src="assets/vo90.m4a" data-start="0" data-duration="${TOTAL}"></audio>
-${winClips}${mgClips}${clips}${blackClips}    </div>
+${sfxClips}${winClips}${mgClips}${ctaClip}${clips}${blackClips}    </div>
     <script>
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
