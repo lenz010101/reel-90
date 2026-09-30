@@ -1,0 +1,11 @@
+const { execSync } = require("child_process");
+const run = process.argv[2];
+const out = execSync(`gh run view ${run} --repo lenz010101/reel-90 --json jobs`, { encoding: "utf8", maxBuffer: 1e8 });
+const j = JSON.parse(out);
+const s = j.jobs[0].steps.filter((x) => x.startedAt && x.completedAt);
+const dur = (x) => (Date.parse(x.completedAt) - Date.parse(x.startedAt)) / 1000;
+s.sort((a, b) => dur(b) - dur(a));
+for (const x of s) console.log(String(Math.round(dur(x))).padStart(4) + "s  " + x.name + "  [" + x.conclusion + "]");
+console.log("TOTAL render job:", Math.round(s.reduce((a, x) => a + dur(x), 0)) + "s");
+const repo = execSync(`gh repo view lenz010101/reel-90 --json visibility`, { encoding: "utf8" });
+console.log("repo:", JSON.parse(repo).visibility);

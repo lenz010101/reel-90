@@ -29,10 +29,12 @@ jobs:
           tar -xf /tmp/ffmpeg.tar.xz -C /tmp
           sudo cp /tmp/ffmpeg-*-amd64-static/ffmpeg /tmp/ffmpeg-*-amd64-static/ffprobe /usr/local/bin/
           ffmpeg -version | head -1
-      - name: Check (lint + runtime + layout + motion + contrast)
-        run: npx --yes hyperframes@0.8.92 check .
+      - name: Lint (guardia rápida — el check completo corre local antes de subir)
+        run: npx --yes hyperframes@0.8.92 lint .
       - name: Render MP4
-        run: npx --yes hyperframes@0.8.92 render . --skill=motion-graphics -q high
+        run: npx --yes hyperframes@0.8.92 render . --skill=motion-graphics -q high --no-low-memory-mode --workers=2
+        env:
+          PRODUCER_EXPERIMENTAL_FAST_CAPTURE: "true"
       - name: Upload video artifact
         uses: actions/upload-artifact@v4
         with:
