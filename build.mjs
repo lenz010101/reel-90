@@ -29,7 +29,8 @@ for (const w of words) {
 flush();
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const isSerif = (w) => SERIF.includes(w.toLowerCase().replace(/[.,!?]/g, ""));
-const SLICE_START = { "w_gen.mp4": 12, "w_hands.mp4": 24, "w_mid.mp4": 34, "w_meta.mp4": 40, "w_meta2.mp4": 58 };
+const SLICE_START = { "w_face1.mp4": 0, "w_gen.mp4": 12, "w_hands.mp4": 24, "w_mid.mp4": 34, "w_meta.mp4": 40, "w_meta2.mp4": 58, "w_face2.mp4": 72 };
+const FACE1 = { v: "w_face1.mp4", len: 10 }, FACE2 = { v: "w_face2.mp4", len: 12 };
 const TIME_SLICES = [[10, 24, "w_gen.mp4", 12], [24, 34, "w_hands.mp4", 10], [34, 40, "w_mid.mp4", 6], [40, 56, "w_meta.mp4", 15], [56, 68, "w_meta2.mp4", 10]];
 const winFileFor = (txt) => {
   for (const [re, spec] of WMAP) if (re.test(txt)) return spec;
@@ -41,21 +42,15 @@ beats.forEach((b) => {
   const low = b.map((w) => w.text).join(" ").toLowerCase();
   const origT = b[0].start;
   b._isPaso = /\bpaso\b/.test(low);
-  b._spec0 = (!b._isPaso && origT >= 10 && origT <= 68) ? winFileFor(low) : null;
-  b._card0 = (!b._spec0 && !b._isPaso) ? cardFor(low) : null;
+  b._spec0 = b._isPaso ? null : (origT < 10 ? FACE1 : origT > 68 ? FACE2 : winFileFor(low));
+  b._card0 = null; // no static cards
 });
 {
-  let lastSpec = null, lastCard = null;
+  let lastSpec = null;
   beats.forEach((b) => {
     if (b._spec0) lastSpec = b._spec0;
-    if (b._card0) lastCard = b._card0;
     const origT = b[0].start;
-    if (!b._spec0 && !b._card0 && !b._isPaso) {
-      if (lastSpec && origT >= 10 && origT <= 68) b._spec0 = lastSpec;
-      else if (lastCard) b._card0 = lastCard;
-      else b._card0 = origT < 34 ? "cgen" : "cmeta";
-    }
-    if (!b._spec0 && !b._card0 && !b._isPaso) b._card0 = origT < 34 ? "cgen" : "cmeta";
+    if (!b._spec0 && !b._isPaso && lastSpec && origT >= 10 && origT <= 68) b._spec0 = lastSpec;
   });
 }
 let clips = "", tweens = "";
@@ -81,7 +76,7 @@ beats.forEach((b, i) => {
   clips += `      <div id="s${i}" class="clip" data-start="${t0}" data-duration="${d}"><div class="group" id="g${i}" data-layout-allow-overlap>${inner}</div></div>\n`;
   tweens += `      tl.fromTo("#g${i} .wl", { autoAlpha: 0, y: 36 }, { autoAlpha: 1, y: 0, duration: .22, ease: "power3.out" }, ${t0});\n`;
   if (card) tweens += `      tl.fromTo("#g${i} .card", { autoAlpha: 0, scale: .84, rotation: 0 }, { autoAlpha: 1, scale: 1, rotation: ${rot}, duration: .35, ease: "back.out(1.5)" }, ${+(t0 + 0.06).toFixed(2)});\n`;
-  tweens += `      tl.to("#g${i}", { autoAlpha: 0, y: -24, duration: .12, ease: "power2.in" }, ${+(t0 + d - 0.2).toFixed(2)});\n`;
+  tweens += `      tl.to("#g${i}", { autoAlpha: 0, y: -24, duration: .12, ease: "power2.in" }, ${+(t0 + d - 0.14).toFixed(2)});\n`;
 });
 // sticky windows: consecutive beats sharing a slice -> one continuous window
 let winClips = "";
