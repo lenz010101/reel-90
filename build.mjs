@@ -29,16 +29,9 @@ for (const w of words) {
 flush();
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const isSerif = (w) => SERIF.includes(w.toLowerCase().replace(/[.,!?]/g, ""));
-const wcount = {};
-const winFor = (txt) => {
-  for (const [re, spec] of WMAP) {
-    if (re.test(txt)) {
-      const k = spec.v;
-      wcount[k] = (wcount[k] || 0) + 1;
-      const off = +((wcount[k] * 2.7) % (spec.len - 1.5)).toFixed(2);
-      return { ...spec, off };
-    }
-  }
+const SLICE_START = { "w_gen.mp4": 12, "w_hands.mp4": 24, "w_meta.mp4": 40, "w_meta2.mp4": 10 + 48 };
+const winFileFor = (txt) => {
+  for (const [re, spec] of WMAP) if (re.test(txt)) return spec;
   return null;
 };
 const cardFor = (txt) => { for (const [re, c] of SMAP) if (re.test(txt)) return c; return null; };
@@ -50,8 +43,9 @@ beats.forEach((b, i) => {
   const txt = b.map((w) => w.text).join(" ");
   const low = txt.toLowerCase();
   const isPaso = /\bpaso\b/.test(low);
-  const win = isPaso ? null : winFor(low);
-  const card = win ? null : cardFor(low);
+  const spec = isPaso ? null : winFileFor(low);
+  const card = spec ? null : cardFor(low);
+  b._spec = spec; b._t0 = t0; b._t1 = t1; b._d = d;
   const maxch = Math.max(...b.map((w) => w.text.length));
   const totch = b.reduce((a, w) => a + w.text.length, 0);
   const fs = Math.min(150, Math.floor(1000 / Math.max(maxch * 1.1, totch * 0.34)));
@@ -61,14 +55,36 @@ beats.forEach((b, i) => {
     return isSerif(w.text) ? `<em>${t}</em>` : `<span>${t}</span>`;
   }).join(" ");
   let inner = `<div class="wl grot" data-layout-allow-overlap style="font-size:${fs}px">${lines}</div>`;
-  if (win) inner += `<video id="vid${i}" class="card vid" src="assets/vid/${win.v}#t=${win.off}" muted playsinline preload="auto" data-start="${t0}" data-duration="${d}"></video>`;
-  else if (card) inner += `<img class="card" src="assets/cards/${card}.png" alt=""/>`;
+  if (card) inner += `<img class="card" src="assets/cards/${card}.png" alt=""/>`;
   clips += `      <div id="s${i}" class="clip" data-start="${t0}" data-duration="${d}"><div class="group" id="g${i}" data-layout-allow-overlap>${inner}</div></div>\n`;
   tweens += `      tl.fromTo("#g${i} .wl", { autoAlpha: 0, y: 36 }, { autoAlpha: 1, y: 0, duration: .22, ease: "power3.out" }, ${t0});\n`;
-  if (win || card) tweens += `      tl.fromTo("#g${i} .card", { autoAlpha: 0, scale: .84, rotation: 0 }, { autoAlpha: 1, scale: 1, rotation: ${rot}, duration: .35, ease: "back.out(1.5)" }, ${+(t0 + 0.06).toFixed(2)});\n`;
+  if (card) tweens += `      tl.fromTo("#g${i} .card", { autoAlpha: 0, scale: .84, rotation: 0 }, { autoAlpha: 1, scale: 1, rotation: ${rot}, duration: .35, ease: "back.out(1.5)" }, ${+(t0 + 0.06).toFixed(2)});\n`;
   tweens += `      tl.to("#g${i}", { autoAlpha: 0, y: -24, duration: .12, ease: "power2.in" }, ${+(t0 + d - 0.2).toFixed(2)});\n`;
 });
-// black PASO overlays (DOM-last = on top), numbered sequentially
+// sticky windows: consecutive beats sharing a slice -> one continuous window
+let winClips = "";
+{
+  const groups = [];
+  let g = null;
+  beats.forEach((b) => {
+    const v = b._spec ? b._spec.v : null;
+    if (v && g && g.v === v) { g.beats.push(b); g.end = b._t1; }
+    else {
+      if (g) groups.push(g);
+      g = v ? { v, len: b._spec.len, beats: [b], start: b._t0, end: b._t1 } : null;
+    }
+  });
+  if (g) groups.push(g);
+  groups.forEach((gr, j) => {
+    const span = +(gr.end - gr.start).toFixed(2);
+    if (span < 1.2) return;
+    let off = gr.start / S - SLICE_START[gr.v];
+    off = Math.max(0, Math.min(off, Math.max(0, gr.len - span - 0.3)));
+    const rot = j % 2 === 0 ? -2 : 2;
+    winClips += `      <video id="wvid${j}" class="clip card wvid" style="transform:rotate(${rot}deg)" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}"></video>\n`;
+  });
+  console.log("windows=" + groups.length);
+}
 const pasos = [];
 beats.forEach((b) => { if (/\bpaso\b/i.test(b.map((w) => w.text).join(" "))) pasos.push(b); });
 let blackClips = "";
@@ -103,13 +119,14 @@ const html = `<!doctype html>
       .grot { font-family: "Archivo", sans-serif; font-weight: 900; letter-spacing: -1px; }
       .grot em, em { font-family: "Playfair", serif; font-style: italic; font-weight: 700; }
       .card { width: 880px; border-radius: 28px; box-shadow: 0 24px 60px rgba(20,18,12,.22); object-fit: cover; }
+      video.clip.wvid { left: 100px; top: 1000px; width: 880px; height: auto; }
       video.card { background: #000; }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="${TOTAL}" data-width="1080" data-height="1920">
       <audio id="voice" src="assets/vo90.m4a" data-start="0" data-duration="${TOTAL}"></audio>
-${clips}${blackClips}    </div>
+${winClips}${clips}${blackClips}    </div>
     <script>
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
