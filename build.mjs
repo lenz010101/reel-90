@@ -74,9 +74,7 @@ beats.forEach((b, i) => {
   let inner = `<div class="wl grot" data-layout-allow-overlap style="font-size:${fs}px">${lines}</div>`;
   if (card) inner += `<img class="card" src="assets/cards/${card}.png" alt=""/>`;
   clips += `      <div id="s${i}" class="clip" data-start="${t0}" data-duration="${d}"><div class="group" id="g${i}" data-layout-allow-overlap>${inner}</div></div>\n`;
-  tweens += `      tl.fromTo("#g${i} .wl", { autoAlpha: 0, y: 36 }, { autoAlpha: 1, y: 0, duration: .22, ease: "power3.out" }, ${t0});\n`;
-  if (card) tweens += `      tl.fromTo("#g${i} .card", { autoAlpha: 0, scale: .84, rotation: 0 }, { autoAlpha: 1, scale: 1, rotation: ${rot}, duration: .35, ease: "back.out(1.5)" }, ${+(t0 + 0.06).toFixed(2)});\n`;
-  tweens += `      tl.to("#g${i}", { autoAlpha: 0, y: -24, duration: .12, ease: "power2.in" }, ${+(t0 + d - 0.14).toFixed(2)});\n`;
+  // hard cuts like the reference (no word tweens)
 });
 // sticky windows: consecutive beats sharing a slice -> one continuous window
 let winClips = "";
@@ -97,10 +95,8 @@ let winClips = "";
     if (span < 1.2) return;
     let off = gr.start / S - SLICE_START[gr.v];
     off = Math.max(0, Math.min(off, Math.max(0, gr.len - span - 0.3)));
-    const rot = j % 2 === 0 ? -2 : 2;
     winClips += `      <video id="wvid${j}" class="clip card wvid" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}"></video>\n`;
-    tweens += `      tl.fromTo("#wvid${j}", { scale: .7, rotation: 0, y: 70, transformOrigin: "50% 50%" }, { scale: 1, rotation: ${rot}, y: 0, duration: .38, ease: "back.out(1.4)", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
-    tweens += `      tl.to("#wvid${j}", { scale: .55, y: -50, duration: .25, ease: "power3.in" }, ${+(gr.end - 0.25).toFixed(2)});\n`;
+    tweens += `      tl.fromTo("#wvid${j}", { opacity: 0 }, { opacity: 1, duration: .15, ease: "none" }, ${gr.start.toFixed(2)});\n`;
   });
   console.log("windows=" + groups.length);
 }
@@ -110,8 +106,7 @@ let blackClips = "";
 pasos.slice(0, 3).forEach((b, k) => {
   const t0 = +Math.max(0, b[0].start * S - 0.3).toFixed(2);
   blackClips += `      <div id="blk${k}" class="clip blk" data-start="${t0}" data-duration="1.5"><div class="bgroup" data-layout-allow-overlap><div class="bword grot">PASO ${k + 1}</div></div></div>\n`;
-  tweens += `      tl.fromTo("#blk${k} .bword", { autoAlpha: 0, scale: .85 }, { autoAlpha: 1, scale: 1, duration: .3, ease: "back.out(1.7)" }, ${t0});\n`;
-  tweens += `      tl.to("#blk${k} .bword", { autoAlpha: 0, scale: .94, duration: .2, ease: "power2.in" }, ${+(t0 + 1.3).toFixed(2)});\n`;
+  // static hold like the reference (no pop)
 });
 console.log("beats=" + beats.length + " pasos=" + Math.min(3, pasos.length));
 const html = `<!doctype html>
