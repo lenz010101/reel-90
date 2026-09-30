@@ -29,12 +29,35 @@ for (const w of words) {
 flush();
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const isSerif = (w) => SERIF.includes(w.toLowerCase().replace(/[.,!?]/g, ""));
-const SLICE_START = { "w_gen.mp4": 12, "w_hands.mp4": 24, "w_meta.mp4": 40, "w_meta2.mp4": 10 + 48 };
+const SLICE_START = { "w_gen.mp4": 12, "w_hands.mp4": 24, "w_mid.mp4": 34, "w_meta.mp4": 40, "w_meta2.mp4": 58 };
+const TIME_SLICES = [[10, 24, "w_gen.mp4", 12], [24, 34, "w_hands.mp4", 10], [34, 40, "w_mid.mp4", 6], [40, 56, "w_meta.mp4", 15], [56, 68, "w_meta2.mp4", 10]];
 const winFileFor = (txt) => {
   for (const [re, spec] of WMAP) if (re.test(txt)) return spec;
   return null;
 };
 const cardFor = (txt) => { for (const [re, c] of SMAP) if (re.test(txt)) return c; return null; };
+// pre-pass: annotate + forward-fill (visual persists until topic changes)
+beats.forEach((b) => {
+  const low = b.map((w) => w.text).join(" ").toLowerCase();
+  const origT = b[0].start;
+  b._isPaso = /\bpaso\b/.test(low);
+  b._spec0 = (!b._isPaso && origT >= 10 && origT <= 68) ? winFileFor(low) : null;
+  b._card0 = (!b._spec0 && !b._isPaso) ? cardFor(low) : null;
+});
+{
+  let lastSpec = null, lastCard = null;
+  beats.forEach((b) => {
+    if (b._spec0) lastSpec = b._spec0;
+    if (b._card0) lastCard = b._card0;
+    const origT = b[0].start;
+    if (!b._spec0 && !b._card0 && !b._isPaso) {
+      if (lastSpec && origT >= 10 && origT <= 68) b._spec0 = lastSpec;
+      else if (lastCard) b._card0 = lastCard;
+      else b._card0 = origT < 34 ? "cgen" : "cmeta";
+    }
+    if (!b._spec0 && !b._card0 && !b._isPaso) b._card0 = origT < 34 ? "cgen" : "cmeta";
+  });
+}
 let clips = "", tweens = "";
 beats.forEach((b, i) => {
   const t0 = +(b[0].start * S).toFixed(2);
@@ -43,8 +66,7 @@ beats.forEach((b, i) => {
   const txt = b.map((w) => w.text).join(" ");
   const low = txt.toLowerCase();
   const isPaso = /\bpaso\b/.test(low);
-  const spec = isPaso ? null : winFileFor(low);
-  const card = spec ? null : cardFor(low);
+  const spec = b._spec0; const card = b._card0;
   b._spec = spec; b._t0 = t0; b._t1 = t1; b._d = d;
   const maxch = Math.max(...b.map((w) => w.text.length));
   const totch = b.reduce((a, w) => a + w.text.length, 0);
@@ -119,7 +141,7 @@ const html = `<!doctype html>
       .grot { font-family: "Archivo", sans-serif; font-weight: 900; letter-spacing: -1px; }
       .grot em, em { font-family: "Playfair", serif; font-style: italic; font-weight: 700; }
       .card { width: 880px; border-radius: 28px; box-shadow: 0 24px 60px rgba(20,18,12,.22); object-fit: cover; }
-      video.clip.wvid { left: 100px; top: 1000px; width: 880px; height: auto; }
+      video.clip.wvid { left: 100px; top: 880px; width: 880px; height: auto; }
       video.card { background: #000; }
     </style>
   </head>
