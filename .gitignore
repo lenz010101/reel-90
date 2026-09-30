@@ -1,0 +1,6 @@
+node_modules/
+snapshots/
+renders/
+renders-cloud/
+preview.log
+.DS_Store
