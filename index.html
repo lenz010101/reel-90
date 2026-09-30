@@ -29,14 +29,14 @@
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="90" data-width="1080" data-height="1920">
       <audio id="voice" src="assets/vo90.m4a" data-start="0" data-duration="90"></audio>
-      <video id="wvid0" class="clip card wvid" style="transform:rotate(-2deg)" src="assets/vid/w_face1.mp4#t=1.32" muted playsinline preload="auto" data-start="1.48" data-duration="8.38"></video>
-      <video id="wvid1" class="clip card wvid" style="transform:rotate(2deg)" src="assets/vid/w_face1.mp4#t=7.95" muted playsinline preload="auto" data-start="10.53" data-duration="1.75"></video>
-      <video id="wvid2" class="clip card wvid" style="transform:rotate(-2deg)" src="assets/vid/w_gen.mp4#t=0.00" muted playsinline preload="auto" data-start="12.24" data-duration="17.5"></video>
-      <video id="wvid4" class="clip card wvid" style="transform:rotate(-2deg)" src="assets/vid/w_meta.mp4#t=0.00" muted playsinline preload="auto" data-start="30.95" data-duration="22.03"></video>
-      <video id="wvid5" class="clip card wvid" style="transform:rotate(2deg)" src="assets/vid/w_meta.mp4#t=6.48" muted playsinline preload="auto" data-start="53.80" data-duration="8.22"></video>
-      <video id="wvid6" class="clip card wvid" style="transform:rotate(-2deg)" src="assets/vid/w_hands.mp4#t=4.79" muted playsinline preload="auto" data-start="61.90" data-duration="4.91"></video>
-      <video id="wvid7" class="clip card wvid" style="transform:rotate(2deg)" src="assets/vid/w_face2.mp4#t=0.00" muted playsinline preload="auto" data-start="66.69" data-duration="19.06"></video>
-      <video id="wvid8" class="clip card wvid" style="transform:rotate(-2deg)" src="assets/vid/w_face2.mp4#t=8.97" muted playsinline preload="auto" data-start="87.27" data-duration="2.73"></video>
+      <video id="wvid0" class="clip card wvid" src="assets/vid/w_face1.mp4#t=1.52" muted playsinline preload="auto" data-start="1.48" data-duration="8.38"></video>
+      <video id="wvid1" class="clip card wvid" src="assets/vid/w_face1.mp4#t=8.95" muted playsinline preload="auto" data-start="10.53" data-duration="1.75"></video>
+      <video id="wvid2" class="clip card wvid" src="assets/vid/w_gen.mp4#t=0.00" muted playsinline preload="auto" data-start="12.24" data-duration="17.5"></video>
+      <video id="wvid4" class="clip card wvid" src="assets/vid/w_meta.mp4#t=0.00" muted playsinline preload="auto" data-start="30.95" data-duration="22.03"></video>
+      <video id="wvid5" class="clip card wvid" src="assets/vid/w_meta.mp4#t=11.48" muted playsinline preload="auto" data-start="53.80" data-duration="8.22"></video>
+      <video id="wvid6" class="clip card wvid" src="assets/vid/w_hands.mp4#t=8.79" muted playsinline preload="auto" data-start="61.90" data-duration="4.91"></video>
+      <video id="wvid7" class="clip card wvid" src="assets/vid/w_face2.mp4#t=0.43" muted playsinline preload="auto" data-start="66.69" data-duration="19.06"></video>
+      <video id="wvid8" class="clip card wvid" src="assets/vid/w_face2.mp4#t=20.97" muted playsinline preload="auto" data-start="87.27" data-duration="2.73"></video>
       <div id="s0" class="clip" data-start="1.48" data-duration="1.52"><div class="group" id="g0" data-layout-allow-overlap><div class="wl grot" data-layout-allow-overlap style="font-size:113px"><span>Si</span> <span>tuviera</span> <span>una</span> <em>academia</em></div></div></div>
       <div id="s1" class="clip" data-start="2.88" data-duration="1.14"><div class="group" id="g1" data-layout-allow-overlap><div class="wl grot" data-layout-allow-overlap style="font-size:101px"><span>y</span> <span>quisiera</span> <span>conseguir</span> <span>más</span></div></div></div>
       <div id="s2" class="clip" data-start="3.9" data-duration="1.21"><div class="group" id="g2" data-layout-allow-overlap><div class="wl grot" data-layout-allow-overlap style="font-size:129px"><span>alumnos</span> <span>para</span> <span>mis</span> <span>cursos</span></div></div></div>
@@ -351,6 +351,22 @@
       tl.to("#g100", { autoAlpha: 0, y: -24, duration: .12, ease: "power2.in" }, 89.04);
       tl.fromTo("#g101 .wl", { autoAlpha: 0, y: 36 }, { autoAlpha: 1, y: 0, duration: .22, ease: "power3.out" }, 89.06);
       tl.to("#g101", { autoAlpha: 0, y: -24, duration: .12, ease: "power2.in" }, 89.86);
+      tl.fromTo("#wvid0", { scale: .7, rotation: 0, y: 70, transformOrigin: "50% 50%" }, { scale: 1, rotation: -2, y: 0, duration: .38, ease: "back.out(1.4)", immediateRender: false }, 1.48);
+      tl.to("#wvid0", { scale: .55, y: -50, duration: .25, ease: "power3.in" }, 9.61);
+      tl.fromTo("#wvid1", { scale: .7, rotation: 0, y: 70, transformOrigin: "50% 50%" }, { scale: 1, rotation: 2, y: 0, duration: .38, ease: "back.out(1.4)", immediateRender: false }, 10.53);
+      tl.to("#wvid1", { scale: .55, y: -50, duration: .25, ease: "power3.in" }, 12.03);
+      tl.fromTo("#wvid2", { scale: .7, rotation: 0, y: 70, transformOrigin: "50% 50%" }, { scale: 1, rotation: -2, y: 0, duration: .38, ease: "back.out(1.4)", immediateRender: false }, 12.24);
+      tl.to("#wvid2", { scale: .55, y: -50, duration: .25, ease: "power3.in" }, 29.49);
+      tl.fromTo("#wvid4", { scale: .7, rotation: 0, y: 70, transformOrigin: "50% 50%" }, { scale: 1, rotation: -2, y: 0, duration: .38, ease: "back.out(1.4)", immediateRender: false }, 30.95);
+      tl.to("#wvid4", { scale: .55, y: -50, duration: .25, ease: "power3.in" }, 52.73);
+      tl.fromTo("#wvid5", { scale: .7, rotation: 0, y: 70, transformOrigin: "50% 50%" }, { scale: 1, rotation: 2, y: 0, duration: .38, ease: "back.out(1.4)", immediateRender: false }, 53.80);
+      tl.to("#wvid5", { scale: .55, y: -50, duration: .25, ease: "power3.in" }, 61.77);
+      tl.fromTo("#wvid6", { scale: .7, rotation: 0, y: 70, transformOrigin: "50% 50%" }, { scale: 1, rotation: -2, y: 0, duration: .38, ease: "back.out(1.4)", immediateRender: false }, 61.90);
+      tl.to("#wvid6", { scale: .55, y: -50, duration: .25, ease: "power3.in" }, 66.56);
+      tl.fromTo("#wvid7", { scale: .7, rotation: 0, y: 70, transformOrigin: "50% 50%" }, { scale: 1, rotation: 2, y: 0, duration: .38, ease: "back.out(1.4)", immediateRender: false }, 66.69);
+      tl.to("#wvid7", { scale: .55, y: -50, duration: .25, ease: "power3.in" }, 85.5);
+      tl.fromTo("#wvid8", { scale: .7, rotation: 0, y: 70, transformOrigin: "50% 50%" }, { scale: 1, rotation: -2, y: 0, duration: .38, ease: "back.out(1.4)", immediateRender: false }, 87.27);
+      tl.to("#wvid8", { scale: .55, y: -50, duration: .25, ease: "power3.in" }, 89.75);
       tl.fromTo("#blk0 .bword", { autoAlpha: 0, scale: .85 }, { autoAlpha: 1, scale: 1, duration: .3, ease: "back.out(1.7)" }, 9.45);
       tl.to("#blk0 .bword", { autoAlpha: 0, scale: .94, duration: .2, ease: "power2.in" }, 10.75);
       tl.fromTo("#blk1 .bword", { autoAlpha: 0, scale: .85 }, { autoAlpha: 1, scale: 1, duration: .3, ease: "back.out(1.7)" }, 29.33);

@@ -8,10 +8,10 @@ const S = TOTAL / lastEnd;
 const SERIF = ["extra", "irresistibles", "irresistible", "chau", "pasos", "paso", "diferencian", "diferencia", "vos", "mes", "sistema", "academia"];
 // keyword -> video window (slice file, slice len) or static card
 const WMAP = [
-  [/guion|herramienta|inteligencia|datos|generador/, { v: "w_gen.mp4", len: 12 }],
-  [/complet|tipo|campo|arroj|listo/, { v: "w_hands.mp4", len: 10 }],
-  [/objetivo|meta|campa|clientes|prefiltra|anuncio|publicar|eleg/, { v: "w_meta.mp4", len: 15 }],
-  [/versi|distint|diferenciarte|crea|conseguir|alumnos/, { v: "w_meta2.mp4", len: 10 }],
+  [/guion|herramienta|inteligencia|datos|generador/, { v: "w_gen.mp4", len: 16 }],
+  [/complet|tipo|campo|arroj|listo/, { v: "w_hands.mp4", len: 14 }],
+  [/objetivo|meta|campa|clientes|prefiltra|anuncio|publicar|eleg/, { v: "w_meta.mp4", len: 20 }],
+  [/versi|distint|diferenciarte|crea|conseguir|alumnos/, { v: "w_meta2.mp4", len: 16 }],
 ];
 const SMAP = [
   [/guion|herramienta|generador/, "cgen"],
@@ -29,8 +29,8 @@ for (const w of words) {
 flush();
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const isSerif = (w) => SERIF.includes(w.toLowerCase().replace(/[.,!?]/g, ""));
-const SLICE_START = { "w_face1.mp4": 0, "w_gen.mp4": 12, "w_hands.mp4": 24, "w_mid.mp4": 34, "w_meta.mp4": 40, "w_meta2.mp4": 58, "w_face2.mp4": 72 };
-const FACE1 = { v: "w_face1.mp4", len: 10 }, FACE2 = { v: "w_face2.mp4", len: 12 };
+const SLICE_START = { "w_face1.mp4": 0, "w_gen.mp4": 10, "w_hands.mp4": 22, "w_mid.mp4": 32, "w_meta.mp4": 38, "w_meta2.mp4": 54, "w_face2.mp4": 68 };
+const FACE1 = { v: "w_face1.mp4", len: 11 }, FACE2 = { v: "w_face2.mp4", len: 24 };
 const TIME_SLICES = [[10, 24, "w_gen.mp4", 12], [24, 34, "w_hands.mp4", 10], [34, 40, "w_mid.mp4", 6], [40, 56, "w_meta.mp4", 15], [56, 68, "w_meta2.mp4", 10]];
 const winFileFor = (txt) => {
   for (const [re, spec] of WMAP) if (re.test(txt)) return spec;
@@ -98,7 +98,9 @@ let winClips = "";
     let off = gr.start / S - SLICE_START[gr.v];
     off = Math.max(0, Math.min(off, Math.max(0, gr.len - span - 0.3)));
     const rot = j % 2 === 0 ? -2 : 2;
-    winClips += `      <video id="wvid${j}" class="clip card wvid" style="transform:rotate(${rot}deg)" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}"></video>\n`;
+    winClips += `      <video id="wvid${j}" class="clip card wvid" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}"></video>\n`;
+    tweens += `      tl.fromTo("#wvid${j}", { scale: .7, rotation: 0, y: 70, transformOrigin: "50% 50%" }, { scale: 1, rotation: ${rot}, y: 0, duration: .38, ease: "back.out(1.4)", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
+    tweens += `      tl.to("#wvid${j}", { scale: .55, y: -50, duration: .25, ease: "power3.in" }, ${+(gr.end - 0.25).toFixed(2)});\n`;
   });
   console.log("windows=" + groups.length);
 }
