@@ -14,11 +14,11 @@
       .clip { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
       .clip.blk { background: #101010; }
       .group { position: absolute; left: 0; width: 1080px; display: flex; flex-direction: column;
-        align-items: center; justify-content: center; gap: 2px; will-change: transform, opacity; }
-      .group.wc { top: 0; height: 800px; justify-content: flex-end; padding-bottom: 46px; }
+        align-items: center; justify-content: center; gap: 20px; will-change: transform, opacity; }
+      .group.wc { top: 0; height: 800px; justify-content: flex-end; padding-bottom: 44px; }
       .group.nc { top: 0; height: 1660px; }
-      .ln { opacity: 0; text-align: center; line-height: 1.02; color: #14120C; white-space: nowrap; will-change: transform, opacity; }
-      .ln.hero { line-height: 0.96; }
+      .ln { opacity: 0; text-align: center; line-height: 1.12; color: #14120C; white-space: nowrap; will-change: transform, opacity; }
+      .ln.hero { line-height: 1.0; }
       .grot { font-family: "Archivo", sans-serif; font-weight: 900; letter-spacing: -2px; }
       .grot em, em { font-family: "Playfair", serif; font-style: italic; font-weight: 700; letter-spacing: -1px; }
       .bgroup { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: flex;
@@ -28,49 +28,71 @@
         will-change: transform, opacity, filter; }
       .wvid.land { left: 90px; top: 837px; width: 893px; height: 445px; }
       .wvid.port { left: 270px; top: 837px; width: 540px; height: 619px; }
+      .mgcard { position: absolute; left: 90px; top: 837px; width: 893px; height: 445px; border-radius: 22px;
+        background: #101010; color: #F6F3EC; box-shadow: 0 26px 64px rgba(20,18,12,.24); overflow: hidden;
+        padding: 40px 52px; display: flex; flex-direction: column; justify-content: center; gap: 16px;
+        will-change: transform, opacity, filter; }
+      .mg-kick { font-size: 26px; letter-spacing: 8px; opacity: 0; }
+      .mg-big { font-size: 84px; line-height: 1.0; letter-spacing: -3px; opacity: 0; }
+      .mg-big em { font-size: 88px; letter-spacing: -2px; }
+      .mg-bars { display: flex; gap: 14px; align-items: center; }
+      .mg-bars i { display: block; height: 24px; border-radius: 12px; background: #F6F3EC; opacity: 0; transform-origin: left center; }
+      .mg-cols { display: flex; gap: 18px; align-items: flex-end; height: 96px; }
+      .mg-cols i { display: block; width: 74px; border-radius: 12px 12px 4px 4px; background: #F6F3EC; opacity: 0; transform-origin: bottom center; }
+      .mg-rings { position: relative; width: 170px; height: 170px; }
+      .mg-rings i { position: absolute; top: 50%; left: 50%; border: 7px solid #F6F3EC; border-radius: 50%; opacity: 0; }
+      .mg-rings i.r1 { width: 62px; height: 62px; margin: -31px 0 0 -31px; }
+      .mg-rings i.r2 { width: 116px; height: 116px; margin: -58px 0 0 -58px; }
+      .mg-rings i.r3 { width: 170px; height: 170px; margin: -85px 0 0 -85px; }
+      .mg-list { display: flex; flex-direction: column; gap: 14px; }
+      .mg-list div { display: flex; align-items: center; gap: 16px; opacity: 0; }
+      .mg-list b { width: 34px; height: 34px; border: 5px solid #F6F3EC; border-radius: 9px; flex: none; }
+      .mg-list u { height: 20px; border-radius: 10px; background: #F6F3EC; flex: 1; text-decoration: none; }
+      .mg-rule { height: 14px; width: 340px; border-radius: 7px; background: #F6F3EC; opacity: 0; transform-origin: left center; }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="90" data-width="1080" data-height="1920">
       <audio id="voice" src="assets/vo90.m4a" data-start="0" data-duration="90"></audio>
       <video id="wvid0" class="clip wvid port" src="assets/vid/w_face1.mp4#t=1.52" muted playsinline preload="auto" data-start="1.48" data-duration="8.38"></video>
-      <video id="wvid1" class="clip wvid port" src="assets/vid/w_face1.mp4#t=8.95" muted playsinline preload="auto" data-start="10.53" data-duration="1.75"></video>
-      <video id="wvid2" class="clip wvid land" src="assets/vid/w_gen.mp4#t=1.20" muted playsinline preload="auto" data-start="12.24" data-duration="17.5"></video>
-      <video id="wvid4" class="clip wvid land" src="assets/vid/w_meta.mp4#t=0.00" muted playsinline preload="auto" data-start="31.42" data-duration="21.56"></video>
-      <video id="wvid5" class="clip wvid land" src="assets/vid/w_meta.mp4#t=15.79" muted playsinline preload="auto" data-start="54.19" data-duration="7.91"></video>
-      <video id="wvid6" class="clip wvid land" src="assets/vid/w_hands.mp4#t=8.72" muted playsinline preload="auto" data-start="61.98" data-duration="4.98"></video>
-      <video id="wvid7" class="clip wvid port" src="assets/vid/w_face2.mp4#t=0.59" muted playsinline preload="auto" data-start="66.84" data-duration="19.22"></video>
-      <video id="wvid8" class="clip wvid port" src="assets/vid/w_face2.mp4#t=21.00" muted playsinline preload="auto" data-start="87.27" data-duration="2.73"></video>
+      <video id="wvid1" class="clip wvid land" src="assets/vid/w_gen.mp4#t=1.20" muted playsinline preload="auto" data-start="12.24" data-duration="17.5"></video>
+      <video id="wvid3" class="clip wvid land" src="assets/vid/w_meta.mp4#t=0.00" muted playsinline preload="auto" data-start="31.42" data-duration="21.56"></video>
+      <video id="wvid4" class="clip wvid land" src="assets/vid/w_meta.mp4#t=15.79" muted playsinline preload="auto" data-start="54.19" data-duration="7.91"></video>
+      <video id="wvid5" class="clip wvid land" src="assets/vid/w_hands.mp4#t=8.72" muted playsinline preload="auto" data-start="61.98" data-duration="4.98"></video>
+      <video id="wvid6" class="clip wvid port" src="assets/vid/w_face2.mp4#t=0.59" muted playsinline preload="auto" data-start="66.84" data-duration="19.22"></video>
+      <video id="wvid7" class="clip wvid port" src="assets/vid/w_face2.mp4#t=21.00" muted playsinline preload="auto" data-start="87.27" data-duration="2.73"></video>
+      <div id="mg0" class="clip" data-start="11.04" data-duration="1.2"><div class="mgcard"><div class="mg-kick grot" id="mge0_0">PASO 01</div><div class="mg-big grot" id="mge0_1">CUATRO <em>guiones</em></div><div class="mg-bars"><i id="mge0_2" style="width:150px"></i><i id="mge0_3" style="width:195px"></i><i id="mge0_4" style="width:165px"></i><i id="mge0_5" style="width:215px"></i></div></div></div>
+      <div id="mg1" class="clip" data-start="86.06" data-duration="1.21"><div class="mgcard"><div class="mg-kick grot" id="mge1_0">DOCUMENTO</div><div class="mg-big grot" id="mge1_1">PASO A PASO</div><div class="mg-list"><div id="mge1_2"><b></b><u></u></div><div id="mge1_3"><b></b><u></u></div><div id="mge1_4"><b></b><u></u></div></div></div></div>
       <div id="ph0" class="clip" data-start="1.48" data-duration="3.27"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl0_0" style="font-size:96px"><span>Si</span> <span>tuviera</span> <span>una</span></div>
+        <div class="ln grot" id="pl0_0" style="font-size:104px"><span>Si</span> <span>tuviera</span> <span>una</span></div>
         <div class="ln grot" id="pl0_1" style="font-size:89px"><em>academia</em> <span>y</span> <span>quisiera</span></div>
         <div class="ln grot" id="pl0_2" style="font-size:79px"><span>conseguir</span> <span>más</span> <span>alumnos</span></div>
       </div></div>
       <div id="ph1" class="clip" data-start="4.29" data-duration="2.49"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl1_0" style="font-size:96px"><span>para</span> <span>mis</span> <span>cursos</span></div>
+        <div class="ln grot" id="pl1_0" style="font-size:104px"><span>para</span> <span>mis</span> <span>cursos</span></div>
         <div class="ln grot" id="pl1_1" style="font-size:74px"><span>o</span> <span>formaciones,</span></div>
-        <div class="ln grot" id="pl1_2" style="font-size:96px"><span>estos</span> <span>son</span> <span>los</span></div>
+        <div class="ln grot" id="pl1_2" style="font-size:104px"><span>estos</span> <span>son</span> <span>los</span></div>
       </div></div>
       <div id="ph2" class="clip" data-start="6.32" data-duration="1.63"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl2_0" style="font-size:96px"><span>tres</span> <em>pasos</em> <span>que</span></div>
-        <div class="ln grot" id="pl2_1" style="font-size:96px"><span>seguiría.</span></div>
+        <div class="ln grot" id="pl2_0" style="font-size:104px"><span>tres</span> <em>pasos</em> <span>que</span></div>
+        <div class="ln grot" id="pl2_1" style="font-size:99px"><span>seguiría.</span></div>
       </div></div>
       <div id="ph3" class="clip" data-start="7.48" data-duration="2.11"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl3_0" style="font-size:96px"><span>Y</span> <span>el</span> <span>segundo</span></div>
+        <div class="ln grot" id="pl3_0" style="font-size:104px"><span>Y</span> <span>el</span> <span>segundo</span></div>
         <div class="ln grot" id="pl3_1" style="font-size:81px"><span>es</span> <span>el</span> <span>más</span> <span>importante.</span></div>
       </div></div>
       <div id="ph4" class="clip" data-start="9.12" data-duration="1.09"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl4_0" style="font-size:96px"><span>Escuchá.</span></div>
+        <div class="ln grot" id="pl4_0" style="font-size:104px"><span>Escuchá.</span></div>
       </div></div>
       <div id="ph6" class="clip" data-start="10.53" data-duration="3.42"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl6_0" style="font-size:96px"><span>vas</span> <span>a</span> <span>generar</span></div>
-        <div class="ln grot" id="pl6_1" style="font-size:96px"><span>no</span> <span>uno</span> <span>ni</span> <span>dos,</span></div>
+        <div class="ln grot" id="pl6_0" style="font-size:104px"><span>vas</span> <span>a</span> <span>generar</span></div>
+        <div class="ln grot" id="pl6_1" style="font-size:104px"><span>no</span> <span>uno</span> <span>ni</span> <span>dos,</span></div>
         <div class="ln grot" id="pl6_2" style="font-size:89px"><span>sino</span> <span>cuatro</span> <span>guiones</span></div>
       </div></div>
       <div id="ph7" class="clip" data-start="13.49" data-duration="2.96"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl7_0" style="font-size:96px"><span>para</span> <span>hacer</span> <span>videos</span></div>
+        <div class="ln grot" id="pl7_0" style="font-size:101px"><span>para</span> <span>hacer</span> <span>videos</span></div>
         <div class="ln grot" id="pl7_1" style="font-size:68px"><span>contando</span> <span>del</span> <span>lanzamiento</span></div>
-        <div class="ln grot" id="pl7_2" style="font-size:96px"><span>de</span> <span>tu</span> <span>curso.</span></div>
+        <div class="ln grot" id="pl7_2" style="font-size:104px"><span>de</span> <span>tu</span> <span>curso.</span></div>
       </div></div>
       <div id="ph8" class="clip" data-start="15.98" data-duration="3.04"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl8_0" style="font-size:72px"><span>Para</span> <span>hacerlo</span> <span>utilizaría</span></div>
@@ -98,12 +120,12 @@
         <div class="ln grot" id="pl12_2" style="font-size:68px"><span>comenta</span> <span>guión</span> <span>y</span> <span>te</span> <span>llega</span> <span>en</span></div>
       </div></div>
       <div id="ph13" class="clip" data-start="29" data-duration="1.09"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl13_0" style="font-size:96px"><span>un</span> <span>minuto.</span></div>
+        <div class="ln grot" id="pl13_0" style="font-size:104px"><span>un</span> <span>minuto.</span></div>
       </div></div>
       <div id="ph15" class="clip" data-start="30.72" data-duration="2.96"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl15_0" style="font-size:68px"><span>al</span> <span>administrador</span> <span>de</span></div>
         <div class="ln grot" id="pl15_1" style="font-size:72px"><span>anuncios</span> <span>de</span> <span>meta</span> <span>y</span> <span>vamos</span> <span>a</span></div>
-        <div class="ln grot" id="pl15_2" style="font-size:96px"><span>crear</span> <span>una</span> <span>campaña</span></div>
+        <div class="ln grot" id="pl15_2" style="font-size:101px"><span>crear</span> <span>una</span> <span>campaña</span></div>
       </div></div>
       <div id="ph16" class="clip" data-start="33.21" data-duration="2.81"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl16_0" style="font-size:68px"><span>de</span> <span>clientes</span> <span>potenciales,</span></div>
@@ -115,37 +137,37 @@
         <div class="ln grot" id="pl17_2" style="font-size:54px"><span>mensajes</span> <span>a</span> <span>WhatsApp</span> <span>con</span> <span>un</span> <span>montón</span></div>
       </div></div>
       <div id="ph18" class="clip" data-start="38.98" data-duration="3.35"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl18_0" style="font-size:96px"><span>de</span> <span>consultas</span> <span>que</span></div>
+        <div class="ln grot" id="pl18_0" style="font-size:99px"><span>de</span> <span>consultas</span> <span>que</span></div>
         <div class="ln grot" id="pl18_1" style="font-size:63px"><span>solamente</span> <span>preguntan</span> <span>precio</span></div>
         <div class="ln grot" id="pl18_2" style="font-size:47px"><span>y</span> <span>después</span> <span>desaparecen,</span> <span>sino</span> <span>que</span> <span>vamos</span></div>
       </div></div>
       <div id="ph19" class="clip" data-start="41.87" data-duration="2.80"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl19_0" style="font-size:72px"><span>a</span> <span>llevarlos</span> <span>a</span> <span>un</span> <span>sitio</span> <span>web</span></div>
-        <div class="ln grot" id="pl19_1" style="font-size:96px"><span>para</span> <span>que</span> <span>lleguen</span></div>
+        <div class="ln grot" id="pl19_1" style="font-size:104px"><span>para</span> <span>que</span> <span>lleguen</span></div>
         <div class="ln grot" id="pl19_2" style="font-size:89px"><span>un</span> <span>formulario</span> <span>y</span></div>
       </div></div>
       <div id="ph20" class="clip" data-start="44.21" data-duration="3.04"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl20_0" style="font-size:89px"><span>vamos</span> <span>a</span> <span>filtrarlos</span></div>
-        <div class="ln grot" id="pl20_1" style="font-size:96px"><span>y</span> <span>nutrirlos</span> <span>para</span></div>
+        <div class="ln grot" id="pl20_1" style="font-size:99px"><span>y</span> <span>nutrirlos</span> <span>para</span></div>
         <div class="ln grot" id="pl20_2" style="font-size:68px"><span>que</span> <span>solamente</span> <span>consigamos</span></div>
       </div></div>
       <div id="ph21" class="clip" data-start="46.93" data-duration="4.29"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl21_0" style="font-size:54px"><span>gente</span> <span>calificada</span> <span>que</span> <span>después</span> <span>va</span> <span>a</span></div>
         <div class="ln grot" id="pl21_1" style="font-size:63px"><span>retroalimentar</span> <span>la</span> <span>campaña</span></div>
-        <div class="ln grot" id="pl21_2" style="font-size:96px"><span>para</span> <span>que</span> <span>consiga</span></div>
+        <div class="ln grot" id="pl21_2" style="font-size:104px"><span>para</span> <span>que</span> <span>consiga</span></div>
       </div></div>
       <div id="ph22" class="clip" data-start="50.91" data-duration="2.42"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl22_0" style="font-size:84px"><span>aún</span> <span>mejores</span> <span>perfiles</span></div>
-        <div class="ln grot" id="pl22_1" style="font-size:96px"><span>con</span> <span>el</span> <span>tiempo.</span></div>
+        <div class="ln grot" id="pl22_1" style="font-size:104px"><span>con</span> <span>el</span> <span>tiempo.</span></div>
       </div></div>
       <div id="ph24" class="clip" data-start="54.19" data-duration="2.65"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl24_0" style="font-size:94px"><span>comunicar</span> <span>con</span> <span>cada</span></div>
-        <div class="ln grot" id="pl24_1" style="font-size:96px"><span>uno</span> <span>de</span> <span>todos</span></div>
+        <div class="ln grot" id="pl24_1" style="font-size:104px"><span>uno</span> <span>de</span> <span>todos</span></div>
         <div class="ln grot" id="pl24_2" style="font-size:81px"><span>los</span> <span>interesados</span> <span>de</span></div>
       </div></div>
       <div id="ph25" class="clip" data-start="56.37" data-duration="2.88"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl25_0" style="font-size:60px"><span>forma</span> <span>automática,</span> <span>a</span> <span>través</span> <span>de</span></div>
-        <div class="ln grot" id="pl25_1" style="font-size:96px"><span>este</span> <em>sistema</em> <span>de</span></div>
+        <div class="ln grot" id="pl25_1" style="font-size:104px"><span>este</span> <em>sistema</em> <span>de</span></div>
         <div class="ln grot" id="pl25_2" style="font-size:52px"><span>automatizaciones,</span></div>
       </div></div>
       <div id="ph26" class="clip" data-start="58.79" data-duration="3.66"><div class="group wc" data-layout-allow-overlap>
@@ -159,57 +181,63 @@
       <div id="ph28" class="clip" data-start="63.1" data-duration="2.73"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl28_0" style="font-size:75px"><span>Una</span> <span>vez</span> <span>que</span> <span>la</span> <span>persona</span> <span>se</span></div>
         <div class="ln grot" id="pl28_1" style="font-size:89px"><span>quiere</span> <span>inscribir,</span></div>
-        <div class="ln grot" id="pl28_2" style="font-size:96px"><span>recién</span> <span>ahí</span> <span>vamos</span></div>
+        <div class="ln grot" id="pl28_2" style="font-size:104px"><span>recién</span> <span>ahí</span> <span>vamos</span></div>
       </div></div>
       <div id="ph29" class="clip" data-start="65.36" data-duration="3.35"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl29_0" style="font-size:96px"><span>a</span> <span>pasarle</span> <span>tu</span></div>
-        <div class="ln grot" id="pl29_1" style="font-size:96px"><span>contacto</span> <span>para</span> <span>que</span></div>
+        <div class="ln grot" id="pl29_0" style="font-size:104px"><span>a</span> <span>pasarle</span> <span>tu</span></div>
+        <div class="ln grot" id="pl29_1" style="font-size:101px"><span>contacto</span> <span>para</span> <span>que</span></div>
         <div class="ln grot" id="pl29_2" style="font-size:52px"><span>gestiones</span> <span>la</span> <span>inscripción</span> <span>y</span> <span>el</span> <span>tema</span></div>
       </div></div>
       <div id="ph30" class="clip" data-start="68.25" data-duration="1.79"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl30_0" style="font-size:96px"><span>del</span> <span>pago,</span></div>
-        <div class="ln grot" id="pl30_1" style="font-size:96px"><span>no</span> <span>antes.</span></div>
+        <div class="ln grot" id="pl30_0" style="font-size:104px"><span>del</span> <span>pago,</span></div>
+        <div class="ln grot" id="pl30_1" style="font-size:104px"><span>no</span> <span>antes.</span></div>
       </div></div>
       <div id="ph31" class="clip" data-start="69.57" data-duration="2.97"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl31_0" style="font-size:60px"><span>Las</span> <span>academias</span> <span>que</span> <span>hoy</span> <span>no</span> <span>están</span></div>
         <div class="ln grot" id="pl31_1" style="font-size:68px"><span>implementando</span> <span>un</span> <em>sistema</em></div>
-        <div class="ln grot" id="pl31_2" style="font-size:96px"><span>como</span> <span>este</span> <span>para</span></div>
+        <div class="ln grot" id="pl31_2" style="font-size:104px"><span>como</span> <span>este</span> <span>para</span></div>
       </div></div>
       <div id="ph32" class="clip" data-start="72.07" data-duration="2.73"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl32_0" style="font-size:96px"><span>poder</span> <span>filtrar</span> <span>sus</span></div>
+        <div class="ln grot" id="pl32_0" style="font-size:101px"><span>poder</span> <span>filtrar</span> <span>sus</span></div>
         <div class="ln grot" id="pl32_1" style="font-size:94px"><span>contactos</span> <span>pasan</span> <span>un</span></div>
-        <div class="ln grot" id="pl32_2" style="font-size:96px"><span>montón</span> <span>de</span> <span>tiempo</span></div>
+        <div class="ln grot" id="pl32_2" style="font-size:104px"><span>montón</span> <span>de</span> <span>tiempo</span></div>
       </div></div>
       <div id="ph33" class="clip" data-start="74.33" data-duration="3.51"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl33_0" style="font-size:65px"><span>respondiendo</span> <span>consultas</span> <span>de</span></div>
-        <div class="ln grot" id="pl33_1" style="font-size:96px"><span>personas</span> <span>que</span> <span>solo</span></div>
+        <div class="ln grot" id="pl33_1" style="font-size:101px"><span>personas</span> <span>que</span> <span>solo</span></div>
         <div class="ln grot" id="pl33_2" style="font-size:52px"><span>quieren</span> <span>saber</span> <span>precio</span> <span>o</span> <span>ni</span> <span>siquiera</span></div>
       </div></div>
       <div id="ph34" class="clip" data-start="77.37" data-duration="3.51"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl34_0" style="font-size:79px"><span>saben</span> <span>de</span> <span>qué</span> <span>se</span> <span>trata</span> <span>el</span></div>
-        <div class="ln grot" id="pl34_1" style="font-size:96px"><span>curso</span> <span>y</span> <span>casi</span></div>
+        <div class="ln grot" id="pl34_1" style="font-size:104px"><span>curso</span> <span>y</span> <span>casi</span></div>
         <div class="ln grot" id="pl34_2" style="font-size:50px"><span>nunca</span> <span>logran</span> <span>conseguir</span> <span>el</span> <span>número</span> <span>de</span></div>
       </div></div>
       <div id="ph35" class="clip" data-start="80.41" data-duration="2.96"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl35_0" style="font-size:96px"><span>alumnos</span> <span>que</span> <span>les</span></div>
-        <div class="ln grot" id="pl35_1" style="font-size:96px"><span>gustaría</span> <span>para</span> <span>sus</span></div>
+        <div class="ln grot" id="pl35_0" style="font-size:104px"><span>alumnos</span> <span>que</span> <span>les</span></div>
+        <div class="ln grot" id="pl35_1" style="font-size:101px"><span>gustaría</span> <span>para</span> <span>sus</span></div>
         <div class="ln grot" id="pl35_2" style="font-size:74px"><span>cursos</span> <span>o</span> <span>formaciones.</span></div>
       </div></div>
       <div id="ph36" class="clip" data-start="82.91" data-duration="2.80"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl36_0" style="font-size:75px"><span>Si</span> <span>te</span> <span>está</span> <span>pasando</span> <span>esto,</span></div>
         <div class="ln grot" id="pl36_1" style="font-size:89px"><span>coméntame</span> <span>acá</span> <span>abajo</span></div>
-        <div class="ln grot" id="pl36_2" style="font-size:96px"><span>la</span> <span>palabra</span> <span>guía,</span></div>
+        <div class="ln grot" id="pl36_2" style="font-size:104px"><span>la</span> <span>palabra</span> <span>guía,</span></div>
       </div></div>
       <div id="ph37" class="clip" data-start="85.24" data-duration="1.17"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl37_0" style="font-size:89px"><span>que</span> <span>te</span> <span>voy</span> <span>a</span> <span>mandar</span> <span>un</span></div>
       </div></div>
+      <div id="ph38" class="clip" data-start="85.95" data-duration="1.24"><div class="group wc" data-layout-allow-overlap>
+        <div class="ln grot" id="pl38_0" style="font-size:99px"><span>documento</span> <em>paso</em> <span>a</span></div>
+      </div></div>
+      <div id="ph39" class="clip" data-start="86.73" data-duration="1.01"><div class="group wc" data-layout-allow-overlap>
+        <div class="ln grot" id="pl39_0" style="font-size:104px"><em>paso</em> <span>de</span> <span>cómo</span></div>
+      </div></div>
       <div id="ph40" class="clip" data-start="87.27" data-duration="2.42"><div class="group wc" data-layout-allow-overlap>
         <div class="ln grot" id="pl40_0" style="font-size:75px"><span>implementar</span> <span>el</span> <em>sistema</em></div>
-        <div class="ln grot" id="pl40_1" style="font-size:96px"><span>que</span> <span>te</span> <span>acabo</span></div>
-        <div class="ln grot" id="pl40_2" style="font-size:96px"><span>de</span> <span>mostrar</span> <span>para</span></div>
+        <div class="ln grot" id="pl40_1" style="font-size:104px"><span>que</span> <span>te</span> <span>acabo</span></div>
+        <div class="ln grot" id="pl40_2" style="font-size:104px"><span>de</span> <span>mostrar</span> <span>para</span></div>
       </div></div>
       <div id="ph41" class="clip" data-start="89.22" data-duration="0.78"><div class="group wc" data-layout-allow-overlap>
-        <div class="ln grot" id="pl41_0" style="font-size:96px"><span>tu</span> <em>academia.</em></div>
+        <div class="ln grot" id="pl41_0" style="font-size:99px"><span>tu</span> <em>academia.</em></div>
       </div></div>
       <div id="blk0" class="clip blk" data-layout-allow-overlap data-start="9.5" data-duration="1.54"><div class="bgroup" data-layout-allow-overlap><div class="bword grot" data-layout-allow-overlap>Paso 1</div></div></div>
       <div id="blk1" class="clip blk" data-layout-allow-overlap data-start="29.38" data-duration="1.78"><div class="bgroup" data-layout-allow-overlap><div class="bword grot" data-layout-allow-overlap>Paso 2</div></div></div>
@@ -222,166 +250,184 @@
       tl.fromTo("#pl0_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 1.48);
       tl.fromTo("#pl0_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 2.49);
       tl.fromTo("#pl0_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 3.35);
-      tl.to("#ph0", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 4.62);
+      tl.to("#ph0", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 4.22);
       tl.fromTo("#pl1_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 4.29);
       tl.fromTo("#pl1_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 4.99);
       tl.fromTo("#pl1_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 5.77);
-      tl.to("#ph1", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 6.65);
+      tl.to("#ph1", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 6.25);
       tl.fromTo("#pl2_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 6.32);
       tl.fromTo("#pl2_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 6.86);
-      tl.to("#ph2", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 7.82);
+      tl.to("#ph2", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 7.41);
       tl.fromTo("#pl3_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 7.48);
       tl.fromTo("#pl3_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 8.11);
-      tl.to("#ph3", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 9.46);
+      tl.to("#ph3", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 9.05);
       tl.fromTo("#pl4_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 9.12);
-      tl.to("#ph4", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 10.08);
+      tl.to("#ph4", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 9.68);
       tl.fromTo("#pl6_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 10.53);
       tl.fromTo("#pl6_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 11.23);
       tl.fromTo("#pl6_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 12.24);
-      tl.to("#ph6", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 13.82);
+      tl.to("#ph6", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 13.42);
       tl.fromTo("#pl7_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 13.49);
       tl.fromTo("#pl7_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 14.35);
       tl.fromTo("#pl7_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 15.44);
-      tl.to("#ph7", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 16.32);
+      tl.to("#ph7", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 15.91);
       tl.fromTo("#pl8_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 15.98);
       tl.fromTo("#pl8_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 17.07);
       tl.fromTo("#pl8_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 17.62);
-      tl.to("#ph8", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 18.89);
+      tl.to("#ph8", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 18.49);
       tl.fromTo("#pl9_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 18.56);
       tl.fromTo("#pl9_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 19.41);
       tl.fromTo("#pl9_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 20.27);
-      tl.to("#ph9", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 21.39);
+      tl.to("#ph9", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 20.98);
       tl.fromTo("#pl10_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 21.05);
       tl.fromTo("#pl10_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 21.91);
       tl.fromTo("#pl10_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 22.69);
-      tl.to("#ph10", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 24.04);
+      tl.to("#ph10", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 23.63);
       tl.fromTo("#pl11_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 23.7);
       tl.fromTo("#pl11_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 24.56);
       tl.fromTo("#pl11_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 25.18);
-      tl.to("#ph11", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 26.07);
+      tl.to("#ph11", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 25.66);
       tl.fromTo("#pl12_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 25.73);
       tl.fromTo("#pl12_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 26.74);
       tl.fromTo("#pl12_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 27.6);
-      tl.to("#ph12", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 29.34);
+      tl.to("#ph12", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 28.93);
       tl.fromTo("#pl13_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 29);
-      tl.to("#ph13", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 29.96);
+      tl.to("#ph13", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 29.56);
       tl.fromTo("#pl15_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 30.72);
       tl.fromTo("#pl15_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 31.42);
       tl.fromTo("#pl15_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 32.43);
-      tl.to("#ph15", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 33.55);
+      tl.to("#ph15", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 33.14);
       tl.fromTo("#pl16_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 33.21);
       tl.fromTo("#pl16_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 34.46);
-      tl.to("#ph16", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 35.89);
+      tl.to("#ph16", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 35.48);
       tl.fromTo("#pl17_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 35.55);
       tl.fromTo("#pl17_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 36.64);
       tl.fromTo("#pl17_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 37.5);
-      tl.to("#ph17", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 39.32);
+      tl.to("#ph17", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 38.91);
       tl.fromTo("#pl18_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 38.98);
       tl.fromTo("#pl18_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 39.61);
       tl.fromTo("#pl18_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 40.54);
-      tl.to("#ph18", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 42.2);
+      tl.to("#ph18", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 41.8);
       tl.fromTo("#pl19_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 41.87);
       tl.fromTo("#pl19_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 42.88);
       tl.fromTo("#pl19_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 43.43);
-      tl.to("#ph19", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 44.54);
+      tl.to("#ph19", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 44.14);
       tl.fromTo("#pl20_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 44.21);
       tl.fromTo("#pl20_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 44.91);
       tl.fromTo("#pl20_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 45.77);
-      tl.to("#ph20", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 47.12);
+      tl.to("#ph20", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 46.86);
       tl.fromTo("#pl21_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 46.93);
       tl.fromTo("#pl21_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 48.65);
       tl.fromTo("#pl21_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 50.05);
-      tl.to("#ph21", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 51.09);
+      tl.to("#ph21", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 50.84);
       tl.fromTo("#pl22_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 50.91);
       tl.fromTo("#pl22_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 52.16);
-      tl.to("#ph22", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 53.2);
+      tl.to("#ph22", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 52.79);
       tl.fromTo("#pl24_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 54.19);
       tl.fromTo("#pl24_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 54.96);
       tl.fromTo("#pl24_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 55.51);
-      tl.to("#ph24", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 56.71);
+      tl.to("#ph24", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 56.3);
       tl.fromTo("#pl25_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 56.37);
       tl.fromTo("#pl25_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 57.38);
       tl.fromTo("#pl25_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 57.93);
-      tl.to("#ph25", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 59.12);
+      tl.to("#ph25", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 58.72);
       tl.fromTo("#pl26_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 58.79);
       tl.fromTo("#pl26_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 59.88);
       tl.fromTo("#pl26_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 61.2);
-      tl.to("#ph26", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 62.32);
+      tl.to("#ph26", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 61.91);
       tl.fromTo("#pl27_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 61.98);
-      tl.to("#ph27", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 63.33);
+      tl.to("#ph27", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 63.03);
       tl.fromTo("#pl28_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 63.1);
       tl.fromTo("#pl28_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 63.96);
       tl.fromTo("#pl28_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 64.66);
-      tl.to("#ph28", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 65.7);
+      tl.to("#ph28", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 65.29);
       tl.fromTo("#pl29_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 65.36);
       tl.fromTo("#pl29_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 66.06);
       tl.fromTo("#pl29_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 66.84);
-      tl.to("#ph29", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 68.58);
+      tl.to("#ph29", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 68.18);
       tl.fromTo("#pl30_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 68.25);
       tl.fromTo("#pl30_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 68.79);
-      tl.to("#ph30", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 69.91);
+      tl.to("#ph30", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 69.5);
       tl.fromTo("#pl31_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 69.57);
       tl.fromTo("#pl31_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 70.74);
       tl.fromTo("#pl31_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 71.52);
-      tl.to("#ph31", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 72.41);
+      tl.to("#ph31", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 72);
       tl.fromTo("#pl32_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 72.07);
       tl.fromTo("#pl32_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 72.77);
       tl.fromTo("#pl32_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 73.78);
-      tl.to("#ph32", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 74.67);
+      tl.to("#ph32", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 74.26);
       tl.fromTo("#pl33_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 74.33);
       tl.fromTo("#pl33_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 75.58);
       tl.fromTo("#pl33_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 76.12);
-      tl.to("#ph33", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 77.71);
+      tl.to("#ph33", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 77.3);
       tl.fromTo("#pl34_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 77.37);
       tl.fromTo("#pl34_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 78.23);
       tl.fromTo("#pl34_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 79.01);
-      tl.to("#ph34", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 80.75);
+      tl.to("#ph34", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 80.34);
       tl.fromTo("#pl35_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 80.41);
       tl.fromTo("#pl35_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 81.03);
       tl.fromTo("#pl35_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 81.81);
-      tl.to("#ph35", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 83.24);
+      tl.to("#ph35", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 82.84);
       tl.fromTo("#pl36_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 82.91);
       tl.fromTo("#pl36_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 83.84);
       tl.fromTo("#pl36_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 84.54);
-      tl.to("#ph36", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 85.58);
+      tl.to("#ph36", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 85.17);
       tl.fromTo("#pl37_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 85.24);
-      tl.to("#ph37", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 86.28);
+      tl.to("#ph37", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 85.88);
+      tl.fromTo("#pl38_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 85.95);
+      tl.to("#ph38", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 86.66);
+      tl.fromTo("#pl39_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 86.73);
+      tl.to("#ph39", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 87.2);
       tl.fromTo("#pl40_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 87.27);
       tl.fromTo("#pl40_1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 87.97);
       tl.fromTo("#pl40_2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 88.52);
-      tl.to("#ph40", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 89.56);
+      tl.to("#ph40", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 89.15);
       tl.fromTo("#pl41_0", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .16, ease: "power3.out", immediateRender: false }, 89.22);
       tl.to("#ph41", { opacity: 0, y: -16, duration: .12, ease: "power2.in" }, 89.87);
       tl.fromTo("#wvid0", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 1.48);
       tl.fromTo("#wvid0", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 1.48);
       tl.to("#wvid0", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 9.72);
-      tl.fromTo("#wvid1", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 10.53);
-      tl.fromTo("#wvid1", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 10.53);
-      tl.to("#wvid1", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 12.14);
-      tl.fromTo("#wvid2", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 12.24);
-      tl.fromTo("#wvid2", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 12.24);
-      tl.to("#wvid2", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 29.6);
-      tl.fromTo("#wvid4", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 31.42);
-      tl.fromTo("#wvid4", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 31.42);
-      tl.to("#wvid4", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 52.84);
-      tl.fromTo("#wvid5", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 54.19);
-      tl.fromTo("#wvid5", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 54.19);
-      tl.to("#wvid5", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 61.96);
-      tl.fromTo("#wvid6", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 61.98);
-      tl.fromTo("#wvid6", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 61.98);
-      tl.to("#wvid6", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 66.82);
-      tl.fromTo("#wvid7", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 66.84);
-      tl.fromTo("#wvid7", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 66.84);
-      tl.to("#wvid7", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 85.92);
-      tl.fromTo("#wvid8", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 87.27);
-      tl.fromTo("#wvid8", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 87.27);
-      tl.to("#wvid8", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 89.86);
+      tl.fromTo("#wvid1", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 12.24);
+      tl.fromTo("#wvid1", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 12.24);
+      tl.to("#wvid1", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 29.6);
+      tl.fromTo("#wvid3", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 31.42);
+      tl.fromTo("#wvid3", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 31.42);
+      tl.to("#wvid3", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 52.84);
+      tl.fromTo("#wvid4", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 54.19);
+      tl.fromTo("#wvid4", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 54.19);
+      tl.to("#wvid4", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 61.96);
+      tl.fromTo("#wvid5", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 61.98);
+      tl.fromTo("#wvid5", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 61.98);
+      tl.to("#wvid5", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 66.82);
+      tl.fromTo("#wvid6", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 66.84);
+      tl.fromTo("#wvid6", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 66.84);
+      tl.to("#wvid6", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 85.92);
+      tl.fromTo("#wvid7", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 87.27);
+      tl.fromTo("#wvid7", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 87.27);
+      tl.to("#wvid7", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 89.86);
       tl.fromTo("#blk0 .bword", { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .22, ease: "back.out(1.6)", immediateRender: false }, 9.55);
       tl.to("#blk0 .bword", { opacity: 0, duration: .12, ease: "power2.in" }, 10.91);
       tl.fromTo("#blk1 .bword", { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .22, ease: "back.out(1.6)", immediateRender: false }, 29.43);
       tl.to("#blk1 .bword", { opacity: 0, duration: .12, ease: "power2.in" }, 31.03);
       tl.fromTo("#blk2 .bword", { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .22, ease: "back.out(1.6)", immediateRender: false }, 52.66);
       tl.to("#blk2 .bword", { opacity: 0, duration: .12, ease: "power2.in" }, 54.48);
+      tl.fromTo("#mg0 .mgcard", {"opacity":0,"scale":0.94,"y":18}, { ...{"opacity":1,"scale":1,"y":0,"duration":0.2,"ease":"power3.out"}, immediateRender: false }, 11.04);
+      tl.fromTo("#mg0 .mgcard", {"filter":"blur(14px)"}, { ...{"filter":"blur(0px)","duration":0.2,"ease":"power2.out"}, immediateRender: false }, 11.04);
+      tl.fromTo("#mge0_0", {"opacity":0,"y":18}, { ...{"opacity":1,"y":0,"duration":0.2,"ease":"power3.out"}, immediateRender: false }, 11.18);
+      tl.fromTo("#mge0_1", {"opacity":0,"y":28}, { ...{"opacity":1,"y":0,"duration":0.24,"ease":"power3.out"}, immediateRender: false }, 11.28);
+      tl.fromTo("#mge0_2", {"opacity":0,"scaleX":0.12}, { ...{"opacity":1,"scaleX":1,"duration":0.26,"ease":"back.out(1.7)"}, immediateRender: false }, 11.5);
+      tl.fromTo("#mge0_3", {"opacity":0,"scaleX":0.12}, { ...{"opacity":1,"scaleX":1,"duration":0.26,"ease":"back.out(1.7)"}, immediateRender: false }, 11.6);
+      tl.fromTo("#mge0_4", {"opacity":0,"scaleX":0.12}, { ...{"opacity":1,"scaleX":1,"duration":0.26,"ease":"back.out(1.7)"}, immediateRender: false }, 11.7);
+      tl.fromTo("#mge0_5", {"opacity":0,"scaleX":0.12}, { ...{"opacity":1,"scaleX":1,"duration":0.26,"ease":"back.out(1.7)"}, immediateRender: false }, 11.8);
+      tl.to("#mg0 .mgcard", {"scale":0.95,"opacity":0,"duration":0.14,"ease":"power2.in"}, 12.1);
+      tl.fromTo("#mg1 .mgcard", {"opacity":0,"scale":0.94,"y":18}, { ...{"opacity":1,"scale":1,"y":0,"duration":0.2,"ease":"power3.out"}, immediateRender: false }, 86.06);
+      tl.fromTo("#mg1 .mgcard", {"filter":"blur(14px)"}, { ...{"filter":"blur(0px)","duration":0.2,"ease":"power2.out"}, immediateRender: false }, 86.06);
+      tl.fromTo("#mge1_0", {"opacity":0,"y":18}, { ...{"opacity":1,"y":0,"duration":0.2,"ease":"power3.out"}, immediateRender: false }, 86.2);
+      tl.fromTo("#mge1_1", {"opacity":0,"y":28}, { ...{"opacity":1,"y":0,"duration":0.24,"ease":"power3.out"}, immediateRender: false }, 86.3);
+      tl.fromTo("#mge1_2", {"opacity":0,"x":-26}, { ...{"opacity":1,"x":0,"duration":0.26,"ease":"power3.out"}, immediateRender: false }, 86.52);
+      tl.fromTo("#mge1_3", {"opacity":0,"x":-26}, { ...{"opacity":1,"x":0,"duration":0.26,"ease":"power3.out"}, immediateRender: false }, 86.62);
+      tl.fromTo("#mge1_4", {"opacity":0,"x":-26}, { ...{"opacity":1,"x":0,"duration":0.26,"ease":"power3.out"}, immediateRender: false }, 86.72);
+      tl.to("#mg1 .mgcard", {"scale":0.95,"opacity":0,"duration":0.14,"ease":"power2.in"}, 87.13);
       tl.seek(0);
     </script>
   </body>
