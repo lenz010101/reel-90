@@ -3,7 +3,7 @@
 // zonas de pantalla (b-roll), SFX (whoosh/pop/click) y sticker CTA "GUÍA". 90.00.
 import fs from "fs";
 const TOTAL = 90.0;
-const tr = JSON.parse(fs.readFileSync("../edit-base/transcript.json", "utf8"));
+const tr = JSON.parse(fs.readFileSync("./transcript.json", "utf8"));
 const words = Array.isArray(tr) ? tr : tr.words;
 const lastEnd = words[words.length - 1].end;
 const S = TOTAL / lastEnd;
@@ -174,10 +174,15 @@ phrases.forEach((ph, i) => {
 // ---- ventanas media (cards): pop + blur in / out ----
 let winClips = "";
 windows.forEach((gr, j) => {
+  // pre-roll: el joven aparece en 0 y la voz lo alcanza en 1.44
+  if (gr.v === "w_face1.mp4") gr.start = 0;
   const span = +(gr.end - gr.start).toFixed(2);
   if (span < 1.2) return;
   const base = gr.form === "port" ? (gr.v === "w_face1.mp4" ? 0 : 68) : ({ "w_gen.mp4": 10, "w_hands.mp4": 22, "w_mid.mp4": 32, "w_meta.mp4": 38, "w_meta2.mp4": 54 }[gr.v] || 0);
   let off = gr.start / S - base;
+  // el joven debe entrar hablando: salta el arranque quieto / la mano en laptop
+  if (gr.v === "w_face1.mp4") off = 2.3;
+  if (gr.v === "w_face2.mp4" && gr.start < 80) off = 3.6;
   off = Math.max(0, Math.min(off, Math.max(0, gr.len - span - 0.3)));
   winClips += `      <video id="wvid${j}" class="clip wvid ${gr.form}" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}"></video>\n`;
   const wvidFrom = gr.form === "port" ? `{ opacity: 0, scale: .94 }` : `{ opacity: 0, scale: .94, y: 18 }`;
@@ -301,6 +306,12 @@ SFX.forEach(([t, f, d], i) => {
 });
 console.log("sfx=" + SFX.length + " cta@" + ctaT);
 
+// ---- voz: arranca con el joven (primera palabra), calzada a los titulares ----
+const VO_T0 = beats[0]._t0;
+const VO_OFF = beats[0][0].start;
+const VO_RATE = +((lastEnd - VO_OFF) / (TOTAL - VO_T0)).toFixed(5);
+const VO_DUR = +(TOTAL - VO_T0).toFixed(2);
+console.log(`voice t0=${VO_T0} off=${VO_OFF} rate=${VO_RATE} dur=${VO_DUR}`);
 const html = `<!doctype html>
 <html lang="es" data-resolution="portrait">
   <head>
@@ -375,7 +386,7 @@ const html = `<!doctype html>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="${TOTAL}" data-width="1080" data-height="1920">
-      <audio id="voice" src="assets/vo90.m4a" data-start="0" data-duration="${TOTAL}"></audio>
+      <audio id="voice" src="assets/vo90.m4a" data-start="${VO_T0}" data-duration="${VO_DUR}" data-media-start="${VO_OFF.toFixed(2)}" data-playback-rate="${VO_RATE}"></audio>
 ${sfxClips}${winClips}${mgClips}${ctaClip}${clips}${blackClips}    </div>
     <script>
       window.__timelines = window.__timelines || {};
