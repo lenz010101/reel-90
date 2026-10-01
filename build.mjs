@@ -330,9 +330,9 @@ const html = `<!doctype html>
         opacity: 0; z-index: 2; }
       .wvid { object-fit: cover; border-radius: 22px; box-shadow: 0 26px 64px rgba(20,18,12,.24); background: #000;
         will-change: transform, opacity, filter; }
-      .wvid.land { left: 90px; top: 837px; width: 893px; height: 445px; }
+      .wvid.land { left: 24px; top: 796px; width: 1032px; height: 824px; }
       .wvid.port { left: 270px; top: 837px; width: 540px; height: 619px; }
-      .mgcard { position: absolute; left: 90px; top: 837px; width: 893px; height: 445px; border-radius: 22px;
+      .mgcard { position: absolute; left: 24px; top: 796px; width: 1032px; height: 824px; border-radius: 22px;
         background: #101010; color: #F6F3EC; box-shadow: 0 26px 64px rgba(20,18,12,.24); overflow: hidden;
         padding: 40px 52px; display: flex; flex-direction: column; justify-content: center; gap: 16px;
         will-change: transform, opacity, filter; }
