@@ -32,7 +32,7 @@ jobs:
       - name: Lint (guardia rápida — el check completo corre local antes de subir)
         run: npx --yes hyperframes@0.8.92 lint .
       - name: Render MP4
-        run: npx --yes hyperframes@0.8.92 render . --skill=motion-graphics -q high --no-low-memory-mode --workers=2
+        run: npx --yes hyperframes@0.8.92 render . --skill=motion-graphics -q high --no-low-memory-mode --workers=auto
         env:
           PRODUCER_EXPERIMENTAL_FAST_CAPTURE: "true"
       - name: Upload video artifact
