@@ -139,6 +139,7 @@ phrases.forEach((ph, i) => {
   const dur = +Math.max(lastT - t0 + 0.35, Math.min(nextStart - t0, lastT - t0 + 2.2)).toFixed(2);
   const end = Math.min(TOTAL, +(t0 + dur).toFixed(2));
   const hasCard = windows.some((w) => w.start < end && w.end > t0) || overlapsMG(t0, end);
+  const onFace = windows.some((w) => w.form === "port" && w.start < end && w.end > t0);
   const lines = ph.map((b, j) => {
     const maxch = Math.max(...b.map((w) => w.text.length));
     const totch = b.reduce((a, w) => a + w.text.length, 0);
@@ -163,7 +164,7 @@ phrases.forEach((ph, i) => {
     }
     return `        <div class="ln grot${hero ? " hero" : ""}" id="pl${i}_${j}" style="font-size:${fs}px">${inner}</div>\n`;
   }).join("");
-  clips += `      <div id="ph${i}" class="clip" data-start="${t0}" data-duration="${(end - t0).toFixed(2)}"><div class="group ${hasCard ? "wc" : "nc"}" data-layout-allow-overlap>\n${lines}      </div></div>\n`;
+  clips += `      <div id="ph${i}" class="clip" data-start="${t0}" data-duration="${(end - t0).toFixed(2)}"><div class="group ${hasCard ? "wc" : "nc"}${onFace ? " face" : ""}" data-layout-allow-overlap>\n${lines}      </div></div>\n`;
   console.log(`ph${i} ${t0}→${end} ${ph.map((b) => b._txt).join(" | ")}`);
   // salida: termina (casi) cuando entra la frase siguiente — evita texto doble
   const exitAt = i + 1 < phrases.length ? Math.max(t0 + 0.1, Math.min(end - 0.13, nextStart - 0.07)) : end - 0.13;
@@ -179,7 +180,13 @@ windows.forEach((gr, j) => {
   let off = gr.start / S - base;
   off = Math.max(0, Math.min(off, Math.max(0, gr.len - span - 0.3)));
   winClips += `      <video id="wvid${j}" class="clip wvid ${gr.form}" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}"></video>\n`;
-  tweens += `      tl.fromTo("#wvid${j}", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
+  const wvidFrom = gr.form === "port" ? `{ opacity: 0, scale: .94 }` : `{ opacity: 0, scale: .94, y: 18 }`;
+  tweens += `      tl.fromTo("#wvid${j}", ${wvidFrom}, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
+  if (gr.form === "port") {
+    winClips += `      <div id="scrim${j}" class="clip scrim" data-start="${gr.start.toFixed(2)}" data-duration="${span}"></div>\n`;
+    tweens += `      tl.fromTo("#scrim${j}", { opacity: 0 }, { opacity: 1, duration: .2, ease: "power2.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
+    tweens += `      tl.to("#scrim${j}", { opacity: 0, duration: .14, ease: "power2.in" }, ${+(gr.end - 0.14).toFixed(2)});\n`;
+  }
   const grade = gr.form === "land" ? " brightness(.92) saturate(.85)" : ""; // la luz de pantalla satura la cámara
   tweens += `      tl.fromTo("#wvid${j}", { filter: "blur(14px)${grade}" }, { filter: "blur(0px)${grade}", duration: .2, ease: "power2.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
   tweens += `      tl.to("#wvid${j}", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, ${+(gr.end - 0.14).toFixed(2)});\n`;
@@ -331,7 +338,9 @@ const html = `<!doctype html>
       .wvid { object-fit: cover; border-radius: 22px; box-shadow: 0 26px 64px rgba(20,18,12,.24); background: #000;
         will-change: transform, opacity, filter; }
       .wvid.land { left: 24px; top: 796px; width: 1032px; height: 824px; }
-      .wvid.port { left: 270px; top: 837px; width: 540px; height: 619px; }
+      .wvid.port { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
+      .scrim { background: linear-gradient(180deg, rgba(8,8,8,.62) 0%, rgba(8,8,8,.30) 45%, rgba(8,8,8,0) 62%); }
+      .group.face .ln { color: #F6F3EC; text-shadow: 0 3px 18px rgba(0,0,0,.55); }
       .mgcard { position: absolute; left: 24px; top: 796px; width: 1032px; height: 824px; border-radius: 22px;
         background: #101010; color: #F6F3EC; box-shadow: 0 26px 64px rgba(20,18,12,.24); overflow: hidden;
         padding: 40px 52px; display: flex; flex-direction: column; justify-content: center; gap: 16px;
