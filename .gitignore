@@ -4,3 +4,4 @@ renders/
 renders-cloud/
 preview.log
 .DS_Store
+log*.txt

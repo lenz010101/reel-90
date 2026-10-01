@@ -1,0 +1,5 @@
+log*.txt
+timing.cjs
+snapshots/
+renders/
+renders-cloud/
