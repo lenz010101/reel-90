@@ -172,19 +172,31 @@ phrases.forEach((ph, i) => {
 });
 
 // ---- ventanas media (cards): pop + blur in / out ----
+// Los clips w_* son cortes del take original (base.mp4: transcripción vieja de
+// 92.35s). La voz y los titulares corren sobre la transcripción nueva (90s):
+// para que labios y compu queden calzados con la voz, TODO tiempo de timeline
+// se convierte a tiempo de fuente con SRC_RATIO (take original / timeline) y
+// los videos reproducen a esa misma tasa (si no, el desfase crece a lo largo
+// de cada ventana — hasta ~2s al final).
+const SRC_RATIO = 92.35 / TOTAL; // 1.02611
 let winClips = "";
 windows.forEach((gr, j) => {
-  // pre-roll: el joven aparece en 0 y la voz lo alcanza en 1.44
+  // pre-roll: el joven aparece en 0 y la voz lo alcanza en 1.44 (source 1.48 ≈
+  // onset de labios en el take original, 1.52)
   if (gr.v === "w_face1.mp4") gr.start = 0;
   const span = +(gr.end - gr.start).toFixed(2);
   if (span < 1.2) return;
   const base = gr.form === "port" ? (gr.v === "w_face1.mp4" ? 0 : 68) : ({ "w_gen.mp4": 10, "w_hands.mp4": 22, "w_mid.mp4": 32, "w_meta.mp4": 38, "w_meta2.mp4": 54 }[gr.v] || 0);
-  let off = gr.start / S - base;
-  // el joven debe entrar hablando: salta el arranque quieto / la mano en laptop
-  if (gr.v === "w_face1.mp4") off = 2.3;
-  if (gr.v === "w_face2.mp4" && gr.start < 80) off = 3.6;
-  off = Math.max(0, Math.min(off, Math.max(0, gr.len - span - 0.3)));
-  winClips += `      <video id="wvid${j}" class="clip wvid ${gr.form}" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}"></video>\n`;
+  const want = gr.start * SRC_RATIO - base;
+  const avail = gr.len - 0.05;
+  let rate = SRC_RATIO;
+  // want dentro de la fuente → arranca calzada; si no llega al final de la
+  // ventana, baja la tasa para gastar sólo el material que existe.
+  // want fuera de la fuente (b-roll por keyword, como v14) → alinea al final.
+  let off = want <= avail ? Math.max(0, want) : Math.max(0, avail - span * rate);
+  if (off + span * rate > avail) rate = Math.max(0.5, +((avail - off) / span).toFixed(5));
+  console.log(`  wvid${j} ${gr.v} t0=${gr.start} want=${want.toFixed(2)} off=${off.toFixed(2)} rate=${rate.toFixed(4)}`);
+  winClips += `      <video id="wvid${j}" class="clip wvid ${gr.form}" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" data-media-start="${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}" data-playback-rate="${rate.toFixed(5)}"></video>\n`;
   const wvidFrom = gr.form === "port" ? `{ opacity: 0, scale: .94 }` : `{ opacity: 0, scale: .94, y: 18 }`;
   tweens += `      tl.fromTo("#wvid${j}", ${wvidFrom}, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
   if (gr.form === "port") {
