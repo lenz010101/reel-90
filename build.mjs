@@ -154,7 +154,9 @@ phrases.forEach((ph, i) => {
   const onFace = windows.some((w) => w.start < end && w.end > t0);
   // feedback v19: en la ventana de Paso 3 (automatización) los subtítulos suben
   const paso3 = windows.some((w) => w.v === "w_meta2.mp4" && w.start < end && w.end > t0);
-  const grp = hasCard ? (paso3 ? "wcup" : "wc") : "nc";
+  // feedback v20: pastilla en Paso 1 (herramienta de IA, fondo claro)
+  const pill = windows.some((w) => w.v === "w_gen.mp4" && w.start < end && w.end > t0);
+  const grp = (hasCard ? (paso3 ? "wcup" : "wc") : "nc") + (pill ? " pillbox" : "");
   const lines = ph.map((b, j) => {
     const maxch = Math.max(...b.map((w) => w.text.length));
     const totch = b.reduce((a, w) => a + w.text.length, 0);
@@ -246,6 +248,17 @@ PUNCHES.forEach((t) => {
   console.log(`punch wvid${wi} @${t}`);
 });
 console.log("phrases=" + phrases.length + " beats=" + beats.length + " windows=" + windows.length);
+// feedback v20: el take hace un pull-back brusco a los ~23.5 — se vende como
+// corte intencional con punch leve + whoosh (no como tildazo de cuadro).
+{
+  const t = 23.5;
+  const wi = windows.findIndex((w) => w.start + 0.45 < t && t < w.end - 1.35);
+  if (wi >= 0) {
+    tweens += `      tl.fromTo("#wvid${wi}", { scale: 1 }, { scale: 1.12, duration: .26, ease: "power2.out", immediateRender: false }, ${t});\n`;
+    tweens += `      tl.to("#wvid${wi}", { scale: 1, duration: .3, ease: "power2.inOut" }, ${+(t + 0.95).toFixed(2)});\n`;
+    console.log(`punch suave wvid${wi} @${t}`);
+  }
+}
 
 // ---- kartel negro "Paso N": pop back.out ----
 const pasoPhrases = phrases.filter((ph) => ph.some((b) => b._paso));
@@ -273,6 +286,7 @@ const mgFrom = (sel, from, to, at) => `      tl.fromTo("${sel}", ${J(from)}, { .
 const mgTo = (sel, to, at) => `      tl.to("${sel}", ${J(to)}, ${at});\n`;
 mgs.forEach((m) => {
   if (pasoRanges.some((r) => r.s <= m.s && m.e <= r.e)) return; // 100% tapado por kartel negro
+  if (m.s >= 86 && m.e <= 87.3) return; // feedback v20: no tapar el CTA final con la placa checklist
   const n = mgN++;
   // si un kartel negro tapa el arranque, el MG entra cuando el negro se va
   let s = m.s;
@@ -339,6 +353,7 @@ const SFX = [
   [12.2, "whoosh", 0.57], [66.82, "whoosh", 0.57],
   [11.06, "pop", 0.72], [84.62, "pop", 0.72], [86.08, "pop", 0.72],
   [16.4, "click", 0.37], [31.9, "click", 0.37], [44.3, "click", 0.37],
+  [23.5, "whoosh", 0.57],
 ];
 let sfxClips = "";
 SFX.forEach(([t, f, d], i) => {
@@ -396,6 +411,8 @@ const html = `<!doctype html>
         filter: blur(60px) brightness(.55) saturate(1.25); box-shadow: none; }
       /* feedback v19: subtítulos más arriba en Paso 3 para no tapar el diagrama */
       .group.wcup { top: 0; height: 560px; justify-content: flex-end; padding-bottom: 30px; }
+      /* feedback v20: pastilla translúcida en Paso 1 (fondo claro + mano en movimiento) */
+      .group.pillbox .ln { background: rgba(5,5,8,.58); border-radius: 20px; padding: 6px 30px; }
       .wvid.port { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
       .scrim { background: linear-gradient(180deg, rgba(8,8,8,.62) 0%, rgba(8,8,8,.30) 45%, rgba(8,8,8,0) 62%); }
       .group.face .ln { color: #F6F3EC; text-shadow: 0 3px 18px rgba(0,0,0,.55); }
@@ -425,7 +442,7 @@ const html = `<!doctype html>
       .kw { color: #D2401F; display: inline-block; will-change: transform; }
       .grot .kw, .ln .kw { font-weight: 900; }
       em.kw { color: #D2401F; }
-      .ctastick { position: absolute; left: 0; top: 1495px; width: 1080px; display: flex; justify-content: center; }
+      .ctastick { position: absolute; left: 0; top: 1180px; width: 1080px; display: flex; justify-content: center; }
       .ctabox { background: #D2401F; color: #F6F3EC; border-radius: 30px; padding: 26px 70px 30px; text-align: center;
         box-shadow: 0 24px 60px rgba(20,18,12,.35); opacity: 0; will-change: transform, opacity; }
       .cta-kick { font-size: 32px; letter-spacing: 9px; }
