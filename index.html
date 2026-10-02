@@ -34,10 +34,12 @@
         opacity: 0; z-index: 2; }
       .wvid { object-fit: cover; border-radius: 22px; box-shadow: 0 26px 64px rgba(20,18,12,.24); background: #000;
         will-change: transform, opacity, filter; }
-      .wvid.land { left: 24px; top: 796px; width: 1032px; height: 824px; }
+      .wvid.land { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
       .wvid.port { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
       .scrim { background: linear-gradient(180deg, rgba(8,8,8,.62) 0%, rgba(8,8,8,.30) 45%, rgba(8,8,8,0) 62%); }
       .group.face .ln { color: #F6F3EC; text-shadow: 0 3px 18px rgba(0,0,0,.55); }
+      /* keyword sobre footage full-frame: acento claro (el naranja no llega a 3:1) */
+      .group.face .ln .kw, .group.face .ln em.kw { color: #E79886; }
       .mgcard { position: absolute; left: 24px; top: 796px; width: 1032px; height: 824px; border-radius: 22px;
         background: #101010; color: #F6F3EC; box-shadow: 0 26px 64px rgba(20,18,12,.24); overflow: hidden;
         padding: 40px 52px; display: flex; flex-direction: column; justify-content: center; gap: 16px;
@@ -87,9 +89,13 @@
       <video id="wvid0" class="clip wvid port" src="assets/vid/w_face1.mp4#t=0.00" data-media-start="0.00" muted playsinline preload="auto" data-start="0.00" data-duration="9.87" data-playback-rate="1.02611"></video>
       <div id="scrim0" class="clip scrim" data-start="0.00" data-duration="9.87"></div>
       <video id="wvid1" class="clip wvid land" src="assets/vid/w_gen.mp4#t=2.55" data-media-start="2.55" muted playsinline preload="auto" data-start="12.23" data-duration="17.31" data-playback-rate="0.94747"></video>
+      <div id="scrim1" class="clip scrim" data-start="12.23" data-duration="17.31"></div>
       <video id="wvid3" class="clip wvid land" src="assets/vid/w_meta.mp4#t=0.00" data-media-start="0.00" muted playsinline preload="auto" data-start="31.34" data-duration="21.63" data-playback-rate="1.02611"></video>
+      <div id="scrim3" class="clip scrim" data-start="31.34" data-duration="21.63"></div>
       <video id="wvid4" class="clip wvid land" src="assets/vid/w_meta.mp4#t=17.63" data-media-start="17.63" muted playsinline preload="auto" data-start="54.21" data-duration="8.09" data-playback-rate="0.78177"></video>
-      <video id="wvid5" class="clip wvid land" src="assets/vid/w_hands.mp4#t=7.68" data-media-start="7.68" muted playsinline preload="auto" data-start="62.18" data-duration="6.11" data-playback-rate="1.02611"></video>
+      <div id="scrim4" class="clip scrim" data-start="54.21" data-duration="8.09"></div>
+      <video id="wvid5" class="clip wvid port" src="assets/vid/w_contact.mp4#t=1.30" data-media-start="1.30" muted playsinline preload="auto" data-start="62.18" data-duration="6.11" data-playback-rate="1.02611"></video>
+      <div id="scrim5" class="clip scrim" data-start="62.18" data-duration="6.11"></div>
       <video id="wvid6" class="clip wvid port" src="assets/vid/w_face2.mp4#t=1.95" data-media-start="1.95" muted playsinline preload="auto" data-start="68.17" data-duration="17.87" data-playback-rate="1.02611"></video>
       <div id="scrim6" class="clip scrim" data-start="68.17" data-duration="17.87"></div>
       <video id="wvid7" class="clip wvid port" src="assets/vid/w_face2.mp4#t=21.48" data-media-start="21.48" muted playsinline preload="auto" data-start="87.20" data-duration="2.8" data-playback-rate="0.89397"></video>
@@ -118,105 +124,105 @@
       <div id="ph4" class="clip" data-start="9.11" data-duration="1.11"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl4_0" style="font-size:104px"><span>Escuchá.</span></div>
       </div></div>
-      <div id="ph6" class="clip" data-start="10.55" data-duration="3.35"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph6" class="clip" data-start="10.55" data-duration="3.35"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl6_0" style="font-size:104px"><span>vas</span> <span>a</span> <span>generar</span></div>
         <div class="ln grot" id="pl6_1" style="font-size:104px"><span>no</span> <span>uno</span> <span>ni</span> <span>dos,</span></div>
         <div class="ln grot" id="pl6_2" style="font-size:73px"><span>sino</span> <span>cuatro</span> <span class="kw">guiones</span></div>
       </div></div>
-      <div id="ph7" class="clip" data-start="13.43" data-duration="3.03"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph7" class="clip" data-start="13.43" data-duration="3.03"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl7_0" style="font-size:83px"><span>para</span> <span>hacer</span> <span>videos</span></div>
         <div class="ln grot" id="pl7_1" style="font-size:56px"><span>contando</span> <span>del</span> <span>lanzamiento</span></div>
         <div class="ln grot" id="pl7_2" style="font-size:104px"><span>de</span> <span>tu</span> <span>curso.</span></div>
       </div></div>
-      <div id="ph8" class="clip" data-start="15.99" data-duration="3.03"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph8" class="clip" data-start="15.99" data-duration="3.03"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl8_0" style="font-size:104px"><span>Para</span> <span>hacerlo,</span></div>
         <div class="ln grot" id="pl8_1" style="font-size:50px"><span>utilizaría</span> <span>esta</span> <span>herramienta</span></div>
         <div class="ln grot" id="pl8_2" style="font-size:50px"><span>de</span> <span>inteligencia</span> <span>artificial,</span></div>
       </div></div>
-      <div id="ph9" class="clip" data-start="18.55" data-duration="2.95"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph9" class="clip" data-start="18.55" data-duration="2.95"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl9_0" style="font-size:65px"><span>que</span> <span>colocando</span> <span>algunos</span></div>
         <div class="ln grot" id="pl9_1" style="font-size:62px"><span>datos</span> <span>sobre</span> <span>el</span> <span>curso</span> <span>y</span> <span>la</span></div>
         <div class="ln grot" id="pl9_2" style="font-size:69px"><em>academia,</em> <span>vas</span> <span>a</span> <span>poder</span></div>
       </div></div>
-      <div id="ph10" class="clip" data-start="21.03" data-duration="3.19"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph10" class="clip" data-start="21.03" data-duration="3.19"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl10_0" style="font-size:65px"><span>generar</span> <span>en</span> <span>automático</span></div>
         <div class="ln grot" id="pl10_1" style="font-size:78px"><span>cuatro</span> <span class="kw">guiones</span> <span>que</span></div>
         <div class="ln grot" id="pl10_2" style="font-size:54px"><span>ya</span> <span>están</span> <span>validados</span> <span>en</span> <span>más</span> <span>de</span></div>
       </div></div>
-      <div id="ph11" class="clip" data-start="23.75" data-duration="2.47"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph11" class="clip" data-start="23.75" data-duration="2.47"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl11_0" style="font-size:104px"><span>20</span> <span>academias,</span></div>
         <div class="ln grot" id="pl11_1" style="font-size:78px"><span>con</span> <span>una</span> <span>estructura</span></div>
         <div class="ln grot" id="pl11_2" style="font-size:96px"><span>que</span> <span>convierte.</span></div>
       </div></div>
-      <div id="ph12" class="clip" data-start="25.75" data-duration="3.26"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph12" class="clip" data-start="25.75" data-duration="3.26"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl12_0" style="font-size:62px"><span>Si</span> <span>querés</span> <span>el</span> <span>acceso</span> <span>a</span> <span>esa</span></div>
         <div class="ln grot" id="pl12_1" style="font-size:44px"><span>herramienta</span> <span>totalmente</span> <span class="kw">gratis,</span></div>
         <div class="ln grot" id="pl12_2" style="font-size:96px"><span>comenta</span> <span class="kw">guión</span> <span>y</span></div>
       </div></div>
-      <div id="ph13" class="clip" data-start="28.54" data-duration="1.35"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph13" class="clip" data-start="28.54" data-duration="1.35"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl13_0" style="font-size:69px"><span>te</span> <span>llega</span> <span>en</span> <span>un</span> <span>minuto.</span></div>
       </div></div>
-      <div id="ph15" class="clip" data-start="30.7" data-duration="2.95"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph15" class="clip" data-start="30.7" data-duration="2.95"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl15_0" style="font-size:78px"><span>a</span> <span class="kw">administrador</span> <span>de</span></div>
         <div class="ln grot" id="pl15_1" style="font-size:59px"><span class="kw">anuncios</span> <span>de</span> <span>meta</span> <span>y</span> <span>vamos</span> <span>a</span></div>
         <div class="ln grot" id="pl15_2" style="font-size:83px"><span>crear</span> <span>una</span> <span>campaña</span></div>
       </div></div>
-      <div id="ph16" class="clip" data-start="33.18" data-duration="2.79"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph16" class="clip" data-start="33.18" data-duration="2.79"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl16_0" style="font-size:56px"><span>de</span> <span class="kw">clientes</span> <span class="kw">potenciales,</span></div>
         <div class="ln grot" id="pl16_1" style="font-size:78px"><span>no</span> <span>de</span> <span>interacción.</span></div>
       </div></div>
-      <div id="ph17" class="clip" data-start="35.5" data-duration="3.43"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph17" class="clip" data-start="35.5" data-duration="3.43"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl17_0" style="font-size:50px"><span>Esto</span> <span>quiere</span> <span>decir</span> <span>que</span> <span>no</span> <span>vamos</span></div>
         <div class="ln grot" id="pl17_1" style="font-size:62px"><span>a</span> <span>recibir</span> <span>directamente</span></div>
         <div class="ln grot" id="pl17_2" style="font-size:73px"><span>mensajes</span> <span>a</span> <span class="kw">WhatsApp</span></div>
       </div></div>
-      <div id="ph18" class="clip" data-start="38.46" data-duration="2.55"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph18" class="clip" data-start="38.46" data-duration="2.55"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl18_0" style="font-size:104px"><span>con</span> <span>un</span> <span>montón</span></div>
         <div class="ln grot" id="pl18_1" style="font-size:89px"><span>de</span> <span>consultas</span> <span>que</span></div>
         <div class="ln grot" id="pl18_2" style="font-size:50px"><span>solamente</span> <span>preguntan</span> <span>precios</span></div>
       </div></div>
-      <div id="ph19" class="clip" data-start="40.54" data-duration="3.35"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph19" class="clip" data-start="40.54" data-duration="3.35"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl19_0" style="font-size:39px"><span>y</span> <span>después</span> <span>desaparecen,</span> <span>sino</span> <span>que</span> <span>vamos</span></div>
         <div class="ln grot" id="pl19_1" style="font-size:59px"><span>a</span> <span>llevarlos</span> <span>a</span> <span>un</span> <span>sitio</span> <span>web</span></div>
         <div class="ln grot" id="pl19_2" style="font-size:89px"><span>para</span> <span>que</span> <span>lleguen</span></div>
       </div></div>
-      <div id="ph20" class="clip" data-start="43.42" data-duration="2.78"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph20" class="clip" data-start="43.42" data-duration="2.78"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl20_0" style="font-size:96px"><span>un</span> <span>formulario</span> <span>y</span></div>
         <div class="ln grot" id="pl20_1" style="font-size:78px"><span>vamos</span> <span>a</span> <span>filtrarlos</span></div>
         <div class="ln grot" id="pl20_2" style="font-size:89px"><span>y</span> <span class="kw">nutrirlos</span> <span>para</span></div>
       </div></div>
-      <div id="ph21" class="clip" data-start="45.73" data-duration="3.35"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph21" class="clip" data-start="45.73" data-duration="3.35"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl21_0" style="font-size:56px"><span>que</span> <span>solamente</span> <span>consigamos</span></div>
         <div class="ln grot" id="pl21_1" style="font-size:69px"><span>gente</span> <span>calificada</span> <span>que</span></div>
         <div class="ln grot" id="pl21_2" style="font-size:104px"><span>después</span> <span>va</span> <span>a</span></div>
       </div></div>
-      <div id="ph22" class="clip" data-start="48.61" data-duration="3.99"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph22" class="clip" data-start="48.61" data-duration="3.99"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl22_0" style="font-size:54px"><span>retroalimentar</span> <span>la</span> <span>campaña</span></div>
         <div class="ln grot" id="pl22_1" style="font-size:89px"><span>para</span> <span>que</span> <span>consiga</span></div>
         <div class="ln grot" id="pl22_2" style="font-size:69px"><span>aún</span> <span>mejores</span> <span>perfiles</span></div>
       </div></div>
-      <div id="ph23" class="clip" data-start="52.13" data-duration="1.19"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph23" class="clip" data-start="52.13" data-duration="1.19"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl23_0" style="font-size:104px"><span>con</span> <span>el</span> <span>tiempo.</span></div>
       </div></div>
-      <div id="ph25" class="clip" data-start="54.21" data-duration="2.55"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph25" class="clip" data-start="54.21" data-duration="2.55"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl25_0" style="font-size:78px"><span>comunicar</span> <span>con</span> <span>cada</span></div>
         <div class="ln grot" id="pl25_1" style="font-size:104px"><span>uno</span> <span>de</span> <span>todos</span></div>
         <div class="ln grot" id="pl25_2" style="font-size:78px"><span>los</span> <span>interesados</span> <span>de</span></div>
       </div></div>
-      <div id="ph26" class="clip" data-start="56.29" data-duration="2.87"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph26" class="clip" data-start="56.29" data-duration="2.87"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl26_0" style="font-size:50px"><span>forma</span> <span>automática,</span> <span>a</span> <span>través</span> <span>de</span></div>
         <div class="ln grot" id="pl26_1" style="font-size:96px"><span>este</span> <em>sistema</em> <span>de</span></div>
         <div class="ln grot" id="pl26_2" style="font-size:61px"><span class="kw">automatizaciones.</span></div>
       </div></div>
-      <div id="ph27" class="clip" data-start="58.9" data-duration="3.75"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph27" class="clip" data-start="58.9" data-duration="3.75"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl27_0" style="font-size:52px"><span>Para</span> <span>que</span> <span>converse</span> <span>con</span> <span>ellos,</span></div>
         <div class="ln grot" id="pl27_1" style="font-size:52px"><span>responda</span> <span>sus</span> <span>dudas</span> <span>y</span> <span>les</span> <span>haga</span></div>
         <div class="ln grot" id="pl27_2" style="font-size:56px"><span>seguimientos</span> <span>hasta</span> <span>estén</span></div>
       </div></div>
-      <div id="ph28" class="clip" data-start="62.18" data-duration="1.18"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph28" class="clip" data-start="62.18" data-duration="1.18"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl28_0" style="font-size:69px"><span>listos</span> <span>para</span> <span>comprar.</span></div>
       </div></div>
-      <div id="ph29" class="clip" data-start="63.05" data-duration="2.79"><div class="group wc" data-layout-allow-overlap>
+      <div id="ph29" class="clip" data-start="63.05" data-duration="2.79"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl29_0" style="font-size:62px"><span>Una</span> <span>vez</span> <span>que</span> <span>la</span> <span>persona</span> <span>se</span></div>
         <div class="ln grot" id="pl29_1" style="font-size:78px"><span>quiere</span> <span>inscribir,</span></div>
         <div class="ln grot" id="pl29_2" style="font-size:89px"><span>recién</span> <span>ahí</span> <span>vamos</span></div>
@@ -437,17 +443,25 @@
       tl.to("#scrim0", { opacity: 0, duration: .14, ease: "power2.in" }, 9.73);
       tl.fromTo("#wvid0", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 0.00);
       tl.to("#wvid0", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 9.73);
-      tl.fromTo("#wvid1", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 12.23);
+      tl.fromTo("#wvid1", { opacity: 0, scale: .94 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 12.23);
+      tl.fromTo("#scrim1", { opacity: 0 }, { opacity: 1, duration: .2, ease: "power2.out", immediateRender: false }, 12.23);
+      tl.to("#scrim1", { opacity: 0, duration: .14, ease: "power2.in" }, 29.4);
       tl.fromTo("#wvid1", { filter: "blur(14px) brightness(.92) saturate(.85)" }, { filter: "blur(0px) brightness(.92) saturate(.85)", duration: .2, ease: "power2.out", immediateRender: false }, 12.23);
       tl.to("#wvid1", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 29.4);
-      tl.fromTo("#wvid3", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 31.34);
+      tl.fromTo("#wvid3", { opacity: 0, scale: .94 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 31.34);
+      tl.fromTo("#scrim3", { opacity: 0 }, { opacity: 1, duration: .2, ease: "power2.out", immediateRender: false }, 31.34);
+      tl.to("#scrim3", { opacity: 0, duration: .14, ease: "power2.in" }, 52.83);
       tl.fromTo("#wvid3", { filter: "blur(14px) brightness(.92) saturate(.85)" }, { filter: "blur(0px) brightness(.92) saturate(.85)", duration: .2, ease: "power2.out", immediateRender: false }, 31.34);
       tl.to("#wvid3", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 52.83);
-      tl.fromTo("#wvid4", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 54.21);
+      tl.fromTo("#wvid4", { opacity: 0, scale: .94 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 54.21);
+      tl.fromTo("#scrim4", { opacity: 0 }, { opacity: 1, duration: .2, ease: "power2.out", immediateRender: false }, 54.21);
+      tl.to("#scrim4", { opacity: 0, duration: .14, ease: "power2.in" }, 62.16);
       tl.fromTo("#wvid4", { filter: "blur(14px) brightness(.92) saturate(.85)" }, { filter: "blur(0px) brightness(.92) saturate(.85)", duration: .2, ease: "power2.out", immediateRender: false }, 54.21);
       tl.to("#wvid4", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 62.16);
-      tl.fromTo("#wvid5", { opacity: 0, scale: .94, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 62.18);
-      tl.fromTo("#wvid5", { filter: "blur(14px) brightness(.92) saturate(.85)" }, { filter: "blur(0px) brightness(.92) saturate(.85)", duration: .2, ease: "power2.out", immediateRender: false }, 62.18);
+      tl.fromTo("#wvid5", { opacity: 0, scale: .94 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 62.18);
+      tl.fromTo("#scrim5", { opacity: 0 }, { opacity: 1, duration: .2, ease: "power2.out", immediateRender: false }, 62.18);
+      tl.to("#scrim5", { opacity: 0, duration: .14, ease: "power2.in" }, 68.15);
+      tl.fromTo("#wvid5", { filter: "blur(14px)" }, { filter: "blur(0px)", duration: .2, ease: "power2.out", immediateRender: false }, 62.18);
       tl.to("#wvid5", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 68.15);
       tl.fromTo("#wvid6", { opacity: 0, scale: .94 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 68.17);
       tl.fromTo("#scrim6", { opacity: 0 }, { opacity: 1, duration: .2, ease: "power2.out", immediateRender: false }, 68.17);

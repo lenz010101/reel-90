@@ -17,6 +17,11 @@ const WMAP = [
 ];
 const FACE1 = { v: "w_face1.mp4", len: 11, form: "port" };
 const FACE2 = { v: "w_face2.mp4", len: 24.03, form: "port" };
+// feedback v17: en 1:03 se mostraba el clip del Administrador de Anuncios; la
+// frase "contacto/inscripción" (62.1-68) va con la toma correcta del take
+// original (base.mp4 63.8-70.1: la automatización que pasa el contacto),
+// extraída a w_contact.mp4 (portrait 9:16, llena el cuadro a cámara completa).
+const CONTACT = { v: "w_contact.mp4", len: 9, form: "port" };
 const winFileFor = (txt) => { for (const [re, spec] of WMAP) if (re.test(txt)) return spec; return null; };
 
 // ---- beats: frases cortas (max 3 palabras) ----
@@ -47,7 +52,8 @@ beats.forEach((b) => {
   b._txt = b.map((w) => w.text).join(" ");
   b._low = b._txt.toLowerCase();
   b._paso = /\bpaso\b/.test(b._low);
-  b._spec0 = b._paso ? null : (b[0].start < 10 ? FACE1 : b[0].start > 68 ? FACE2 : winFileFor(b._low));
+  b._spec0 = b._paso ? null : (b[0].start < 10 ? FACE1 : b[0].start > 68 ? FACE2
+    : b._t0 >= 62.1 && b._t0 < 68 ? CONTACT : winFileFor(b._low));
 });
 {
   let last = null;
@@ -139,7 +145,9 @@ phrases.forEach((ph, i) => {
   const dur = +Math.max(lastT - t0 + 0.35, Math.min(nextStart - t0, lastT - t0 + 2.2)).toFixed(2);
   const end = Math.min(TOTAL, +(t0 + dur).toFixed(2));
   const hasCard = windows.some((w) => w.start < end && w.end > t0) || overlapsMG(t0, end);
-  const onFace = windows.some((w) => w.form === "port" && w.start < end && w.end > t0);
+  // land ahora es full-frame (feedback v17: la pantalla debe llenar el 9:16):
+  // captions blancas + scrim también para esas ventanas.
+  const onFace = windows.some((w) => w.start < end && w.end > t0);
   const lines = ph.map((b, j) => {
     const maxch = Math.max(...b.map((w) => w.text.length));
     const totch = b.reduce((a, w) => a + w.text.length, 0);
@@ -186,7 +194,7 @@ windows.forEach((gr, j) => {
   if (gr.v === "w_face1.mp4") gr.start = 0;
   const span = +(gr.end - gr.start).toFixed(2);
   if (span < 1.2) return;
-  const base = gr.form === "port" ? (gr.v === "w_face1.mp4" ? 0 : 68) : ({ "w_gen.mp4": 10, "w_hands.mp4": 22, "w_mid.mp4": 32, "w_meta.mp4": 38, "w_meta2.mp4": 54 }[gr.v] || 0);
+  const base = ({ "w_face1.mp4": 0, "w_face2.mp4": 68, "w_contact.mp4": 62.5, "w_gen.mp4": 10, "w_hands.mp4": 22, "w_mid.mp4": 32, "w_meta.mp4": 38, "w_meta2.mp4": 54 })[gr.v] || 0;
   const want = gr.start * SRC_RATIO - base;
   const avail = gr.len - 0.05;
   let rate = SRC_RATIO;
@@ -197,13 +205,12 @@ windows.forEach((gr, j) => {
   if (off + span * rate > avail) rate = Math.max(0.5, +((avail - off) / span).toFixed(5));
   console.log(`  wvid${j} ${gr.v} t0=${gr.start} want=${want.toFixed(2)} off=${off.toFixed(2)} rate=${rate.toFixed(4)}`);
   winClips += `      <video id="wvid${j}" class="clip wvid ${gr.form}" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" data-media-start="${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}" data-playback-rate="${rate.toFixed(5)}"></video>\n`;
-  const wvidFrom = gr.form === "port" ? `{ opacity: 0, scale: .94 }` : `{ opacity: 0, scale: .94, y: 18 }`;
+  const wvidFrom = `{ opacity: 0, scale: .94 }`;
   tweens += `      tl.fromTo("#wvid${j}", ${wvidFrom}, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
-  if (gr.form === "port") {
-    winClips += `      <div id="scrim${j}" class="clip scrim" data-start="${gr.start.toFixed(2)}" data-duration="${span}"></div>\n`;
-    tweens += `      tl.fromTo("#scrim${j}", { opacity: 0 }, { opacity: 1, duration: .2, ease: "power2.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
-    tweens += `      tl.to("#scrim${j}", { opacity: 0, duration: .14, ease: "power2.in" }, ${+(gr.end - 0.14).toFixed(2)});\n`;
-  }
+  // scrim en todas las ventanas (texto blanco encima del footage full-frame)
+  winClips += `      <div id="scrim${j}" class="clip scrim" data-start="${gr.start.toFixed(2)}" data-duration="${span}"></div>\n`;
+  tweens += `      tl.fromTo("#scrim${j}", { opacity: 0 }, { opacity: 1, duration: .2, ease: "power2.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
+  tweens += `      tl.to("#scrim${j}", { opacity: 0, duration: .14, ease: "power2.in" }, ${+(gr.end - 0.14).toFixed(2)});\n`;
   const grade = gr.form === "land" ? " brightness(.92) saturate(.85)" : ""; // la luz de pantalla satura la cámara
   tweens += `      tl.fromTo("#wvid${j}", { filter: "blur(14px)${grade}" }, { filter: "blur(0px)${grade}", duration: .2, ease: "power2.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
   tweens += `      tl.to("#wvid${j}", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, ${+(gr.end - 0.14).toFixed(2)});\n`;
@@ -360,10 +367,12 @@ const html = `<!doctype html>
         opacity: 0; z-index: 2; }
       .wvid { object-fit: cover; border-radius: 22px; box-shadow: 0 26px 64px rgba(20,18,12,.24); background: #000;
         will-change: transform, opacity, filter; }
-      .wvid.land { left: 24px; top: 796px; width: 1032px; height: 824px; }
+      .wvid.land { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
       .wvid.port { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
       .scrim { background: linear-gradient(180deg, rgba(8,8,8,.62) 0%, rgba(8,8,8,.30) 45%, rgba(8,8,8,0) 62%); }
       .group.face .ln { color: #F6F3EC; text-shadow: 0 3px 18px rgba(0,0,0,.55); }
+      /* keyword sobre footage full-frame: acento claro (el naranja no llega a 3:1) */
+      .group.face .ln .kw, .group.face .ln em.kw { color: #E79886; }
       .mgcard { position: absolute; left: 24px; top: 796px; width: 1032px; height: 824px; border-radius: 22px;
         background: #101010; color: #F6F3EC; box-shadow: 0 26px 64px rgba(20,18,12,.24); overflow: hidden;
         padding: 40px 52px; display: flex; flex-direction: column; justify-content: center; gap: 16px;
