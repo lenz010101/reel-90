@@ -152,6 +152,9 @@ phrases.forEach((ph, i) => {
   // land ahora es full-frame (feedback v17: la pantalla debe llenar el 9:16):
   // captions blancas + scrim también para esas ventanas.
   const onFace = windows.some((w) => w.start < end && w.end > t0);
+  // feedback v19: en la ventana de Paso 3 (automatización) los subtítulos suben
+  const paso3 = windows.some((w) => w.v === "w_meta2.mp4" && w.start < end && w.end > t0);
+  const grp = hasCard ? (paso3 ? "wcup" : "wc") : "nc";
   const lines = ph.map((b, j) => {
     const maxch = Math.max(...b.map((w) => w.text.length));
     const totch = b.reduce((a, w) => a + w.text.length, 0);
@@ -176,7 +179,7 @@ phrases.forEach((ph, i) => {
     }
     return `        <div class="ln grot${hero ? " hero" : ""}" id="pl${i}_${j}" style="font-size:${fs}px">${inner}</div>\n`;
   }).join("");
-  clips += `      <div id="ph${i}" class="clip" data-start="${t0}" data-duration="${(end - t0).toFixed(2)}"><div class="group ${hasCard ? "wc" : "nc"}${onFace ? " face" : ""}" data-layout-allow-overlap>\n${lines}      </div></div>\n`;
+  clips += `      <div id="ph${i}" class="clip" data-start="${t0}" data-duration="${(end - t0).toFixed(2)}"><div class="group ${grp}${onFace ? " face" : ""}" data-layout-allow-overlap>\n${lines}      </div></div>\n`;
   console.log(`ph${i} ${t0}→${end} ${ph.map((b) => b._txt).join(" | ")}`);
   // salida: termina (casi) cuando entra la frase siguiente — evita texto doble
   const exitAt = i + 1 < phrases.length ? Math.max(t0 + 0.1, Math.min(end - 0.13, nextStart - 0.07)) : end - 0.13;
@@ -216,6 +219,12 @@ windows.forEach((gr, j) => {
     fitCls = " fit-contain";
   }
   console.log(`  wvid${j} ${gr.v} t0=${gr.start} want=${want.toFixed(2)} off=${off.toFixed(2)} rate=${rate.toFixed(4)}`);
+  // feedback v19: lienzo borroso detrás del contain (misma fuente, mismo sync)
+  if (fitCls) {
+    winClips += `      <video id="wvid${j}b" class="clip wvid ${gr.form} blurbg" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" data-media-start="${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}" data-playback-rate="${rate.toFixed(5)}"></video>\n`;
+    tweens += `      tl.fromTo("#wvid${j}b", { opacity: 0 }, { opacity: 1, duration: .2, ease: "power2.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
+    tweens += `      tl.to("#wvid${j}b", { opacity: 0, duration: .14, ease: "power2.in" }, ${+(gr.end - 0.14).toFixed(2)});\n`;
+  }
   winClips += `      <video id="wvid${j}" class="clip wvid ${gr.form}${fitCls}" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" data-media-start="${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}" data-playback-rate="${rate.toFixed(5)}"></video>\n`;
   const wvidFrom = `{ opacity: 0, scale: .94 }`;
   tweens += `      tl.fromTo("#wvid${j}", ${wvidFrom}, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
@@ -382,6 +391,11 @@ const html = `<!doctype html>
       .wvid.land { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
       /* feedback v18: Paso 2 (Ads Manager) legible — UI completa, sin crop */
       .wvid.fit-contain { object-fit: contain; object-position: center bottom; background: #000; }
+      /* feedback v19: lienzo borroso estilo CapCut — rellena el fondo sin bordes negros */
+      .wvid.blurbg { left: -100px; top: -100px; width: 1280px; height: 2120px; border-radius: 0;
+        filter: blur(60px) brightness(.55) saturate(1.25); box-shadow: none; }
+      /* feedback v19: subtítulos más arriba en Paso 3 para no tapar el diagrama */
+      .group.wcup { top: 0; height: 560px; justify-content: flex-end; padding-bottom: 30px; }
       .wvid.port { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
       .scrim { background: linear-gradient(180deg, rgba(8,8,8,.62) 0%, rgba(8,8,8,.30) 45%, rgba(8,8,8,0) 62%); }
       .group.face .ln { color: #F6F3EC; text-shadow: 0 3px 18px rgba(0,0,0,.55); }

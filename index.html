@@ -37,6 +37,11 @@
       .wvid.land { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
       /* feedback v18: Paso 2 (Ads Manager) legible — UI completa, sin crop */
       .wvid.fit-contain { object-fit: contain; object-position: center bottom; background: #000; }
+      /* feedback v19: lienzo borroso estilo CapCut — rellena el fondo sin bordes negros */
+      .wvid.blurbg { left: -100px; top: -100px; width: 1280px; height: 2120px; border-radius: 0;
+        filter: blur(60px) brightness(.55) saturate(1.25); box-shadow: none; }
+      /* feedback v19: subtítulos más arriba en Paso 3 para no tapar el diagrama */
+      .group.wcup { top: 0; height: 560px; justify-content: flex-end; padding-bottom: 30px; }
       .wvid.port { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
       .scrim { background: linear-gradient(180deg, rgba(8,8,8,.62) 0%, rgba(8,8,8,.30) 45%, rgba(8,8,8,0) 62%); }
       .group.face .ln { color: #F6F3EC; text-shadow: 0 3px 18px rgba(0,0,0,.55); }
@@ -92,6 +97,7 @@
       <div id="scrim0" class="clip scrim" data-start="0.00" data-duration="9.87"></div>
       <video id="wvid1" class="clip wvid land" src="assets/vid/w_gen.mp4#t=2.55" data-media-start="2.55" muted playsinline preload="auto" data-start="12.23" data-duration="17.31" data-playback-rate="0.94747"></video>
       <div id="scrim1" class="clip scrim" data-start="12.23" data-duration="17.31"></div>
+      <video id="wvid3b" class="clip wvid land blurbg" src="assets/vid/w_meta.mp4#t=0.00" data-media-start="0.00" muted playsinline preload="auto" data-start="31.34" data-duration="21.63" data-playback-rate="0.69348"></video>
       <video id="wvid3" class="clip wvid land fit-contain" src="assets/vid/w_meta.mp4#t=0.00" data-media-start="0.00" muted playsinline preload="auto" data-start="31.34" data-duration="21.63" data-playback-rate="0.69348"></video>
       <div id="scrim3" class="clip scrim" data-start="31.34" data-duration="21.63"></div>
       <video id="wvid4" class="clip wvid land" src="assets/vid/w_meta2.mp4#t=1.63" data-media-start="1.63" muted playsinline preload="auto" data-start="54.21" data-duration="8.09" data-playback-rate="1.02611"></video>
@@ -206,22 +212,22 @@
       <div id="ph23" class="clip" data-start="52.13" data-duration="1.19"><div class="group wc face" data-layout-allow-overlap>
         <div class="ln grot" id="pl23_0" style="font-size:104px"><span>con</span> <span>el</span> <span>tiempo.</span></div>
       </div></div>
-      <div id="ph25" class="clip" data-start="54.21" data-duration="2.55"><div class="group wc face" data-layout-allow-overlap>
+      <div id="ph25" class="clip" data-start="54.21" data-duration="2.55"><div class="group wcup face" data-layout-allow-overlap>
         <div class="ln grot" id="pl25_0" style="font-size:78px"><span>comunicar</span> <span>con</span> <span>cada</span></div>
         <div class="ln grot" id="pl25_1" style="font-size:104px"><span>uno</span> <span>de</span> <span>todos</span></div>
         <div class="ln grot" id="pl25_2" style="font-size:78px"><span>los</span> <span>interesados</span> <span>de</span></div>
       </div></div>
-      <div id="ph26" class="clip" data-start="56.29" data-duration="2.87"><div class="group wc face" data-layout-allow-overlap>
+      <div id="ph26" class="clip" data-start="56.29" data-duration="2.87"><div class="group wcup face" data-layout-allow-overlap>
         <div class="ln grot" id="pl26_0" style="font-size:50px"><span>forma</span> <span>automática,</span> <span>a</span> <span>través</span> <span>de</span></div>
         <div class="ln grot" id="pl26_1" style="font-size:96px"><span>este</span> <em>sistema</em> <span>de</span></div>
         <div class="ln grot" id="pl26_2" style="font-size:61px"><span class="kw">automatizaciones.</span></div>
       </div></div>
-      <div id="ph27" class="clip" data-start="58.9" data-duration="3.75"><div class="group wc face" data-layout-allow-overlap>
+      <div id="ph27" class="clip" data-start="58.9" data-duration="3.75"><div class="group wcup face" data-layout-allow-overlap>
         <div class="ln grot" id="pl27_0" style="font-size:52px"><span>Para</span> <span>que</span> <span>converse</span> <span>con</span> <span>ellos,</span></div>
         <div class="ln grot" id="pl27_1" style="font-size:52px"><span>responda</span> <span>sus</span> <span>dudas</span> <span>y</span> <span>les</span> <span>haga</span></div>
         <div class="ln grot" id="pl27_2" style="font-size:56px"><span>seguimientos</span> <span>hasta</span> <span>estén</span></div>
       </div></div>
-      <div id="ph28" class="clip" data-start="62.18" data-duration="1.18"><div class="group wc face" data-layout-allow-overlap>
+      <div id="ph28" class="clip" data-start="62.18" data-duration="1.18"><div class="group wcup face" data-layout-allow-overlap>
         <div class="ln grot" id="pl28_0" style="font-size:69px"><span>listos</span> <span>para</span> <span>comprar.</span></div>
       </div></div>
       <div id="ph29" class="clip" data-start="63.05" data-duration="2.79"><div class="group wc face" data-layout-allow-overlap>
@@ -450,6 +456,8 @@
       tl.to("#scrim1", { opacity: 0, duration: .14, ease: "power2.in" }, 29.4);
       tl.fromTo("#wvid1", { filter: "blur(14px) brightness(.92) saturate(.85)" }, { filter: "blur(0px) brightness(.92) saturate(.85)", duration: .2, ease: "power2.out", immediateRender: false }, 12.23);
       tl.to("#wvid1", { scale: .95, opacity: 0, duration: .14, ease: "power2.in" }, 29.4);
+      tl.fromTo("#wvid3b", { opacity: 0 }, { opacity: 1, duration: .2, ease: "power2.out", immediateRender: false }, 31.34);
+      tl.to("#wvid3b", { opacity: 0, duration: .14, ease: "power2.in" }, 52.83);
       tl.fromTo("#wvid3", { opacity: 0, scale: .94 }, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, 31.34);
       tl.fromTo("#scrim3", { opacity: 0 }, { opacity: 1, duration: .2, ease: "power2.out", immediateRender: false }, 31.34);
       tl.to("#scrim3", { opacity: 0, duration: .14, ease: "power2.in" }, 52.83);
