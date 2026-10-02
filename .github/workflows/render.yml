@@ -34,7 +34,7 @@ jobs:
           path: ~/ffmpeg-static
           key: ffmpeg-static-amd64
       - name: Install HyperFrames (pinned)
-        run: npx --yes hyperframes@0.8.92 --version
+        run: npx --yes hyperframes@0.8.111 --version
       - name: Install FFmpeg static (solo si no hay cache)
         if: steps.ffmpeg-cache.outputs.cache-hit != 'true'
         run: |
@@ -47,11 +47,11 @@ jobs:
           echo "$HOME/ffmpeg-static" >> "$GITHUB_PATH"
           "$HOME/ffmpeg-static/ffmpeg" -version | head -1
       - name: Lint (guardia rápida — el check completo corre local antes de subir)
-        run: npx --yes hyperframes@0.8.92 lint .
+        run: npx --yes hyperframes@0.8.111 lint .
       - name: Render MP4
         # --no-low-memory-mode: en runners de 16GB evita el pin a 1 worker por RAM
         # --workers=auto: el motor calibra el óptimo del runner en cada run (~1s)
-        run: npx --yes hyperframes@0.8.92 render . --skill=motion-graphics -q high --no-low-memory-mode --workers=auto
+        run: npx --yes hyperframes@0.8.111 render . --skill=motion-graphics -q high --no-low-memory-mode --workers=auto
         env:
           # Engancha solo si hay GPU; sin GPU cae solo a beginframe (gratis)
           PRODUCER_EXPERIMENTAL_FAST_CAPTURE: "true"
