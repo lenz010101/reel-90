@@ -22,6 +22,9 @@ const FACE2 = { v: "w_face2.mp4", len: 24.03, form: "port" };
 // original (base.mp4 63.8-70.1: la automatización que pasa el contacto),
 // extraída a w_contact.mp4 (portrait 9:16, llena el cuadro a cámara completa).
 const CONTACT = { v: "w_contact.mp4", len: 9, form: "port" };
+// feedback v18: la automatización (take 54+) entraba a los 47; va con Paso 3.
+// Ventana 53.0-62.1 con w_meta2 (take 54-70, automatización MADRE).
+const META2 = { v: "w_meta2.mp4", len: 16, form: "land" };
 const winFileFor = (txt) => { for (const [re, spec] of WMAP) if (re.test(txt)) return spec; return null; };
 
 // ---- beats: frases cortas (max 3 palabras) ----
@@ -53,7 +56,8 @@ beats.forEach((b) => {
   b._low = b._txt.toLowerCase();
   b._paso = /\bpaso\b/.test(b._low);
   b._spec0 = b._paso ? null : (b[0].start < 10 ? FACE1 : b[0].start > 68 ? FACE2
-    : b._t0 >= 62.1 && b._t0 < 68 ? CONTACT : winFileFor(b._low));
+    : b._t0 >= 62.1 && b._t0 < 68 ? CONTACT
+    : b._t0 >= 53.0 && b._t0 < 62.1 ? META2 : winFileFor(b._low));
 });
 {
   let last = null;
@@ -203,8 +207,16 @@ windows.forEach((gr, j) => {
   // want fuera de la fuente (b-roll por keyword, como v14) → alinea al final.
   let off = want <= avail ? Math.max(0, want) : Math.max(0, avail - span * rate);
   if (off + span * rate > avail) rate = Math.max(0.5, +((avail - off) / span).toFixed(5));
+  // feedback v18 Paso 2 (Ads Manager, ventana ~31.34): no pasar del take 53
+  // (ahí empieza la automatización) -> extiende la toma anterior hasta ~52.5
+  // bajando la tasa; y se muestra con contain para que la UI se lea completa.
+  let fitCls = "";
+  if (gr.v === "w_meta.mp4" && gr.start > 30 && gr.start < 32) {
+    rate = Math.min(rate, +(15.0 / span).toFixed(5));
+    fitCls = " fit-contain";
+  }
   console.log(`  wvid${j} ${gr.v} t0=${gr.start} want=${want.toFixed(2)} off=${off.toFixed(2)} rate=${rate.toFixed(4)}`);
-  winClips += `      <video id="wvid${j}" class="clip wvid ${gr.form}" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" data-media-start="${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}" data-playback-rate="${rate.toFixed(5)}"></video>\n`;
+  winClips += `      <video id="wvid${j}" class="clip wvid ${gr.form}${fitCls}" src="assets/vid/${gr.v}#t=${off.toFixed(2)}" data-media-start="${off.toFixed(2)}" muted playsinline preload="auto" data-start="${gr.start.toFixed(2)}" data-duration="${span}" data-playback-rate="${rate.toFixed(5)}"></video>\n`;
   const wvidFrom = `{ opacity: 0, scale: .94 }`;
   tweens += `      tl.fromTo("#wvid${j}", ${wvidFrom}, { opacity: 1, scale: 1, y: 0, duration: .2, ease: "power3.out", immediateRender: false }, ${gr.start.toFixed(2)});\n`;
   // scrim en todas las ventanas (texto blanco encima del footage full-frame)
@@ -368,6 +380,8 @@ const html = `<!doctype html>
       .wvid { object-fit: cover; border-radius: 22px; box-shadow: 0 26px 64px rgba(20,18,12,.24); background: #000;
         will-change: transform, opacity, filter; }
       .wvid.land { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
+      /* feedback v18: Paso 2 (Ads Manager) legible — UI completa, sin crop */
+      .wvid.fit-contain { object-fit: contain; object-position: center bottom; background: #000; }
       .wvid.port { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
       .scrim { background: linear-gradient(180deg, rgba(8,8,8,.62) 0%, rgba(8,8,8,.30) 45%, rgba(8,8,8,0) 62%); }
       .group.face .ln { color: #F6F3EC; text-shadow: 0 3px 18px rgba(0,0,0,.55); }

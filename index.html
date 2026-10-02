@@ -35,6 +35,8 @@
       .wvid { object-fit: cover; border-radius: 22px; box-shadow: 0 26px 64px rgba(20,18,12,.24); background: #000;
         will-change: transform, opacity, filter; }
       .wvid.land { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
+      /* feedback v18: Paso 2 (Ads Manager) legible — UI completa, sin crop */
+      .wvid.fit-contain { object-fit: contain; object-position: center bottom; background: #000; }
       .wvid.port { left: 0; top: 0; width: 1080px; height: 1920px; border-radius: 0; }
       .scrim { background: linear-gradient(180deg, rgba(8,8,8,.62) 0%, rgba(8,8,8,.30) 45%, rgba(8,8,8,0) 62%); }
       .group.face .ln { color: #F6F3EC; text-shadow: 0 3px 18px rgba(0,0,0,.55); }
@@ -90,9 +92,9 @@
       <div id="scrim0" class="clip scrim" data-start="0.00" data-duration="9.87"></div>
       <video id="wvid1" class="clip wvid land" src="assets/vid/w_gen.mp4#t=2.55" data-media-start="2.55" muted playsinline preload="auto" data-start="12.23" data-duration="17.31" data-playback-rate="0.94747"></video>
       <div id="scrim1" class="clip scrim" data-start="12.23" data-duration="17.31"></div>
-      <video id="wvid3" class="clip wvid land" src="assets/vid/w_meta.mp4#t=0.00" data-media-start="0.00" muted playsinline preload="auto" data-start="31.34" data-duration="21.63" data-playback-rate="1.02611"></video>
+      <video id="wvid3" class="clip wvid land fit-contain" src="assets/vid/w_meta.mp4#t=0.00" data-media-start="0.00" muted playsinline preload="auto" data-start="31.34" data-duration="21.63" data-playback-rate="0.69348"></video>
       <div id="scrim3" class="clip scrim" data-start="31.34" data-duration="21.63"></div>
-      <video id="wvid4" class="clip wvid land" src="assets/vid/w_meta.mp4#t=17.63" data-media-start="17.63" muted playsinline preload="auto" data-start="54.21" data-duration="8.09" data-playback-rate="0.78177"></video>
+      <video id="wvid4" class="clip wvid land" src="assets/vid/w_meta2.mp4#t=1.63" data-media-start="1.63" muted playsinline preload="auto" data-start="54.21" data-duration="8.09" data-playback-rate="1.02611"></video>
       <div id="scrim4" class="clip scrim" data-start="54.21" data-duration="8.09"></div>
       <video id="wvid5" class="clip wvid port" src="assets/vid/w_contact.mp4#t=1.30" data-media-start="1.30" muted playsinline preload="auto" data-start="62.18" data-duration="6.11" data-playback-rate="1.02611"></video>
       <div id="scrim5" class="clip scrim" data-start="62.18" data-duration="6.11"></div>
