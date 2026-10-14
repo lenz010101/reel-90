@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>VIRAL — NOVA X1 30s</title>
+<style>
+  html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#08080c;
+               font-family: system-ui, "Segoe UI", Roboto, sans-serif; }
+  #root { position:relative; width:100%; height:100%; color:#fff; }
+
+  #bg { position:absolute; inset:0; background:#08080c; }
+  .orb { position:absolute; border-radius:50%; filter: blur(100px); }
+  .orbA { left:-200px; top:300px; width:600px; height:600px; background:#6d28d9; opacity:.5; }
+  .orbB { right:-240px; top:1100px; width:640px; height:640px; background:#0891b2; opacity:.4; }
+
+  /* flash de transición */
+  #flash { position:absolute; inset:0; background:#fff; opacity:0; }
+  /* shake wrapper global */
+  #world { position:absolute; inset:0; }
+
+  /* escena genérica de texto gigante */
+  .ktext { position:absolute; left:60px; right:60px; top:36%; text-align:center; display:block; }
+  .kline { display:block; font-size:120px; font-weight:900; letter-spacing:2px; line-height:1.08; }
+  .kword { display:inline-block; margin:0 12px; }
+  .hl { color:#ffe14d; }
+  .ac { color:#22d3ee; }
+  .vt { color:#c084fc; }
+
+  /* caption inferior estilo tiktok */
+  .caption { position:absolute; left:50px; right:50px; bottom:18%; text-align:center; display:block; }
+  .cword { display:inline-block; margin:0 8px; padding:6px 16px; border-radius:12px;
+           font-size:52px; font-weight:800; background:rgba(0,0,0,.55); }
+  .cword.on { background:#ffe14d; color:#000; }
+
+  /* datos flotantes */
+  .fact { position:absolute; left:70px; right:70px; top:30%; text-align:center; display:block; }
+  .factNum { display:block; font-size:230px; font-weight:900; color:#22d3ee; }
+  .factLabel { display:block; font-size:52px; font-weight:700; letter-spacing:4px; color:#e2e8f0; }
+
+  /* checkmarks */
+  .checkRow { display:flex; align-items:center; justify-content:center; margin-top:36px; }
+  .checkRow .tick { display:inline-block; font-size:64px; color:#4ade80; font-weight:900; margin-right:22px; }
+  .checkRow .txt { display:inline-block; font-size:64px; font-weight:800; }
+
+  /* marca agua */
+  #watermark { position:absolute; right:48px; top:56px; font-size:28px; font-weight:800;
+               letter-spacing:6px; color:rgba(255,255,255,.55); }
+
+  /* sticker rebote */
+  #sticker { position:absolute; left:0; right:0; top:16%; text-align:center; display:block; }
+  #sticker .pill { display:inline-block; padding:18px 46px; border-radius:60px; background:#ef4444;
+                   font-size:54px; font-weight:900; letter-spacing:2px; }
+
+  /* CTA */
+  #ctaBox { position:absolute; left:80px; right:80px; top:34%; text-align:center; display:block; }
+  #ctaTitle { display:block; font-size:150px; font-weight:900; color:#ffe14d; }
+  #ctaSub { display:block; font-size:56px; font-weight:700; color:#e2e8f0; margin-top:20px; }
+  #ctaBtn { display:inline-block; margin-top:70px; padding:26px 80px; border-radius:70px;
+            background:linear-gradient(90deg,#a78bfa,#22d3ee); font-size:58px; font-weight:900; color:#000; }
+
+  /* barra progreso tiktok */
+  #pbar { position:absolute; left:60px; right:60px; bottom:40px; height:10px;
+          border-radius:5px; background:rgba(255,255,255,.15); }
+  #pfill { position:absolute; left:0; top:0; bottom:0; width:100%; border-radius:5px;
+           transform-origin:left center; display:block; background:#ffe14d; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="root" data-width="1080" data-height="1920" data-duration="30">
+  <div id="bg"></div>
+  <div class="orb orbA"></div>
+  <div class="orb orbB"></div>
+
+  <div id="world">
+    <div id="watermark">@novamobile</div>
+
+    <!-- HOOK 0-3.5 -->
+    <div class="ktext" id="hook">
+      <span class="kline"><span class="kword">ESTE</span> <span class="kword hl">CELULAR</span></span>
+      <span class="kline"><span class="kword">ROMPIÓ</span> <span class="kword ac">TODO</span></span>
+    </div>
+    <div class="caption" id="hookCap">
+      <span class="cword">y</span><span class="cword">cuesta</span><span class="cword">la</span><span class="cword">mitad</span>
+    </div>
+
+    <!-- FACT 1 4-9 -->
+    <div class="fact" id="fact1">
+      <span class="factNum">200</span>
+      <span class="factLabel">MEGAPÍXELES</span>
+    </div>
+    <div class="caption" id="cap1">
+      <span class="cword">la</span><span class="cword">cámara</span><span class="cword">es</span><span class="cword hl">absurda</span>
+    </div>
+
+    <!-- FACT 2 9-14 -->
+    <div class="fact" id="fact2">
+      <span class="factNum">48</span>
+      <span class="factLabel">HORAS DE BATERÍA</span>
+    </div>
+    <div class="caption" id="cap2">
+      <span class="cword">sin</span><span class="cword">cargar</span><span class="cword hl">2</span><span class="cword">días</span>
+    </div>
+
+    <!-- STICKER 14-16.5 -->
+    <div id="sticker"><span class="pill">PERO ESPERÁ…</span></div>
+
+    <!-- FACT 3 16.5-22 -->
+    <div class="fact" id="fact3">
+      <span class="factNum">120</span>
+      <span class="factLabel">HZ · PANTALLA OLED</span>
+    </div>
+    <div class="caption" id="cap3">
+      <span class="cword">se</span><span class="cword">mueve</span><span class="cword hl">como</span><span class="cword">mantequilla</span>
+    </div>
+
+    <!-- CHECKS 22-26.5 -->
+    <div class="fact" id="checks">
+      <div class="checkRow"><span class="tick">✓</span><span class="txt">5G ULTRA</span></div>
+      <div class="checkRow"><span class="tick">✓</span><span class="txt">CHIP 4 NM</span></div>
+      <div class="checkRow"><span class="tick">✓</span><span class="txt vt">IA EN TODO</span></div>
+    </div>
+
+    <!-- CTA 26.5-30 -->
+    <div id="ctaBox">
+      <span id="ctaTitle">NOVA X1</span>
+      <span id="ctaSub">El futuro, en tu mano.</span>
+      <span id="ctaBtn">SEGUIME PARA MÁS</span>
+    </div>
+  </div>
+
+  <div id="flash"></div>
+  <div id="pbar"><div id="pfill"></div></div>
+
+  <audio id="bgm" src="assets/bgm.wav" data-start="0" data-duration="30" data-volume="0.5"></audio>
+  <audio id="w0" src="assets/sfx/whoosh.mp3" data-start="0.1" data-duration="0.6" data-volume="0.9"></audio>
+  <audio id="p0" src="assets/sfx/pop.mp3" data-start="1.5" data-duration="0.5" data-volume="0.9"></audio>
+  <audio id="wA" src="assets/sfx/whoosh-big.mp3" data-start="3.9" data-duration="1.2" data-volume="0.9"></audio>
+  <audio id="wB" src="assets/sfx/whoosh-big.mp3" data-start="8.9" data-duration="1.2" data-volume="0.9"></audio>
+  <audio id="pB" src="assets/sfx/pop.mp3" data-start="13.9" data-duration="0.5" data-volume="0.9"></audio>
+  <audio id="wC" src="assets/sfx/whoosh-big.mp3" data-start="16.4" data-duration="1.2" data-volume="0.9"></audio>
+  <audio id="p1" src="assets/sfx/click.mp3" data-start="22.1" data-duration="0.4" data-volume="0.9"></audio>
+  <audio id="p2" src="assets/sfx/click.mp3" data-start="23.1" data-duration="0.4" data-volume="0.9"></audio>
+  <audio id="p3" src="assets/sfx/click.mp3" data-start="24.1" data-duration="0.4" data-volume="0.9"></audio>
+  <audio id="wD" src="assets/sfx/whoosh-big.mp3" data-start="26.4" data-duration="1.5" data-volume="0.9"></audio>
+</div>
+
+<script src="assets/gsap.min.js"></script>
+<script>
+  const tl = gsap.timeline({ paused: true });
+
+  function punch(sel, at) {
+    tl.fromTo(sel, { scale: 0.3, autoAlpha: 0 },
+      { scale: 1, autoAlpha: 1, duration: 0.35, ease: "back.out(2.2)" }, at);
+  }
+  function exit(sel, at) {
+    tl.to(sel, { autoAlpha: 0, scale: 1.25, duration: 0.25, ease: "power2.in" }, at);
+  }
+  function flash(at) {
+    tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.06 }, at);
+    tl.to("#flash", { opacity: 0, duration: 0.18 }, at + 0.06);
+  }
+  function shake(at, amp, dur) {
+    tl.fromTo("#world", { x: -amp }, { x: amp, duration: 0.06, repeat: Math.round(dur/0.12), yoyo: true, ease: "none" }, at);
+    tl.set("#world", { x: 0 }, at + dur + 0.07);
+  }
+  function words(sel, at, step, wordDur) {
+    tl.fromTo(sel + " .kword", { y: 100, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.3, stagger: step, ease: "back.out(2)" }, at);
+  }
+  function karaoke(sel, at, step) {
+    const ws = document.querySelectorAll(sel + " .cword");
+    tl.fromTo(sel + " .cword", { autoAlpha: 0, y: 40 },
+      { autoAlpha: 1, y: 0, duration: 0.2, stagger: step, ease: "back.out(1.8)" }, at);
+    ws.forEach(function (w, i) {
+      tl.to(w, { duration: 0.001, onStart: function () { w.classList.add("on"); } }, at + 0.2 + i * step);
+    });
+  }
+  function clearCap(sel, at) { tl.set(sel + " .cword", { autoAlpha: 0 }, at); }
+
+  /* orbes */
+  tl.to(".orbA", { x: 80, y: -60, duration: 15, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+  tl.to(".orbB", { x: -70, y: 50, duration: 15, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+
+  /* HOOK 0–3.8 */
+  words("#hook", 0.15, 0.09);
+  karaoke("#hookCap", 1.2, 0.28);
+  shake(0.15, 10, 0.5);
+  flash(0.15);
+  exit("#hook", 3.4); clearCap("#hookCap", 3.4);
+
+  /* FACT 1 4–9 */
+  flash(3.95); shake(4.0, 12, 0.5);
+  tl.fromTo("#fact1 .factNum", { scale: 0.2, autoAlpha: 0 },
+    { scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.5)" }, 4.0);
+  tl.fromTo("#fact1 .factLabel", { y: 60, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.35 }, 4.5);
+  karaoke("#cap1", 5.6, 0.3);
+  tl.to("#fact1 .factNum", { scale: 1.06, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut" }, 5.0);
+  exit("#fact1", 8.7); clearCap("#cap1", 8.7);
+
+  /* FACT 2 9–14 */
+  flash(9.0); shake(9.05, 12, 0.5);
+  tl.fromTo("#fact2 .factNum", { scale: 0.2, autoAlpha: 0 },
+    { scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.5)" }, 9.05);
+  tl.fromTo("#fact2 .factLabel", { y: 60, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.35 }, 9.55);
+  karaoke("#cap2", 10.6, 0.3);
+  tl.to("#fact2 .factNum", { scale: 1.06, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut" }, 10.0);
+  exit("#fact2", 13.7); clearCap("#cap2", 13.7);
+
+  /* STICKER 14–16.5 */
+  punch("#sticker .pill", 14.0);
+  shake(14.0, 8, 0.4);
+  tl.to("#sticker", { autoAlpha: 0, y: -80, duration: 0.3, ease: "power2.in" }, 16.2);
+
+  /* FACT 3 16.5–22 */
+  flash(16.55); shake(16.6, 12, 0.5);
+  tl.fromTo("#fact3 .factNum", { scale: 0.2, autoAlpha: 0 },
+    { scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.5)" }, 16.6);
+  tl.fromTo("#fact3 .factLabel", { y: 60, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.35 }, 17.1);
+  karaoke("#cap3", 18.2, 0.3);
+  tl.to("#fact3 .factNum", { scale: 1.06, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut" }, 17.6);
+  exit("#fact3", 21.7); clearCap("#cap3", 21.7);
+
+  /* CHECKS 22–26.5 */
+  flash(22.0);
+  tl.fromTo("#checks .checkRow", { x: -140, autoAlpha: 0 },
+    { x: 0, autoAlpha: 1, duration: 0.35, stagger: 1.0, ease: "back.out(1.8)" }, 22.0);
+  exit("#checks", 26.2);
+
+  /* CTA 26.5–30 */
+  flash(26.5); shake(26.55, 14, 0.6);
+  punch("#ctaTitle", 26.6);
+  tl.fromTo("#ctaSub", { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, duration: 0.4 }, 27.3);
+  punch("#ctaBtn", 28.0);
+  tl.to("#ctaBtn", { scale: 1.1, duration: 0.35, yoyo: true, repeat: 3, ease: "sine.inOut" }, 28.6);
+
+  /* progreso */
+  tl.fromTo("#pfill", { scaleX: 0 }, { scaleX: 1, duration: 30, ease: "none" }, 0);
+
+  window.__timelines["root"] = tl;
+</script>
+</body>
+</html>
