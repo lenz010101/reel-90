@@ -2,10 +2,15 @@ name: render
 
 on:
   workflow_dispatch:
+    inputs:
+      path:
+        description: "Carpeta de la composición a renderizar (vacío = raíz)"
+        required: false
+        default: "."
 
 # Si disparan dos veces, cancela el run viejo y deja solo el último
 concurrency:
-  group: render-${{ github.ref }}
+  group: render-${{ github.ref }}-${{ inputs.path }}
   cancel-in-progress: true
 
 jobs:
@@ -46,17 +51,14 @@ jobs:
         run: |
           echo "$HOME/ffmpeg-static" >> "$GITHUB_PATH"
           "$HOME/ffmpeg-static/ffmpeg" -version | head -1
-      - name: Lint (guardia rápida — el check completo corre local antes de subir)
-        run: npx --yes hyperframes@0.8.111 lint .
+      - name: Lint (guardia rápida)
+        run: npx --yes hyperframes@0.8.111 lint "${{ inputs.path }}"
       - name: Render MP4
-        # --no-low-memory-mode: en runners de 16GB evita el pin a 1 worker por RAM
-        # --workers=auto: el motor calibra el óptimo del runner en cada run (~1s)
-        run: npx --yes hyperframes@0.8.111 render . --skill=motion-graphics -q high --no-low-memory-mode --workers=auto
+        run: npx --yes hyperframes@0.8.111 render "${{ inputs.path }}" --skill=motion-graphics -q high --no-low-memory-mode --workers=auto
         env:
-          # Engancha solo si hay GPU; sin GPU cae solo a beginframe (gratis)
           PRODUCER_EXPERIMENTAL_FAST_CAPTURE: "true"
       - name: Upload video artifact
         uses: actions/upload-artifact@v4
         with:
-          name: reel-90-mp4
+          name: ${{ inputs.path == '.' && 'reel-90-mp4' || format('{0}-mp4', inputs.path) }}
           path: renders/**

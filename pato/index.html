@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Pato — 10s</title>
+<style>
+  html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+  #pato {
+    width: 100%; height: 100%; position: relative;
+    background: linear-gradient(180deg, #7ec8f7 0%, #bfe6fb 55%, #8fd18f 55%, #6dbb6d 100%);
+    font-family: system-ui, sans-serif;
+  }
+  .cloud { position: absolute; opacity: .95; }
+  #sun { position: absolute; left: 78%; top: 6%; width: 220px; height: 220px; }
+  #duck-wrap { position: absolute; left: 0; right: 0; top: 46%; display: flex; justify-content: center; }
+  #duck { width: 560px; height: 560px; }
+  .word {
+    position: absolute; left: 0; right: 0; text-align: center;
+    font-weight: 900; color: #fff; letter-spacing: 2px;
+    text-shadow: 0 6px 0 rgba(0,0,0,.18);
+    opacity: 0;
+  }
+  #w1 { top: 18%; font-size: 92px; }
+  #w2 { top: 30%; font-size: 150px; color: #ffd93b; }
+  #w3 { top: 76%; font-size: 84px; }
+  #pond { position: absolute; left: 0; right: 0; bottom: 0; height: 22%;
+    background: linear-gradient(180deg, #4fb3e8, #2f8fd0); }
+  .ripple { position: absolute; border: 6px solid rgba(255,255,255,.55); border-radius: 50%;
+    left: 50%; bottom: 8%; width: 60px; height: 18px; opacity: 0; }
+  #bar { position: absolute; left: 6%; right: 6%; bottom: 3%; height: 12px;
+    background: rgba(255,255,255,.3); border-radius: 8px; overflow: hidden; }
+  #bar-fill { width: 0%; height: 100%; background: #ffd93b; }
+</style>
+</head>
+<body>
+<div id="pato" data-composition-id="pato" data-width="1080" data-height="1920" data-duration="10">
+
+  <div id="sun">
+    <svg viewBox="0 0 220 220" width="220" height="220">
+      <g id="rays" stroke="#ffd93b" stroke-width="10" stroke-linecap="round">
+        <line x1="110" y1="6" x2="110" y2="40"/><line x1="110" y1="180" x2="110" y2="214"/>
+        <line x1="6" y1="110" x2="40" y2="110"/><line x1="180" y1="110" x2="214" y2="110"/>
+        <line x1="36" y1="36" x2="60" y2="60"/><line x1="160" y1="160" x2="184" y2="184"/>
+        <line x1="184" y1="36" x2="160" y2="60"/><line x1="60" y1="160" x2="36" y2="184"/>
+      </g>
+      <circle cx="110" cy="110" r="52" fill="#ffd93b"/>
+    </svg>
+  </div>
+
+  <div class="cloud" id="c1" style="top:10%; left:-20%;">
+    <svg width="320" height="140" viewBox="0 0 320 140">
+      <ellipse cx="90" cy="90" rx="80" ry="45" fill="#fff"/>
+      <ellipse cx="180" cy="70" rx="90" ry="55" fill="#fff"/>
+      <ellipse cx="250" cy="95" rx="70" ry="40" fill="#fff"/>
+    </svg>
+  </div>
+  <div class="cloud" id="c2" style="top:26%; left:60%; transform: scale(.7);">
+    <svg width="320" height="140" viewBox="0 0 320 140">
+      <ellipse cx="90" cy="90" rx="80" ry="45" fill="#fff"/>
+      <ellipse cx="180" cy="70" rx="90" ry="55" fill="#fff"/>
+      <ellipse cx="250" cy="95" rx="70" ry="40" fill="#fff"/>
+    </svg>
+  </div>
+
+  <div id="pond"></div>
+
+  <div id="duck-wrap">
+    <svg id="duck" viewBox="0 0 560 560">
+      <g id="body-g">
+        <!-- feet -->
+        <path id="foot-l" d="M240 500 l-40 36 M240 500 l-10 42 M240 500 l18 38" stroke="#f5971d" stroke-width="12" stroke-linecap="round" fill="none"/>
+        <path id="foot-r" d="M320 500 l-40 36 M320 500 l-10 42 M320 500 l18 38" stroke="#f5971d" stroke-width="12" stroke-linecap="round" fill="none"/>
+        <!-- tail -->
+        <path d="M120 330 q-70 -10 -92 -66 q62 6 104 40 z" fill="#f4b81f"/>
+        <!-- body -->
+        <ellipse cx="280" cy="400" rx="180" ry="130" fill="#ffd93b"/>
+        <!-- wing -->
+        <ellipse id="wing" cx="270" cy="410" rx="105" ry="70" fill="#f4b81f"/>
+        <!-- head -->
+        <g id="head-g">
+          <circle cx="385" cy="245" r="105" fill="#ffd93b"/>
+          <!-- beak -->
+          <ellipse id="beak-top" cx="492" cy="232" rx="58" ry="26" fill="#f5971d"/>
+          <ellipse id="beak-bot" cx="488" cy="256" rx="50" ry="20" fill="#e5830e"/>
+          <!-- eye -->
+          <circle cx="415" cy="215" r="17" fill="#222"/>
+          <circle cx="420" cy="209" r="5.5" fill="#fff"/>
+          <!-- cheek -->
+          <ellipse cx="370" cy="272" rx="20" ry="11" fill="#ffc1a1" opacity=".85"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="word" id="w1">MIRA AL PATO</div>
+  <div class="word" id="w2">¡QUACK!</div>
+  <div class="word" id="w3">FIN DEL SHOW</div>
+
+  <div class="ripple" id="r1"></div>
+  <div class="ripple" id="r2"></div>
+
+  <div id="bar"><div id="bar-fill"></div></div>
+</div>
+
+<script src="../assets/gsap.min.js"></script>
+<script>
+  const tl = gsap.timeline({ paused: true });
+
+  // Sun rays: slow finite spin
+  tl.fromTo("#rays", { rotation: 0 }, { rotation: 90, svgOrigin: "110 110", duration: 10, ease: "none" }, 0);
+
+  // Clouds drifting, finite
+  tl.fromTo("#c1", { xPercent: -40 }, { xPercent: 160, duration: 10, ease: "none" }, 0);
+  tl.fromTo("#c2", { xPercent: 30 }, { xPercent: -60, duration: 10, ease: "none" }, 0);
+
+  // Duck: entrance bounce
+  tl.fromTo("#duck-wrap", { y: 900, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: "back.out(1.6)" }, 0.2);
+
+  // Idle bob (body), finite repeats
+  tl.to("#body-g", { y: 14, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 15 }, 1.4);
+
+  // Wing flap bursts
+  tl.to("#wing", { rotation: -22, svgOrigin: "200 380", duration: 0.18, yoyo: true, repeat: 7, ease: "sine.inOut" }, 3.4);
+  tl.to("#wing", { rotation: -22, svgOrigin: "200 380", duration: 0.18, yoyo: true, repeat: 7, ease: "sine.inOut" }, 7.0);
+
+  // Big jump at the QUACK
+  tl.to("#duck-wrap", { y: -260, duration: 0.45, ease: "power2.out" }, 4.6);
+  tl.to("#duck-wrap", { y: 0, duration: 0.5, ease: "bounce.out" }, 5.05);
+
+  // Beak open for quack (scaleY both halves apart)
+  tl.to("#beak-top", { rotation: -14, svgOrigin: "445 244", duration: 0.14, yoyo: true, repeat: 3, ease: "sine.inOut" }, 4.45);
+  tl.to("#beak-bot", { rotation: 12, svgOrigin: "445 248", duration: 0.14, yoyo: true, repeat: 3, ease: "sine.inOut" }, 4.45);
+
+  // Head tilt accent at end
+  tl.to("#head-g", { rotation: -10, svgOrigin: "385 300", duration: 0.4, yoyo: true, repeat: 1, ease: "sine.inOut" }, 8.2);
+
+  // Words
+  tl.fromTo("#w1", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2.2)" }, 1.0);
+  tl.to("#w1", { opacity: 0, y: -60, duration: 0.35, ease: "power2.in" }, 3.8);
+  tl.fromTo("#w2", { opacity: 0, scale: 0.2, rotation: -8 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.45, ease: "back.out(3)" }, 4.55);
+  tl.to("#w2", { scale: 1.12, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut" }, 5.0);
+  tl.to("#w2", { opacity: 0, scale: 0.3, duration: 0.35, ease: "power2.in" }, 6.9);
+  tl.fromTo("#w3", { opacity: 0, y: 80 }, { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.8)" }, 8.0);
+
+  // Pond ripples after the jump lands
+  tl.fromTo("#r1", { opacity: 0.8, scale: 0.4 }, { opacity: 0, scale: 4.2, duration: 1.3, ease: "power1.out" }, 5.6);
+  tl.fromTo("#r2", { opacity: 0.8, scale: 0.4 }, { opacity: 0, scale: 3.2, duration: 1.2, ease: "power1.out" }, 5.9);
+
+  // Progress bar
+  tl.fromTo("#bar-fill", { width: "0%" }, { width: "100%", duration: 10, ease: "none" }, 0);
+
+  // Final fade to white via overlay-less trick: duck dips into pond
+  tl.to("#duck-wrap", { y: 220, duration: 0.8, ease: "power2.in" }, 9.1);
+
+  window.__timelines["pato"] = tl;
+</script>
+</body>
+</html>
