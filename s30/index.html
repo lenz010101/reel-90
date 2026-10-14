@@ -2,37 +2,308 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Samsung — 30s</title>
+<title>NOVA X1 — Motion Graphic 30s</title>
 <style>
-  html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#000; }
-  #root { width:100%; height:100%; position:relative; font-family:system-ui, sans-serif; color:#fff; }
-  .brand { position:absolute; left:6%; top:8%; font-size:30px; font-weight:700; letter-spacing:6px; opacity:0; }
-  .device { position:absolute; left:50%; top:22%; width:460px; height:460px; }
-  .tagline { position:absolute; left:6%; bottom:14%; font-size:26px; line-height:1.3; opacity:0; }
-  .pulse { position:absolute; right:10%; top:30%; width:14px; height:14px; background:#FF3B4A; border-radius:50%; }
-  .bar { position:absolute; left:12%; right:12%; bottom:6%; height:6px; }
+  html, body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; background:#05060e;
+               font-family: system-ui, "Segoe UI", Roboto, sans-serif; }
+  #root { position:relative; width:100%; height:100%; color:#fff; }
+
+  /* ---- fondo ---- */
+  #bg { position:absolute; inset:0;
+        background: radial-gradient(1200px 900px at 50% 30%, #101430 0%, #05060e 60%); }
+  .orb { position:absolute; border-radius:50%; filter: blur(90px); }
+  .orbA { left:-180px; top:240px; width:560px; height:560px; background:#4c1d95; opacity:.55; }
+  .orbB { right:-220px; top:960px; width:620px; height:620px; background:#0e7490; opacity:.45; }
+  #grid { position:absolute; inset:0;
+          background-image: radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px);
+          background-size: 64px 64px; }
+
+  /* ---- marca persistente ---- */
+  #brandTop { position:absolute; left:64px; top:56px; font-size:34px; font-weight:800;
+              letter-spacing:10px; opacity:.9; }
+
+  /* ---- intro ---- */
+  #introTitle { position:absolute; left:0; right:0; top:38%; text-align:center;
+                font-size:150px; font-weight:900; letter-spacing:6px; }
+  .t-letter { display:inline-block;
+              background: linear-gradient(90deg,#a78bfa,#22d3ee);
+              -webkit-background-clip:text; background-clip:text; color:transparent; }
+  #introSub { position:absolute; left:0; right:0; top:52%; text-align:center;
+              font-size:44px; font-weight:300; letter-spacing:4px; color:#c7d2fe; }
+
+  /* ---- teléfono ---- */
+  #glowPulse { position:absolute; left:190px; top:430px; width:700px; height:1000px;
+               border-radius:50%; background: radial-gradient(#7c3aed55, transparent 60%);
+               filter: blur(30px); }
+  #phoneWrap { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+               perspective: 1400px; }
+  #phoneAll { position:relative; width:380px; height:780px; display:block; }
+  #phoneTilt { position:absolute; inset:0; display:block; }
+  #phoneFloat { position:absolute; inset:0; display:block; }
+  .device { position:absolute; inset:0; border-radius:52px; display:block;
+            background: linear-gradient(160deg,#232637 0%, #0b0c14 70%);
+            box-shadow: 0 0 0 3px #3b4160, 0 40px 90px rgba(0,0,0,.7); }
+  .sideBtn { position:absolute; right:-7px; top:180px; width:7px; height:110px;
+             border-radius:4px; background:#3b4160; display:block; }
+  .screen { position:absolute; left:12px; top:12px; width:356px; height:756px;
+            border-radius:42px; overflow:hidden; background:#000; display:block; }
+  #screenOn { position:absolute; inset:0; display:block;
+              background: linear-gradient(135deg,#312e81 0%,#7c3aed 45%,#0891b2 100%); }
+  .sheen { position:absolute; inset:0; display:block;
+           background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.16) 50%, transparent 65%); }
+  #reflection { position:absolute; top:-60px; bottom:-60px; left:0; width:180px; display:block;
+                background: linear-gradient(100deg, transparent, rgba(255,255,255,.22), transparent); }
+  .notchWrap { position:absolute; left:0; right:0; top:26px; display:flex; justify-content:center; }
+  #notch { width:110px; height:30px; border-radius:15px; background:#000; display:block; }
+  .clock { position:absolute; left:0; right:0; top:120px; text-align:center; display:block; }
+  .clockTime { font-size:74px; font-weight:200; letter-spacing:2px; display:block; }
+  .clockDate { font-size:26px; font-weight:400; color:#e0e7ff; margin-top:8px; display:block; }
+
+  /* ---- features ---- */
+  #featTitle { position:absolute; left:0; right:0; top:13%; text-align:center; display:block;
+               font-size:66px; font-weight:900; letter-spacing:2px; line-height:1.15; }
+  #featTitle .ln { display:block; }
+  #featTitle .accent { background: linear-gradient(90deg,#a78bfa,#22d3ee);
+                       -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .chips { position:absolute; right:64px; top:40%; display:block; }
+  .chip { display:flex; align-items:center; width:430px; margin-bottom:34px; padding:22px 30px;
+          border-radius:26px; background: rgba(255,255,255,.06);
+          box-shadow: 0 0 0 2px rgba(167,139,250,.35) inset; }
+  .chip .dot { width:22px; height:22px; border-radius:50%; display:block; flex:0 0 auto;
+               background: linear-gradient(135deg,#a78bfa,#22d3ee); }
+  .chip .txt { font-size:38px; font-weight:700; margin-left:24px; display:block; }
+  .chip .sub { font-size:24px; font-weight:400; color:#94a3b8; margin-left:auto; display:block; }
+
+  /* ---- enfoque cámara + contador ---- */
+  .focus { position:absolute; left:110px; right:110px; top:390px; height:1100px; display:block; }
+  .corner { position:absolute; width:70px; height:70px; display:block;
+            border:6px solid #22d3ee; }
+  .cTL { left:0; top:0; border-right:none; border-bottom:none; }
+  .cTR { right:0; top:0; border-left:none; border-bottom:none; }
+  .cBL { left:0; bottom:0; border-right:none; border-top:none; }
+  .cBR { right:0; bottom:0; border-left:none; border-top:none; }
+  #mpWrap { position:absolute; left:0; right:0; bottom:9%; text-align:center; display:block; }
+  #mpNum { font-size:190px; font-weight:900; display:inline-block;
+           background: linear-gradient(90deg,#a78bfa,#22d3ee);
+           -webkit-background-clip:text; background-clip:text; color:transparent; }
+  #mpUnit { font-size:90px; font-weight:800; color:#e0e7ff; display:inline-block; margin-left:14px; }
+  #mpLabel { font-size:34px; font-weight:400; letter-spacing:6px; color:#94a3b8;
+             margin-top:6px; display:block; }
+
+  /* ---- stats ---- */
+  #stats { position:absolute; left:96px; right:96px; bottom:12%; display:block; }
+  #statsTitle { font-size:52px; font-weight:900; letter-spacing:2px; margin-bottom:44px; display:block; }
+  .statRow { margin-bottom:44px; display:block; }
+  .statHead { display:flex; justify-content:space-between; margin-bottom:16px; }
+  .statName { font-size:38px; font-weight:700; display:block; }
+  .statVal  { font-size:38px; font-weight:800; color:#22d3ee; display:block; }
+  .statTrack { height:16px; border-radius:8px; background: rgba(255,255,255,.10); display:block; }
+  .statFill { height:16px; border-radius:8px; display:block; transform-origin:left center;
+              background: linear-gradient(90deg,#a78bfa,#22d3ee); }
+
+  /* ---- CTA ---- */
+  #cta { position:absolute; left:0; right:0; bottom:14%; text-align:center; display:block; }
+  #ctaTitle { font-size:130px; font-weight:900; letter-spacing:8px; display:block;
+              background: linear-gradient(90deg,#a78bfa,#22d3ee);
+              -webkit-background-clip:text; background-clip:text; color:transparent; }
+  #ctaTag { font-size:46px; font-weight:300; letter-spacing:3px; color:#e0e7ff;
+            margin-top:18px; display:block; }
+  #shimmerWrap { position:absolute; left:0; right:0; bottom:8%; height:330px; overflow:hidden;
+                 pointer-events:none; display:block; }
+  #shimmer { position:absolute; top:0; bottom:0; left:0; width:260px; display:block;
+             background: linear-gradient(100deg, transparent, rgba(255,255,255,.10), transparent); }
+
+  /* ---- barra de progreso ---- */
+  #pbar { position:absolute; left:80px; right:80px; bottom:48px; height:8px;
+          border-radius:4px; background: rgba(255,255,255,.12); }
+  #pfill { position:absolute; left:0; top:0; bottom:0; width:100%; border-radius:4px;
+           transform-origin:left center; display:block;
+           background: linear-gradient(90deg,#a78bfa,#22d3ee); }
 </style>
 </head>
 <body>
 <div id="root" data-composition-id="root" data-width="1080" data-height="1920" data-duration="30">
-  <div class="brand" id="brand">SAMSUNG</div>
-  <div class="device" id="device">
-    <svg viewBox="0 0 460 460" width="460" height="460">
-      <rect x="10" y="10" width="440" height="440" rx="20" fill="#0a0a0a" />
-    </svg>
+
+  <div id="bg"></div>
+  <div class="orb orbA"></div>
+  <div class="orb orbB"></div>
+  <div id="grid"></div>
+
+  <div id="brandTop">NOVA</div>
+
+  <!-- INTRO -->
+  <div id="intro">
+    <div id="introTitle"><span class="t-letter">N</span><span class="t-letter">O</span><span class="t-letter">V</span><span class="t-letter">A</span><span class="t-letter">&nbsp;</span><span class="t-letter">X</span><span class="t-letter">1</span></div>
+    <div id="introSub">El futuro, en tu mano</div>
   </div>
-  <div class="tagline" id="tagline">THE FUTURE IS <br> IN YOUR HANDS</div>
-  <div class="pulse" id="pulse"></div>
-  <div class="bar" id="bar"></div>
+
+  <!-- TELÉFONO -->
+  <div id="glowPulse"></div>
+  <div id="phoneWrap">
+    <div id="phoneMove">
+      <div id="phoneAll">
+        <div id="phoneTilt">
+          <div id="phoneFloat">
+            <div class="device">
+              <div class="sideBtn"></div>
+              <div class="screen">
+                <div id="screenOn">
+                  <div class="sheen"></div>
+                  <div class="clock"><span class="clockTime">9:41</span><span class="clockDate">Lunes 12 · NOVA</span></div>
+                </div>
+                <div id="reflection"></div>
+              </div>
+              <div class="notchWrap"><div id="notch"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENFOQUE -->
+  <div class="focus" id="focus">
+    <div class="corner cTL"></div><div class="corner cTR"></div>
+    <div class="corner cBL"></div><div class="corner cBR"></div>
+  </div>
+
+  <!-- FEATURES -->
+  <div id="featTitle"><span class="ln">DISEÑADO PARA</span><span class="ln accent">IMPRESIONAR</span></div>
+  <div class="chips" id="chips">
+    <div class="chip"><span class="dot"></span><span class="txt">Pantalla OLED</span><span class="sub">120 Hz</span></div>
+    <div class="chip"><span class="dot"></span><span class="txt">Cámara principal</span><span class="sub">200 MP</span></div>
+    <div class="chip"><span class="dot"></span><span class="txt">Batería</span><span class="sub">5.000 mAh</span></div>
+  </div>
+
+  <!-- CONTADOR MP -->
+  <div id="mpWrap">
+    <div><span id="mpNum">0</span><span id="mpUnit">MP</span></div>
+    <div id="mpLabel">CÁMARA PRINCIPAL</div>
+  </div>
+
+  <!-- STATS -->
+  <div id="stats">
+    <div id="statsTitle">RENDIMIENTO REAL</div>
+    <div class="statRow">
+      <div class="statHead"><span class="statName">Pantalla</span><span class="statVal">120 Hz</span></div>
+      <div class="statTrack"><div class="statFill"></div></div>
+    </div>
+    <div class="statRow">
+      <div class="statHead"><span class="statName">Batería</span><span class="statVal">5.000 mAh</span></div>
+      <div class="statTrack"><div class="statFill"></div></div>
+    </div>
+    <div class="statRow">
+      <div class="statHead"><span class="statName">Chip</span><span class="statVal">4 nm</span></div>
+      <div class="statTrack"><div class="statFill"></div></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div id="cta">
+    <div id="ctaTitle">NOVA X1</div>
+    <div id="ctaTag">El futuro, en tu mano.</div>
+  </div>
+  <div id="shimmerWrap"><div id="shimmer"></div></div>
+
+  <div id="pbar"><div id="pfill"></div></div>
+
+  <audio id="bgm" src="assets/bgm.wav" data-start="0" data-duration="30" data-volume="0.5"></audio>
+  <audio id="sfxReveal" src="../assets/sfx/whoosh-big.mp3" data-start="2.95" data-duration="2.5" data-volume="0.8"></audio>
+  <audio id="sfxFeat"   src="../assets/sfx/whoosh.mp3"     data-start="8.7"  data-duration="1.0" data-volume="0.8"></audio>
+  <audio id="sfxChip0"  src="../assets/sfx/pop.mp3"        data-start="10.55" data-duration="0.72" data-volume="0.8"></audio>
+  <audio id="sfxChip1"  src="../assets/sfx/pop.mp3"        data-start="10.9"  data-duration="0.72" data-volume="0.8"></audio>
+  <audio id="sfxChip2"  src="../assets/sfx/pop.mp3"        data-start="11.25" data-duration="0.72" data-volume="0.8"></audio>
+  <audio id="sfxCam"    src="../assets/sfx/whoosh.mp3"     data-start="15.4"  data-duration="1.0" data-volume="0.8"></audio>
+  <audio id="sfxCount"  src="../assets/sfx/click.mp3"      data-start="17.0"  data-duration="0.4" data-volume="0.8"></audio>
+  <audio id="sfxStats"  src="../assets/sfx/whoosh.mp3"     data-start="20.5"  data-duration="1.0" data-volume="0.8"></audio>
+  <audio id="sfxCta"    src="../assets/sfx/whoosh-big.mp3" data-start="26.0"  data-duration="2.5" data-volume="0.8"></audio>
 </div>
+
 <script src="assets/gsap.min.js"></script>
 <script>
   const tl = gsap.timeline({ paused: true });
-  tl.fromTo("#brand", { opacity: 0 }, { opacity: 0.9, duration: 3, ease: "power1.out" }, 0);
-  tl.fromTo("#device", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 2, ease: "back.out(1.4)" }, 0);
-  tl.fromTo("#tagline", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 1.4, ease: "power2.out" }, 0.5);
-  tl.fromTo("#pulse", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.6)" }, 11.5);
-  tl.to("#bar", { width: "100%", duration: 30, ease: "power2.out" }, 0);
+
+  /* ---------- INTRO 0–3 ---------- */
+  tl.fromTo(".t-letter", { y: 90, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.07, ease: "back.out(1.7)" }, 0.3);
+  tl.fromTo("#introSub", { y: 30, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.8, ease: "power2.out" }, 1.4);
+  tl.to("#intro", { autoAlpha: 0, y: -60, duration: 0.5, ease: "power1.in" }, 2.7);
+  tl.fromTo("#brandTop", { autoAlpha: 0, y: -24 },
+    { autoAlpha: 0.9, y: 0, duration: 0.6, ease: "power2.out" }, 3.0);
+
+  /* ---------- REVEAL DEL TELÉFONO 3–8.5 ---------- */
+  tl.fromTo("#phoneAll", { scale: 0.6, autoAlpha: 0 },
+    { scale: 1, autoAlpha: 1, duration: 1.1, ease: "back.out(1.5)" }, 3.0);
+  tl.fromTo("#glowPulse", { autoAlpha: 0, scale: 0.8 },
+    { autoAlpha: 1, scale: 1, duration: 0.9, ease: "power2.out" }, 3.7);
+  tl.fromTo("#screenOn", { autoAlpha: 0 },
+    { autoAlpha: 1, duration: 0.8, ease: "power1.inOut" }, 3.8);
+  tl.fromTo("#notch", { autoAlpha: 0, scale: 0.5 },
+    { autoAlpha: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 4.3);
+  tl.fromTo("#reflection", { x: 0, autoAlpha: 1 },
+    { x: 380, autoAlpha: 0.0, duration: 1.4, ease: "power2.inOut" }, 4.6);
+
+  /* flotación continua 5–29 (finita) */
+  tl.to("#phoneFloat", { y: -16, duration: 2.0, ease: "sine.inOut", yoyo: true, repeat: 11 }, 5.0);
+
+  /* orbes de fondo (deriva lenta, finita) */
+  tl.to(".orbA", { x: 70, y: -50, duration: 14, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+  tl.to(".orbB", { x: -60, y: 40, duration: 14, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+
+  /* ---------- FEATURES 8.7–15 ---------- */
+  tl.to("#phoneMove", { x: -250, duration: 0.9, ease: "power3.inOut" }, 8.7);
+  tl.to("#phoneAll",  { scale: 0.8, duration: 0.9, ease: "power3.inOut" }, 8.7);
+  tl.fromTo("#featTitle .ln", { y: 60, autoAlpha: 0 },
+    { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.15, ease: "power3.out" }, 9.1);
+  tl.fromTo(".chip", { x: 170, autoAlpha: 0 },
+    { x: 0, autoAlpha: 1, duration: 0.6, stagger: 0.35, ease: "back.out(1.6)" }, 10.0);
+
+  /* ---------- CÁMARA / CONTADOR 15–20.5 ---------- */
+  tl.to(".chip", { x: 140, autoAlpha: 0, duration: 0.4, stagger: 0.08, ease: "power1.in" }, 15.1);
+  tl.to("#featTitle", { autoAlpha: 0, y: -40, duration: 0.5, ease: "power1.in" }, 15.1);
+  tl.to("#phoneMove", { x: 0, duration: 0.9, ease: "power3.inOut" }, 15.4);
+  tl.to("#phoneAll",  { scale: 1, duration: 0.9, ease: "power3.inOut" }, 15.4);
+  tl.to("#phoneTilt", { rotationY: -11, duration: 1.0, ease: "power2.inOut" }, 15.6);
+  tl.to("#phoneTilt", { rotationY: 11, duration: 1.6, ease: "sine.inOut" }, 16.8);
+  tl.to("#phoneTilt", { rotationY: 0, duration: 1.0, ease: "power2.inOut" }, 18.6);
+  tl.fromTo(".corner", { autoAlpha: 0, scale: 0.5 },
+    { autoAlpha: 1, scale: 1, duration: 0.5, stagger: 0.08, ease: "back.out(2)" }, 16.1);
+  tl.fromTo("#mpWrap", { autoAlpha: 0, y: 50 },
+    { autoAlpha: 1, y: 0, duration: 0.7, ease: "power2.out" }, 16.5);
+
+  const mp = document.getElementById("mpNum");
+  const counter = { v: 0 };
+  tl.to(counter, { v: 200, duration: 2.2, ease: "power2.out",
+    onUpdate: function () { mp.textContent = String(Math.round(counter.v)); } }, 17.0);
+
+  tl.to(".corner", { autoAlpha: 0, duration: 0.4 }, 20.1);
+  tl.to("#mpWrap", { autoAlpha: 0, y: -40, duration: 0.5, ease: "power1.in" }, 20.2);
+
+  /* ---------- STATS 20.5–26 ---------- */
+  tl.to("#phoneMove", { y: -330, duration: 0.9, ease: "power3.inOut" }, 20.5);
+  tl.to("#phoneAll",  { scale: 0.66, duration: 0.9, ease: "power3.inOut" }, 20.5);
+  tl.fromTo("#statsTitle", { autoAlpha: 0, y: 40 },
+    { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }, 20.9);
+  tl.fromTo(".statRow", { autoAlpha: 0, x: -70 },
+    { autoAlpha: 1, x: 0, duration: 0.5, stagger: 0.3, ease: "power2.out" }, 21.3);
+  tl.fromTo(".statFill", { scaleX: 0 },
+    { scaleX: 1, duration: 1.2, stagger: 0.3, ease: "power3.out" }, 21.5);
+
+  /* ---------- CTA 26–30 ---------- */
+  tl.to("#stats", { autoAlpha: 0, y: 60, duration: 0.5, ease: "power1.in" }, 26.0);
+  tl.to("#phoneMove", { y: -80, duration: 0.9, ease: "power3.inOut" }, 26.0);
+  tl.to("#phoneAll",  { scale: 0.92, duration: 0.9, ease: "power3.inOut" }, 26.0);
+  tl.fromTo("#ctaTitle", { autoAlpha: 0, y: 70 },
+    { autoAlpha: 1, y: 0, duration: 0.8, ease: "back.out(1.4)" }, 26.5);
+  tl.fromTo("#ctaTag", { autoAlpha: 0, y: 40 },
+    { autoAlpha: 1, y: 0, duration: 0.8, ease: "power2.out" }, 27.4);
+  tl.fromTo("#shimmer", { x: -300, autoAlpha: 0 },
+    { x: 1100, autoAlpha: 1, duration: 1.5, ease: "power2.inOut" }, 27.0);
+
+  /* ---------- barra de progreso 0–30 ---------- */
+  tl.fromTo("#pfill", { scaleX: 0 }, { scaleX: 1, duration: 30, ease: "none" }, 0);
+
   window.__timelines["root"] = tl;
 </script>
 </body>
