@@ -362,6 +362,7 @@
       const tl = gsap.timeline({ paused: true });
 
       /* S1 · Splash */
+      tl.to("#s1", { opacity: 1, duration: 0.25, ease: "none" }, 0);
       tl.fromTo(
         "#s1 .logo",
         { scale: 0.92, opacity: 0 },
