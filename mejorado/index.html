@@ -298,7 +298,7 @@
       </div>
 
       <!-- Cierre premium: tipografía sobre fondo vivo -->
-      <div id="cta" class="clip" data-start="ve" data-duration="2.92" data-track-index="1">
+      <div id="cta" class="clip" data-start="10.08" data-duration="2.92" data-track-index="1">
         <div class="deco r1"></div>
         <div class="deco r2"></div>
         <div class="dot"></div>
@@ -333,16 +333,17 @@
       tl.fromTo("#ve", { scale: 1.08 }, { scale: 1.0, duration: 1.28, ease: "none" }, 8.8);
       tl.fromTo("#vf", { scale: 1.15 }, { scale: 1.22, duration: 2.92, ease: "none" }, 10.08);
 
-      /* Flash de corte en cada cambio de toma */
-      tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.05, ease: "none" }, 2.4);
+      /* Flash de corte en cada cambio de toma (baseline estable + to) */
+      tl.set("#flash", { opacity: 0 }, 0);
+      tl.to("#flash", { opacity: 0.85, duration: 0.05, ease: "none" }, 2.4);
       tl.to("#flash", { opacity: 0, duration: 0.12, ease: "power1.out" }, 2.45);
-      tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.05, ease: "none" }, 4.6);
+      tl.to("#flash", { opacity: 0.85, duration: 0.05, ease: "none" }, 4.6);
       tl.to("#flash", { opacity: 0, duration: 0.12, ease: "power1.out" }, 4.65);
-      tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.05, ease: "none" }, 6.4);
+      tl.to("#flash", { opacity: 0.85, duration: 0.05, ease: "none" }, 6.4);
       tl.to("#flash", { opacity: 0, duration: 0.12, ease: "power1.out" }, 6.45);
-      tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.05, ease: "none" }, 8.8);
+      tl.to("#flash", { opacity: 0.85, duration: 0.05, ease: "none" }, 8.8);
       tl.to("#flash", { opacity: 0, duration: 0.12, ease: "power1.out" }, 8.85);
-      tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.5, duration: 0.05, ease: "none" }, 10.08);
+      tl.to("#flash", { opacity: 0.5, duration: 0.05, ease: "none" }, 10.08);
       tl.to("#flash", { opacity: 0, duration: 0.15, ease: "power1.out" }, 10.13);
 
       /* Rótulos: entran y salen dentro de su propia toma */
@@ -383,8 +384,9 @@
         { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.5)" },
         11.35,
       );
-      tl.to("#cta .r1", { x: 60, y: 40, duration: 2.5, ease: "sine.inOut" }, 10.08);
-      tl.to("#cta .r2", { x: -50, y: -30, duration: 2.5, ease: "sine.inOut" }, 10.08);
+      /* Deriva de aros: termina exactamente en 13.0 (= data-duration del root) */
+      tl.to("#cta .r1", { x: 60, y: 40, duration: 2.92, ease: "sine.inOut" }, 10.08);
+      tl.to("#cta .r2", { x: -50, y: -30, duration: 2.92, ease: "sine.inOut" }, 10.08);
 
       /* Registro tras cargar la fuente, para texto medible y estable */
       document.fonts.ready.then(() => {
