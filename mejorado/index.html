@@ -16,60 +16,23 @@
         height: 1920px;
         overflow: hidden;
       }
-      .scene {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-      }
-      .scene video {
+      #root > video {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
         transform-origin: 50% 50%;
+        z-index: 1;
       }
-      .caption {
+      #root > div {
         position: absolute;
-        left: 7%;
-        right: 7%;
-        bottom: 15%;
-        display: flex;
-        align-items: center;
-        gap: 26px;
-        opacity: 0;
+        inset: 0;
         z-index: 3;
       }
-      .caption .bar {
-        flex: none;
-        width: 14px;
-        height: 120px;
-        border-radius: 8px;
-        background: #f97316;
-        box-shadow: 0 6px 24px rgba(249, 115, 22, 0.55);
-      }
-      .caption .txt {
-        font-size: 62px;
-        line-height: 1.2;
-        font-weight: 700;
-        color: #ffffff;
-        text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65), 0 2px 6px rgba(0, 0, 0, 0.5);
-      }
-      .caption .txt small {
-        display: block;
-        font-size: 42px;
-        font-weight: 600;
-        color: #ffd9b8;
-        margin-top: 10px;
-      }
-
-      /* Intro title */
       #t1 {
-        position: absolute;
-        top: 15%;
-        left: 7%;
-        right: 7%;
-        z-index: 3;
+        top: 15% !important;
+        inset: auto 7% auto 7% !important;
       }
       #t1 .word {
         display: inline-block;
@@ -98,11 +61,39 @@
         color: #ffe3c7;
         text-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
       }
-
-      /* End card */
+      .caption {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        top: auto !important;
+        bottom: 15% !important;
+        left: 7% !important;
+        right: 7% !important;
+        inset: auto 7% 15% 7% !important;
+      }
+      .caption .bar {
+        flex: none;
+        width: 14px;
+        height: 120px;
+        border-radius: 8px;
+        background: #f97316;
+        box-shadow: 0 6px 24px rgba(249, 115, 22, 0.55);
+      }
+      .caption .txt {
+        font-size: 62px;
+        line-height: 1.2;
+        font-weight: 700;
+        color: #ffffff;
+        text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65), 0 2px 6px rgba(0, 0, 0, 0.5);
+      }
+      .caption .txt small {
+        display: block;
+        font-size: 42px;
+        font-weight: 600;
+        color: #ffd9b8;
+        margin-top: 10px;
+      }
       #cta {
-        position: absolute;
-        inset: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -176,102 +167,88 @@
       data-width="1080"
       data-height="1920"
     >
-      <!-- A: frontal + título -->
-      <section id="sa" class="scene" data-start="0" data-duration="2.4" data-track-index="0">
-        <video
-          id="va"
-          src="assets/fuente.mp4"
-          data-start="0"
-          data-duration="2.4"
-          data-media-start="0"
-          data-track-index="0"
-          data-has-audio="true"
-          playsinline
-        ></video>
-        <div id="t1">
-          <div>
-            <span class="word">EXPRIMIDOR</span>
-            <span class="word o">PROFESIONAL</span>
-          </div>
-          <div class="bar"></div>
-          <div class="sub">Uso comercial &middot; Alta demanda</div>
-        </div>
-      </section>
+      <!-- Tomas del video original (cortes continuos, audio original) -->
+      <video
+        id="va"
+        src="assets/fuente.mp4"
+        data-start="0"
+        data-duration="2.4"
+        data-media-start="0"
+        data-track-index="0"
+        data-has-audio="true"
+        playsinline
+      ></video>
+      <video
+        id="vb"
+        src="assets/fuente.mp4"
+        data-start="2.4"
+        data-duration="2.2"
+        data-media-start="2.4"
+        data-track-index="0"
+        data-has-audio="true"
+        playsinline
+      ></video>
+      <video
+        id="vc"
+        src="assets/fuente.mp4"
+        data-start="4.6"
+        data-duration="1.8"
+        data-media-start="4.6"
+        data-track-index="0"
+        data-has-audio="true"
+        playsinline
+      ></video>
+      <video
+        id="vd"
+        src="assets/fuente.mp4"
+        data-start="6.4"
+        data-duration="2.4"
+        data-media-start="6.4"
+        data-track-index="0"
+        data-has-audio="true"
+        playsinline
+      ></video>
+      <video
+        id="ve"
+        src="assets/fuente.mp4"
+        data-start="8.8"
+        data-duration="1.28"
+        data-media-start="8.8"
+        data-track-index="0"
+        data-has-audio="true"
+        playsinline
+      ></video>
 
-      <!-- B: encendido -->
-      <section id="sb" class="scene" data-start="2.4" data-duration="2.2" data-track-index="0">
-        <video
-          id="vb"
-          src="assets/fuente.mp4"
-          data-start="2.4"
-          data-duration="2.2"
-          data-media-start="2.4"
-          data-track-index="0"
-          data-has-audio="true"
-          playsinline
-        ></video>
-        <div id="cap-b" class="caption">
-          <div class="bar"></div>
-          <div class="txt">Encendido simple<small>Un botón y listo</small></div>
+      <!-- Título de entrada -->
+      <div id="t1" class="clip" data-start="0" data-duration="2.4" data-track-index="1">
+        <div>
+          <span class="word">EXPRIMIDOR</span>
+          <span class="word o">PROFESIONAL</span>
         </div>
-      </section>
+        <div class="bar"></div>
+        <div class="sub">Uso comercial &middot; Alta demanda</div>
+      </div>
 
-      <!-- C: rodillos -->
-      <section id="sc" class="scene" data-start="4.6" data-duration="1.8" data-track-index="0">
-        <video
-          id="vc"
-          src="assets/fuente.mp4"
-          data-start="4.6"
-          data-duration="1.8"
-          data-media-start="4.6"
-          data-track-index="0"
-          data-has-audio="true"
-          playsinline
-        ></video>
-        <div id="cap-c" class="caption">
-          <div class="bar"></div>
-          <div class="txt">Doble rodillo<small>Máxima extracción de jugo</small></div>
-        </div>
-      </section>
+      <!-- Rótulos por toma -->
+      <div id="cap-b" class="clip caption" data-start="2.4" data-duration="2.2" data-track-index="1">
+        <div class="bar"></div>
+        <div class="txt">Encendido simple<small>Un botón y listo</small></div>
+      </div>
+      <div id="cap-c" class="clip caption" data-start="4.6" data-duration="1.8" data-track-index="1">
+        <div class="bar"></div>
+        <div class="txt">Doble rodillo<small>Máxima extracción de jugo</small></div>
+      </div>
+      <div id="cap-d" class="clip caption" data-start="6.4" data-duration="2.4" data-track-index="1">
+        <div class="bar"></div>
+        <div class="txt">Acero inoxidable<small>Pensada para tu negocio</small></div>
+      </div>
+      <div id="cap-e" class="clip caption" data-start="8.8" data-duration="1.28" data-track-index="1">
+        <div class="bar"></div>
+        <div class="txt">Lista para tu negocio</div>
+      </div>
 
-      <!-- D: vista 3/4 acero -->
-      <section id="sd" class="scene" data-start="6.4" data-duration="2.4" data-track-index="0">
-        <video
-          id="vd"
-          src="assets/fuente.mp4"
-          data-start="6.4"
-          data-duration="2.4"
-          data-media-start="6.4"
-          data-track-index="0"
-          data-has-audio="true"
-          playsinline
-        ></video>
-        <div id="cap-d" class="caption">
-          <div class="bar"></div>
-          <div class="txt">Acero inoxidable<small>Pensada para tu negocio</small></div>
-        </div>
-      </section>
-
-      <!-- E: frontal de cierre -->
-      <section id="se" class="scene" data-start="8.8" data-duration="1.28" data-track-index="0">
-        <video
-          id="ve"
-          src="assets/fuente.mp4"
-          data-start="8.8"
-          data-duration="1.28"
-          data-media-start="8.8"
-          data-track-index="0"
-          data-has-audio="true"
-          playsinline
-        ></video>
-        <div id="cap-e" class="caption">
-          <div class="bar"></div>
-          <div class="txt">Lista para tu negocio</div>
-        </div>
-      </section>
-
-      <!-- F: tarjeta final (motion graphics puro) -->
-      <section id="cta" class="scene" data-start="ve" data-duration="2.92" data-track-index="1">
+      <!-- Tarjeta final (motion graphics puro) -->
+      <div id="cta" class="clip" data-start="ve" data-duration="2.92" data-track-index="1">
         <div class="deco d1"></div>
         <div class="deco d2"></div>
         <div class="deco d3"></div>
@@ -279,7 +256,7 @@
         <h1>PEDÍ EL TUYO HOY</h1>
         <p>Envíos a todo el país</p>
         <div class="pill">Consultá por WhatsApp</div>
-      </section>
+      </div>
     </div>
 
     <script>
@@ -294,12 +271,7 @@
         0.15,
       );
       tl.fromTo("#t1 .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, 0.6);
-      tl.fromTo(
-        "#t1 .sub",
-        { opacity: 0 },
-        { opacity: 1, duration: 0.4, ease: "none" },
-        0.85,
-      );
+      tl.fromTo("#t1 .sub", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, 0.85);
       tl.to("#t1", { opacity: 0, y: -40, duration: 0.35, ease: "power2.in" }, 1.95);
 
       /* Ken Burns por toma */
@@ -309,7 +281,7 @@
       tl.fromTo("#vd", { scale: 1.0 }, { scale: 1.1, duration: 2.4, ease: "none" }, 6.4);
       tl.fromTo("#ve", { scale: 1.08 }, { scale: 1.0, duration: 1.28, ease: "none" }, 8.8);
 
-      /* Captions: entra / sale dentro de su propia toma */
+      /* Rótulos: entran y salen dentro de su propia toma */
       tl.fromTo("#cap-b", { y: 60 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 2.55);
       tl.to("#cap-b", { opacity: 0, y: -30, duration: 0.3, ease: "power2.in" }, 4.2);
       tl.fromTo("#cap-c", { y: 60 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 4.75);
@@ -347,7 +319,7 @@
       );
       tl.to("#cta .d1", { x: 90, y: 60, duration: 2.6, ease: "sine.inOut" }, 10.08);
       tl.to("#cta .d2", { x: -70, y: -50, duration: 2.6, ease: "sine.inOut" }, 10.08);
-      tl.fromTo("#cta .pill", { scale: 1 }, { scale: 1.06, duration: 0.7, yoyo: true, repeat: 1, ease: "sine.inOut" }, 11.9);
+      tl.to("#cta .pill", { scale: 1.06, duration: 0.7, yoyo: true, repeat: 1, ease: "sine.inOut" }, 11.9);
 
       window.__timelines.main = tl;
     </script>
