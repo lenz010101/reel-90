@@ -4,11 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&display=swap" rel="stylesheet" />
     <style>
       body {
         margin: 0;
         background: #0d0d0f;
-        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        font-family: "Archivo", "Segoe UI", system-ui, -apple-system, sans-serif;
       }
       #root {
         position: relative;
@@ -41,7 +44,7 @@
         line-height: 1.05;
         font-weight: 900;
         color: #ffffff;
-        letter-spacing: -2px;
+        letter-spacing: -3px;
         text-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
       }
       #t1 .word.o {
@@ -92,6 +95,16 @@
         font-weight: 600;
         color: #ffd9b8;
         margin-top: 10px;
+      }
+
+      /* Flash de corte */
+      #flash {
+        position: absolute;
+        inset: 0;
+        background: #ffffff;
+        opacity: 0;
+        z-index: 5;
+        pointer-events: none;
       }
 
       /* Fondo vivo ralentizado para el cierre */
@@ -190,6 +203,8 @@
       data-width="1080"
       data-height="1920"
     >
+      <div id="flash"></div>
+
       <!-- Tomas del video original (cortes continuos, audio original) -->
       <video
         id="va"
@@ -198,6 +213,7 @@
         data-duration="2.4"
         data-media-start="0"
         data-track-index="0"
+        data-color-grading='{"preset":"clean-studio","intensity":0.55}'
         data-has-audio="true"
         playsinline
       ></video>
@@ -208,6 +224,7 @@
         data-duration="2.2"
         data-media-start="2.4"
         data-track-index="0"
+        data-color-grading='{"preset":"clean-studio","intensity":0.55}'
         data-has-audio="true"
         playsinline
       ></video>
@@ -218,6 +235,7 @@
         data-duration="1.8"
         data-media-start="4.6"
         data-track-index="0"
+        data-color-grading='{"preset":"clean-studio","intensity":0.55}'
         data-has-audio="true"
         playsinline
       ></video>
@@ -228,6 +246,7 @@
         data-duration="2.4"
         data-media-start="6.4"
         data-track-index="0"
+        data-color-grading='{"preset":"clean-studio","intensity":0.55}'
         data-has-audio="true"
         playsinline
       ></video>
@@ -238,6 +257,7 @@
         data-duration="1.28"
         data-media-start="8.8"
         data-track-index="0"
+        data-color-grading='{"preset":"clean-studio","intensity":0.55}'
         data-has-audio="true"
         playsinline
       ></video>
@@ -250,6 +270,7 @@
         data-media-start="8.8"
         data-playback-rate="0.45"
         data-track-index="0"
+        data-color-grading='{"preset":"clean-studio","intensity":0.55}'
         muted
         playsinline
       ></video>
@@ -318,6 +339,18 @@
       tl.fromTo("#ve", { scale: 1.08 }, { scale: 1.0, duration: 1.28, ease: "none" }, 8.8);
       tl.fromTo("#vf", { scale: 1.15 }, { scale: 1.22, duration: 2.92, ease: "none" }, 10.08);
 
+      /* Flash de corte en cada cambio de toma */
+      tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.05, ease: "none" }, 2.4);
+      tl.to("#flash", { opacity: 0, duration: 0.12, ease: "power1.out" }, 2.45);
+      tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.05, ease: "none" }, 4.6);
+      tl.to("#flash", { opacity: 0, duration: 0.12, ease: "power1.out" }, 4.65);
+      tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.05, ease: "none" }, 6.4);
+      tl.to("#flash", { opacity: 0, duration: 0.12, ease: "power1.out" }, 6.45);
+      tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.05, ease: "none" }, 8.8);
+      tl.to("#flash", { opacity: 0, duration: 0.12, ease: "power1.out" }, 8.85);
+      tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.5, duration: 0.05, ease: "none" }, 10.08);
+      tl.to("#flash", { opacity: 0, duration: 0.15, ease: "power1.out" }, 10.13);
+
       /* Rótulos: entran y salen dentro de su propia toma */
       tl.fromTo("#cap-b", { y: 60 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 2.55);
       tl.to("#cap-b", { opacity: 0, y: -30, duration: 0.3, ease: "power2.in" }, 4.2);
@@ -359,7 +392,10 @@
       tl.to("#cta .r1", { x: 60, y: 40, duration: 2.5, ease: "sine.inOut" }, 10.08);
       tl.to("#cta .r2", { x: -50, y: -30, duration: 2.5, ease: "sine.inOut" }, 10.08);
 
-      window.__timelines.main = tl;
+      /* Registro tras cargar la fuente, para texto medible y estable */
+      document.fonts.ready.then(() => {
+        window.__timelines.main = tl;
+      });
     </script>
   </body>
 </html>
