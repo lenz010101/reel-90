@@ -1,0 +1,67 @@
+name: Voz TTS (edge-tts + timestamps de palabras)
+
+on:
+  workflow_dispatch:
+    inputs:
+      texto:
+        description: Texto a narrar
+        required: true
+      destino:
+        description: Carpeta destino (ej. cielo2)
+        required: true
+      voz:
+        description: Voz edge-tts
+        required: false
+        default: es-CO-SalomeNeural
+
+jobs:
+  tts:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install edge-tts
+
+      - name: Generar voz y timestamps
+        run: |
+          cat > tts.py <<'EOF'
+          import asyncio, json, os, sys
+          import edge_tts
+
+          texto, destino, voz = sys.argv[1], sys.argv[2], sys.argv[3]
+          os.makedirs(os.path.join(destino, "assets"), exist_ok=True)
+
+          async def main():
+              c = edge_tts.Communicate(texto, voz)
+              words = []
+              with open(os.path.join(destino, "assets", "voz.mp3"), "wb") as f:
+                  async for ch in c.stream():
+                      if ch["type"] == "audio":
+                          f.write(ch["data"])
+                      elif ch["type"] == "WordBoundary":
+                          words.append({
+                              "w": ch["text"],
+                              "t": round(ch["offset"] / 1e7, 3),
+                              "d": round(ch["duration"] / 1e7, 3),
+                          })
+              with open(os.path.join(destino, "assets", "palabras.json"), "w", encoding="utf8") as f:
+                  json.dump(words, f, ensure_ascii=False, indent=1)
+              print(len(words), "palabras")
+
+          asyncio.run(main())
+          EOF
+          python tts.py ${{ inputs.texto }} ${{ inputs.destino }} ${{ inputs.voz }}
+
+      - name: Commit assets de voz
+        run: |
+          git config user.name "actions-bot"
+          git config user.email "actions@github.com"
+          git add "${{ inputs.destino }}/assets"
+          git commit -m "voz generada + palabras.json" || echo "nada nuevo"
+          git push
