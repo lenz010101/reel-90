@@ -93,68 +93,91 @@
         color: #ffd9b8;
         margin-top: 10px;
       }
+
+      /* Fondo vivo ralentizado para el cierre */
+      #vf {
+        filter: blur(16px) brightness(0.72);
+      }
+
+      /* Tarjeta final premium */
       #cta {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 44px;
+        gap: 34px;
         text-align: center;
-        background: linear-gradient(160deg, #f97316 0%, #fb923c 55%, #fdba74 100%);
+        background: linear-gradient(180deg, rgba(12, 9, 6, 0.3) 0%, rgba(12, 9, 6, 0.78) 70%, rgba(12, 9, 6, 0.92) 100%);
         opacity: 0;
         z-index: 4;
+        padding: 0 60px;
       }
       #cta .deco {
         position: absolute;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.16);
+        border: 3px solid rgba(255, 255, 255, 0.22);
+        background: transparent;
       }
-      #cta .d1 {
-        width: 420px;
-        height: 420px;
-        top: -140px;
-        left: -120px;
+      #cta .r1 {
+        width: 480px;
+        height: 480px;
+        top: -160px;
+        left: -150px;
       }
-      #cta .d2 {
-        width: 300px;
-        height: 300px;
-        bottom: 120px;
-        right: -90px;
+      #cta .r2 {
+        width: 320px;
+        height: 320px;
+        bottom: 140px;
+        right: -110px;
       }
-      #cta .d3 {
-        width: 140px;
-        height: 140px;
-        top: 300px;
-        right: 120px;
-        background: rgba(120, 53, 15, 0.25);
+      #cta .dot {
+        position: absolute;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #f97316;
+        top: 320px;
+        right: 170px;
       }
-      #cta .emoji {
-        font-size: 150px;
-        line-height: 1;
+      #cta .eyebrow {
+        font-size: 38px;
+        letter-spacing: 10px;
+        font-weight: 700;
+        color: #fdba74;
+        text-transform: uppercase;
+      }
+      #cta .line {
+        width: 180px;
+        height: 8px;
+        border-radius: 6px;
+        background: #f97316;
+        transform-origin: center;
       }
       #cta h1 {
         margin: 0;
-        font-size: 128px;
-        line-height: 1.05;
+        font-size: 104px;
+        line-height: 1.1;
         font-weight: 900;
         color: #ffffff;
-        letter-spacing: -2px;
-        text-shadow: 0 8px 32px rgba(120, 53, 15, 0.45);
+        letter-spacing: -1px;
+        text-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
       }
-      #cta p {
-        margin: 0;
-        font-size: 56px;
-        font-weight: 700;
-        color: #fff7ed;
+      #cta h1 span {
+        display: block;
+      }
+      #cta .sub {
+        font-size: 46px;
+        font-weight: 600;
+        color: #f3e8de;
       }
       #cta .pill {
-        padding: 30px 64px;
+        padding: 28px 56px;
         border-radius: 999px;
-        background: #1c1917;
-        color: #ffffff;
-        font-size: 52px;
+        background: #ffffff;
+        color: #181410;
+        font-size: 46px;
         font-weight: 800;
-        box-shadow: 0 16px 40px rgba(28, 25, 23, 0.4);
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
       }
     </style>
   </head>
@@ -218,6 +241,18 @@
         data-has-audio="true"
         playsinline
       ></video>
+      <!-- Plano final ralentizado: fondo vivo del cierre -->
+      <video
+        id="vf"
+        src="assets/fuente.mp4"
+        data-start="10.08"
+        data-duration="2.92"
+        data-media-start="8.8"
+        data-playback-rate="0.45"
+        data-track-index="0"
+        muted
+        playsinline
+      ></video>
 
       <!-- Título de entrada -->
       <div id="t1" class="clip" data-start="0" data-duration="2.4" data-track-index="1">
@@ -247,15 +282,16 @@
         <div class="txt">Lista para tu negocio</div>
       </div>
 
-      <!-- Tarjeta final (motion graphics puro) -->
+      <!-- Cierre premium: tipografía sobre fondo vivo -->
       <div id="cta" class="clip" data-start="ve" data-duration="2.92" data-track-index="1">
-        <div class="deco d1"></div>
-        <div class="deco d2"></div>
-        <div class="deco d3"></div>
-        <div class="emoji">🍊</div>
-        <h1>PEDÍ EL TUYO HOY</h1>
-        <p>Envíos a todo el país</p>
-        <div class="pill">Consultá por WhatsApp</div>
+        <div class="deco r1"></div>
+        <div class="deco r2"></div>
+        <div class="dot"></div>
+        <div class="eyebrow">Exprimidora comercial</div>
+        <div class="line"></div>
+        <h1><span class="l1">JUGO FRESCO</span><span class="l2">TODO EL DÍA</span></h1>
+        <div class="sub">Envíos a todo el país</div>
+        <div class="pill">Pedí el tuyo por WhatsApp</div>
       </div>
     </div>
 
@@ -280,6 +316,7 @@
       tl.fromTo("#vc", { scale: 1.05 }, { scale: 1.16, duration: 1.8, ease: "none" }, 4.6);
       tl.fromTo("#vd", { scale: 1.0 }, { scale: 1.1, duration: 2.4, ease: "none" }, 6.4);
       tl.fromTo("#ve", { scale: 1.08 }, { scale: 1.0, duration: 1.28, ease: "none" }, 8.8);
+      tl.fromTo("#vf", { scale: 1.15 }, { scale: 1.22, duration: 2.92, ease: "none" }, 10.08);
 
       /* Rótulos: entran y salen dentro de su propia toma */
       tl.fromTo("#cap-b", { y: 60 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 2.55);
@@ -291,35 +328,36 @@
       tl.fromTo("#cap-e", { y: 60 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 8.95);
       tl.to("#cap-e", { opacity: 0, duration: 0.25, ease: "none" }, 9.85);
 
-      /* Tarjeta final */
-      tl.fromTo("#cta", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 10.08);
+      /* Cierre premium */
+      tl.fromTo("#cta", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "none" }, 10.08);
       tl.fromTo(
-        "#cta .emoji",
-        { scale: 0, rotation: -30 },
-        { scale: 1, rotation: 0, duration: 0.55, ease: "back.out(2)" },
-        10.3,
+        "#cta .eyebrow",
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+        10.35,
       );
+      tl.fromTo("#cta .line", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, 10.55);
       tl.fromTo(
-        "#cta h1",
-        { y: 70, opacity: 0 },
+        "#cta .l1",
+        { y: 60, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" },
-        10.5,
+        10.65,
       );
       tl.fromTo(
-        "#cta p",
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" },
-        10.9,
+        "#cta .l2",
+        { y: 60, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" },
+        10.82,
       );
+      tl.fromTo("#cta .sub", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, 11.1);
       tl.fromTo(
         "#cta .pill",
-        { scale: 0.6, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.8)" },
-        11.2,
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.5)" },
+        11.35,
       );
-      tl.to("#cta .d1", { x: 90, y: 60, duration: 2.6, ease: "sine.inOut" }, 10.08);
-      tl.to("#cta .d2", { x: -70, y: -50, duration: 2.6, ease: "sine.inOut" }, 10.08);
-      tl.to("#cta .pill", { scale: 1.06, duration: 0.7, yoyo: true, repeat: 1, ease: "sine.inOut" }, 11.9);
+      tl.to("#cta .r1", { x: 60, y: 40, duration: 2.5, ease: "sine.inOut" }, 10.08);
+      tl.to("#cta .r2", { x: -50, y: -30, duration: 2.5, ease: "sine.inOut" }, 10.08);
 
       window.__timelines.main = tl;
     </script>
