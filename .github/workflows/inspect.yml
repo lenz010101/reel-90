@@ -1,0 +1,32 @@
+name: inspect
+
+on:
+  workflow_dispatch:
+    inputs:
+      file:
+        description: "Archivo a inspeccionar"
+        required: false
+        default: "assets/fuente-whatsapp.mp4"
+      frames:
+        description: "Cantidad de fotogramas"
+        required: false
+        default: "12"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extraer datos y fotogramas
+        run: |
+          ffprobe -v error -show_entries format=duration,size,bit_rate -show_entries stream=codec_name,width,height,avg_frame_rate -of json "${{ inputs.file }}" > probe.json
+          mkdir -p frames
+          ffmpeg -i "${{ inputs.file }}" -vf "fps=1" -q:v 5 frames/f_%03d.jpg -y
+      - name: Subir fotogramas
+        uses: actions/upload-artifact@v4
+        with:
+          name: frames-inspeccion
+          path: |
+            probe.json
+            frames/
