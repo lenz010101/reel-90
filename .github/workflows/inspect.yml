@@ -7,10 +7,6 @@ on:
         description: "Archivo a inspeccionar"
         required: false
         default: "assets/fuente-whatsapp.mp4"
-      frames:
-        description: "Cantidad de fotogramas"
-        required: false
-        default: "12"
 
 jobs:
   probe:
@@ -18,6 +14,21 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - name: Cache FFmpeg static
+        id: ffmpeg-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/ffmpeg-static
+          key: ffmpeg-static-amd64
+      - name: Install FFmpeg static (solo si no hay cache)
+        if: steps.ffmpeg-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/ffmpeg-static
+          curl -fsSL -o /tmp/ffmpeg.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+          tar -xf /tmp/ffmpeg.tar.xz -C /tmp
+          cp /tmp/ffmpeg-*-amd64-static/ffmpeg /tmp/ffmpeg-*-amd64-static/ffprobe ~/ffmpeg-static/
+      - name: FFmpeg al PATH
+        run: echo "$HOME/ffmpeg-static" >> "$GITHUB_PATH"
       - name: Extraer datos y fotogramas
         run: |
           ffprobe -v error -show_entries format=duration,size,bit_rate -show_entries stream=codec_name,width,height,avg_frame_rate -of json "${{ inputs.file }}" > probe.json
