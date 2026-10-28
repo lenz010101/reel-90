@@ -37,53 +37,61 @@
         pointer-events: none;
       }
 
-      /* ── S1 · Splash de marca (fondo blanco: el logo dorado se funde) ── */
+      /* ── S1 · Gancho directo (respuesta en 2 segundos) ── */
       #s1 {
+        background: #16120d;
+      }
+      #s1 .brand {
+        position: absolute;
+        top: 200px;
+        left: 50%;
+        width: 500px;
+        margin-left: -250px;
+        padding: 26px 0 10px;
         background: #ffffff;
+        border-radius: 24px;
+        text-align: center;
       }
-      #s1 .logo {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 900px;
-        margin: -280px 0 0 -450px;
-        transform-origin: 50% 50%;
+      #s1 .brand img {
+        width: 420px;
+        display: block;
+        margin: 0 auto;
       }
-      #s1 .eyebrow {
+      #s1 .q {
+        position: absolute;
+        left: 70px;
+        right: 70px;
+        top: 700px;
+        text-align: center;
+        font-weight: 900;
+        font-size: 78px;
+        line-height: 1.14;
+        letter-spacing: -1px;
+        color: #f4ead2;
+      }
+      #s1 .q span {
+        display: block;
+      }
+      #s1 .q .g {
+        color: #e8c878;
+      }
+      #s1 .offer {
         position: absolute;
         left: 50%;
+        top: 1330px;
         transform: translateX(-50%);
-        bottom: 560px;
-        font-size: 30px;
-        font-weight: 700;
-        letter-spacing: 10px;
-        color: #a8823c;
+        padding: 24px 52px;
+        border-radius: 999px;
+        background: #c9a24b;
+        color: #16120d;
+        font-size: 38px;
+        font-weight: 900;
+        letter-spacing: 2px;
         text-transform: uppercase;
         white-space: nowrap;
       }
-      #s1 .rule {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 500px;
-        width: 0;
-        height: 4px;
-        background: #c9a24b;
-      }
-      #s1 .sub {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 390px;
-        font-family: "Playfair Display", serif;
-        font-style: italic;
-        font-weight: 600;
-        font-size: 44px;
-        color: #241d12;
-        white-space: nowrap;
-      }
 
-      /* ── S2 · Stats (fondo oscuro) ── */
+      /* ── S2 · Stats ── */
       #s2 {
         background: #16120d;
       }
@@ -159,15 +167,15 @@
       }
       .ba .line {
         position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
+        left: 70px;
+        right: 70px;
         top: 1520px;
+        text-align: center;
         font-family: "Playfair Display", serif;
         font-style: italic;
         font-weight: 600;
-        font-size: 46px;
+        font-size: 44px;
         color: #f4ead2;
-        white-space: nowrap;
       }
 
       /* ── S6 · Testimonio real ── */
@@ -199,49 +207,49 @@
         color: #a8823c;
       }
 
-      /* ── S7 · Cierre premium (fondo blanco) ── */
+      /* ── S7 · Cierre de venta (fondo blanco) ── */
       #s7 {
         background: #ffffff;
       }
       #s7 .logo {
         position: absolute;
-        top: 300px;
+        top: 240px;
         left: 50%;
-        width: 700px;
-        margin-left: -350px;
+        width: 620px;
+        margin-left: -310px;
       }
       #s7 h1 {
         position: absolute;
         left: 0;
         right: 0;
-        top: 1020px;
+        top: 900px;
         margin: 0;
         text-align: center;
         font-family: "Playfair Display", serif;
         font-weight: 900;
-        font-size: 96px;
-        line-height: 1.15;
+        font-size: 110px;
+        line-height: 1.1;
         color: #241d12;
       }
-      #s7 h1 span {
-        display: block;
-      }
-      #s7 .sub {
+      #s7 .offer {
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 1330px;
-        text-align: center;
-        font-size: 38px;
-        font-weight: 700;
-        letter-spacing: 3px;
+        left: 50%;
+        top: 1150px;
+        transform: translateX(-50%);
+        padding: 22px 50px;
+        border-radius: 999px;
+        background: #c9a24b;
+        color: #16120d;
+        font-size: 36px;
+        font-weight: 900;
+        letter-spacing: 2px;
         text-transform: uppercase;
-        color: #a8823c;
+        white-space: nowrap;
       }
       #s7 .pill {
         position: absolute;
         left: 50%;
-        top: 1500px;
+        top: 1370px;
         width: 860px;
         margin-left: -430px;
         padding: 44px 0;
@@ -258,7 +266,7 @@
         position: absolute;
         left: 0;
         right: 0;
-        top: 1680px;
+        top: 1580px;
         text-align: center;
         font-size: 32px;
         font-weight: 600;
@@ -293,12 +301,27 @@
     >
       <div id="flash"></div>
 
-      <!-- S1 · Marca -->
+      <!-- Música + SFX (assets ya existentes del repo) -->
+      <audio id="bgm" src="assets/bgm.wav" data-start="0" data-duration="20" data-volume="0.4"></audio>
+      <audio id="w1" src="assets/sfx/whoosh-big.mp3" data-start="0.05" data-duration="1.2" data-volume="0.85"></audio>
+      <audio id="p1" src="assets/sfx/pop.mp3" data-start="1.5" data-duration="0.5" data-volume="0.9"></audio>
+      <audio id="w2" src="assets/sfx/whoosh-big.mp3" data-start="2.8" data-duration="1.2" data-volume="0.85"></audio>
+      <audio id="w3" src="assets/sfx/whoosh-big.mp3" data-start="5.6" data-duration="1.2" data-volume="0.85"></audio>
+      <audio id="w4" src="assets/sfx/whoosh-big.mp3" data-start="8" data-duration="1.2" data-volume="0.85"></audio>
+      <audio id="w5" src="assets/sfx/whoosh-big.mp3" data-start="10.4" data-duration="1.2" data-volume="0.85"></audio>
+      <audio id="w6" src="assets/sfx/whoosh-big.mp3" data-start="12.8" data-duration="1.2" data-volume="0.85"></audio>
+      <audio id="w7" src="assets/sfx/whoosh-big.mp3" data-start="15.4" data-duration="1.2" data-volume="0.85"></audio>
+      <audio id="c1" src="assets/sfx/click.mp3" data-start="17" data-duration="0.4" data-volume="0.9"></audio>
+
+      <!-- S1 · Gancho -->
       <div id="s1" class="clip" data-start="0" data-duration="2.8" data-track-index="1">
-        <img class="logo" src="assets/logo.webp" alt="Cielo Stylos" />
-        <div class="eyebrow">Belleza capilar · Bogotá</div>
-        <div class="rule"></div>
-        <div class="sub">Restauración, educación y productos premium</div>
+        <div class="brand"><img src="assets/logo.webp" alt="Cielo Stylos" /></div>
+        <div class="q">
+          <span>¿NO SABES QUÉ</span>
+          <span>TRATAMIENTOS</span>
+          <span class="g">NECESITA TU CABELLO?</span>
+        </div>
+        <div class="offer">Precio especial · Solo esta semana</div>
       </div>
 
       <!-- S2 · Números reales -->
@@ -345,13 +368,13 @@
         <div class="who">Martina · Reseña de Google ★★★★★</div>
       </div>
 
-      <!-- S7 · Cierre premium -->
+      <!-- S7 · Cierre de venta -->
       <div id="s7" class="clip" data-start="15.4" data-duration="4.6" data-track-index="1">
         <div class="deco d1"></div>
         <div class="deco d2"></div>
         <img class="logo" src="assets/logo.webp" alt="Cielo Stylos" />
-        <h1><span>Agenda tu cita</span></h1>
-        <div class="sub">Atención por cita agendada</div>
+        <h1>Escríbenos hoy</h1>
+        <div class="offer">Precio especial · Esta semana</div>
         <div class="pill">WhatsApp 316 932 9019</div>
         <div class="addr">Calle 123 #47-55, Bogotá · @cielostylos</div>
       </div>
@@ -361,17 +384,26 @@
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
 
-      /* S1 · Splash */
-      tl.to("#s1", { opacity: 1, duration: 0.25, ease: "none" }, 0);
+      /* S1 · Gancho: entrada punchy, texto grande */
+      tl.to("#s1", { opacity: 1, duration: 0.2, ease: "none" }, 0);
       tl.fromTo(
-        "#s1 .logo",
-        { scale: 0.92, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.7, ease: "power3.out" },
-        0.1,
+        "#s1 .brand",
+        { scale: 0.85, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" },
+        0.15,
       );
-      tl.fromTo("#s1 .eyebrow", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 0.55);
-      tl.fromTo("#s1 .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, 0.75);
-      tl.fromTo("#s1 .sub", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, 1.05);
+      tl.fromTo(
+        "#s1 .q span",
+        { y: 80, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.14, duration: 0.55, ease: "power3.out" },
+        0.45,
+      );
+      tl.fromTo(
+        "#s1 .offer",
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.7)" },
+        1.5,
+      );
       tl.to("#s1", { opacity: 0, duration: 0.25, ease: "none" }, 2.55);
 
       /* S2 · Stats: entra en cascada */
@@ -385,21 +417,24 @@
       tl.fromTo("#s2 .sep", { scaleX: 0 }, { scaleX: 1, stagger: 0.3, duration: 0.45, ease: "power2.inOut" }, 3.35);
       tl.to("#s2", { opacity: 0, duration: 0.25, ease: "none" }, 5.55);
 
-      /* S3-S5 · Antes/después: Ken Burns solo con transform */
-      tl.to("#s3", { opacity: 1, duration: 0.25, ease: "none" }, 5.6);
-      tl.fromTo("#s3 img", { scale: 1.08 }, { scale: 1.0, duration: 2.4, ease: "none" }, 5.6);
+      /* S3-S5 · Antes/después: zoom punchy de entrada + Ken Burns */
+      tl.to("#s3", { opacity: 1, duration: 0.2, ease: "none" }, 5.6);
+      tl.fromTo("#s3 .card", { scale: 1.12 }, { scale: 1, duration: 0.35, ease: "power2.out" }, 5.6);
+      tl.fromTo("#s3 img", { scale: 1.06 }, { scale: 1.0, duration: 2.4, ease: "none" }, 5.6);
       tl.fromTo("#s3 .chip", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 5.85);
       tl.fromTo("#s3 .line", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 6.0);
       tl.to("#s3", { opacity: 0, duration: 0.25, ease: "none" }, 8.15);
 
-      tl.to("#s4", { opacity: 1, duration: 0.25, ease: "none" }, 8);
-      tl.fromTo("#s4 img", { scale: 1.0 }, { scale: 1.08, duration: 2.4, ease: "none" }, 8);
+      tl.to("#s4", { opacity: 1, duration: 0.2, ease: "none" }, 8);
+      tl.fromTo("#s4 .card", { scale: 1.12 }, { scale: 1, duration: 0.35, ease: "power2.out" }, 8);
+      tl.fromTo("#s4 img", { scale: 1.0 }, { scale: 1.06, duration: 2.4, ease: "none" }, 8);
       tl.fromTo("#s4 .chip", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 8.25);
       tl.fromTo("#s4 .line", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 8.4);
       tl.to("#s4", { opacity: 0, duration: 0.25, ease: "none" }, 10.55);
 
-      tl.to("#s5", { opacity: 1, duration: 0.25, ease: "none" }, 10.4);
-      tl.fromTo("#s5 img", { scale: 1.08 }, { scale: 1.0, duration: 2.4, ease: "none" }, 10.4);
+      tl.to("#s5", { opacity: 1, duration: 0.2, ease: "none" }, 10.4);
+      tl.fromTo("#s5 .card", { scale: 1.12 }, { scale: 1, duration: 0.35, ease: "power2.out" }, 10.4);
+      tl.fromTo("#s5 img", { scale: 1.06 }, { scale: 1.0, duration: 2.4, ease: "none" }, 10.4);
       tl.fromTo("#s5 .chip", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 10.65);
       tl.fromTo("#s5 .line", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 10.8);
       tl.to("#s5", { opacity: 0, duration: 0.25, ease: "none" }, 12.95);
@@ -410,11 +445,16 @@
       tl.fromTo("#s6 .who", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, 13.65);
       tl.to("#s6", { opacity: 0, duration: 0.25, ease: "none" }, 15.35);
 
-      /* S7 · Cierre premium */
+      /* S7 · Cierre de venta */
       tl.to("#s7", { opacity: 1, duration: 0.3, ease: "none" }, 15.4);
       tl.fromTo("#s7 .logo", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, 15.6);
-      tl.fromTo("#s7 h1", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" }, 16.05);
-      tl.fromTo("#s7 .sub", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, 16.7);
+      tl.fromTo("#s7 h1", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" }, 16.0);
+      tl.fromTo(
+        "#s7 .offer",
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.7)" },
+        16.55,
+      );
       tl.fromTo(
         "#s7 .pill",
         { y: 40, opacity: 0 },
