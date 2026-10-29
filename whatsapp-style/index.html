@@ -11,13 +11,12 @@
   .vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,.45) 100%)}
 </style>
 </head>
-<body>
+<body data-duration="15">
 <video src="assets/instagram.mp4" autoplay muted playsinline></video>
 <div class="grain"></div>
 <div class="vignette"></div>
 <script>
   const tl = gsap.timeline({paused:true});
-  // keep video playing, no animation needed
   window.__timelines.main = tl;
 </script>
 </body>
