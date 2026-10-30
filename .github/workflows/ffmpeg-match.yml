@@ -1,0 +1,22 @@
+name: ffmpeg-match
+on:
+  workflow_dispatch:
+jobs:
+  match:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Analyze reference
+        run: |
+          ffprobe -v quiet -print_format json -show_format -show_streams refe-style/assets/refe.mp4 > ref_info.json
+          cat ref_info.json
+      - name: Process video
+        run: |
+          ffmpeg -y -i refe-style/assets/instagram.mp4 -vf "scale=720:1280:force_original_aspect_ratio=decrease,pad=720:1280:(ow-iw)/2:(oh-ih)/2,format=yuv420p,eq=contrast=1.12:saturation=0.85:brightness=-0.04" -c:v libx264 -crf 28 -preset fast -c:a aac -b:a 128k refe-style/output.mp4
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: refe-style-mp4
+          path: refe-style/output.mp4
