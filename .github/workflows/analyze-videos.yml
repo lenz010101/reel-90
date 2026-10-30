@@ -1,0 +1,39 @@
+name: analyze-videos
+on:
+  workflow_dispatch:
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Probe videos
+        run: |
+          mkdir -p analysis
+          ffprobe -v quiet -print_format json -show_format -show_streams refe-style/assets/refe.mp4 > analysis/refe_probe.json
+          ffprobe -v quiet -print_format json -show_format -show_streams refe-style/assets/instagram.mp4 > analysis/instagram_probe.json
+          echo "=== REFE ==="
+          ffprobe -v error -show_entries stream=index,codec_type,codec_name,width,height,r_frame_rate,duration,bit_rate,channels,sample_rate -of csv=p=0 refe-style/assets/refe.mp4
+          echo "=== INSTAGRAM ==="
+          ffprobe -v error -show_entries stream=index,codec_type,codec_name,width,height,r_frame_rate,duration,bit_rate,channels,sample_rate -of csv=p=0 refe-style/assets/instagram.mp4
+      - name: Contact sheets
+        run: |
+          mkdir -p analysis
+          ffmpeg -y -v error -i refe-style/assets/refe.mp4 -vf "fps=1,scale=200:-1,tile=5x8" -frames:v 1 analysis/refe_sheet.jpg
+          ffmpeg -y -v error -i refe-style/assets/instagram.mp4 -vf "fps=1,scale=200:-1,tile=5x8" -frames:v 1 analysis/instagram_sheet.jpg
+          ffmpeg -y -v error -i refe-style/assets/refe.mp4 -vf "fps=2,scale=320:-1" analysis/refe_f_%03d.jpg
+          ffmpeg -y -v error -i refe-style/assets/instagram.mp4 -vf "fps=2,scale=320:-1" analysis/instagram_f_%03d.jpg
+          ls -la analysis | head -40
+      - name: Extract audio
+        run: |
+          ffmpeg -y -v error -i refe-style/assets/refe.mp4 -vn -acodec libmp3lame analysis/refe_audio.mp3 || true
+          ffmpeg -y -v error -i refe-style/assets/instagram.mp4 -vn -acodec libmp3lame analysis/instagram_audio.mp3 || true
+          ls -la analysis/*.mp3 2>/dev/null || echo "no audio extracted"
+      - name: Publish analysis
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A analysis
+          git commit -m "video analysis" || echo 'nothing to commit'
+          git push origin HEAD:main
