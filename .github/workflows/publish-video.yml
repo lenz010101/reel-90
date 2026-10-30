@@ -1,0 +1,45 @@
+name: publish-video
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Source artifact run id'
+        required: true
+      artifact_name:
+        description: 'Artifact name'
+        required: false
+        default: 'refe-style-mp4'
+      out_file:
+        description: 'Output file name in repo'
+        required: false
+        default: 'refe-style_render.mp4'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Download artifact from previous run
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact_name }}
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: downloaded
+      - name: Publish video to repo
+        run: |
+          set -e
+          mkdir -p published
+          find downloaded -name '*.mp4' -print
+          SRC=$(find downloaded -name '*.mp4' | head -n 1)
+          cp "$SRC" "published/${{ inputs.out_file }}"
+          ls -lh published
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add "published/${{ inputs.out_file }}"
+          git commit -m "publish rendered video" || echo 'nothing to commit'
+          git push origin HEAD:main
