@@ -1,0 +1,28 @@
+name: extract-hires
+on:
+  workflow_dispatch:
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Extract selected frames at native resolution
+        run: |
+          mkdir -p analysis/hires
+          for t in 0 6 13 21 25 39 42 50; do
+            ffmpeg -y -v error -ss $t -i refe-style/assets/refe.mp4 -frames:v 1 -q:v 2 "analysis/hires/refe_t${t}.jpg"
+            ffmpeg -y -v error -ss $t -i refe-style/assets/instagram.mp4 -frames:v 1 -q:v 2 "analysis/hires/instagram_t${t}.jpg"
+          done
+          du -sh analysis/hires
+          ls analysis/hires
+      - name: Publish
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A analysis/hires
+          git commit -m "hires frames" || echo 'nothing to commit'
+          git push origin HEAD:main
