@@ -10,7 +10,8 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Process video
         run: |
-          ffmpeg -y -i refe-style/assets/instagram.mp4 -vf "scale=720:1280:force_original_aspect_ratio=decrease,pad=720:1280:(ow-iw)/2:(oh-ih)/2,format=yuv420p,eq=contrast=1.12:saturation=0.85:brightness=-0.04" -c:v libx264 -crf 28 -preset fast -c:a aac -b:a 128k refe-style/output.mp4
+          ls -R refe-style
+          ffmpeg -y -i refe-style/assets/instagram.mp4 -c:v libx264 -crf 28 -preset fast -c:a aac -b:a 128k refe-style/output.mp4
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
