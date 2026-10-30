@@ -4,6 +4,8 @@ on:
 jobs:
   analyze:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Install FFmpeg
@@ -20,11 +22,11 @@ jobs:
       - name: Contact sheets
         run: |
           mkdir -p analysis
-          ffmpeg -y -v error -i refe-style/assets/refe.mp4 -vf "fps=1,scale=200:-1,tile=5x8" -frames:v 1 analysis/refe_sheet.jpg
-          ffmpeg -y -v error -i refe-style/assets/instagram.mp4 -vf "fps=1,scale=200:-1,tile=5x8" -frames:v 1 analysis/instagram_sheet.jpg
-          ffmpeg -y -v error -i refe-style/assets/refe.mp4 -vf "fps=2,scale=320:-1" analysis/refe_f_%03d.jpg
-          ffmpeg -y -v error -i refe-style/assets/instagram.mp4 -vf "fps=2,scale=320:-1" analysis/instagram_f_%03d.jpg
-          ls -la analysis | head -40
+          ffmpeg -y -v error -i refe-style/assets/refe.mp4 -vf "fps=1,scale=240:-1,tile=6x9" -frames:v 1 analysis/refe_sheet.jpg
+          ffmpeg -y -v error -i refe-style/assets/instagram.mp4 -vf "fps=1,scale=240:-1,tile=6x7" -frames:v 1 analysis/instagram_sheet.jpg
+          ffmpeg -y -v error -i refe-style/assets/refe.mp4 -vf "fps=1,scale=360:-1" analysis/refe_f_%03d.jpg
+          ffmpeg -y -v error -i refe-style/assets/instagram.mp4 -vf "fps=1,scale=360:-1" analysis/instagram_f_%03d.jpg
+          du -sh analysis
       - name: Extract audio
         run: |
           ffmpeg -y -v error -i refe-style/assets/refe.mp4 -vn -acodec libmp3lame analysis/refe_audio.mp3 || true
